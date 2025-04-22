@@ -491,7 +491,7 @@
                     marioGif.style.animation = 'none';
                     marioGif.style.position = 'fixed';
                     marioGif.style.left = currentPosition.left + 'px';
-                    marioGif.style.bottom = currentPosition.bottom + 'px';
+                    marioGif.style.top = currentPosition.top + 'px';
                     
                     // Changer le gif
                     marioGif.src = "https://media1.tenor.com/m/jCD3t-frEi8AAAAC/mario-mario-dance.gif";
@@ -504,7 +504,10 @@
                         // Reprendre l'animation
                         setTimeout(function() {
                             // Réinitialiser les styles pour revenir aux styles CSS de la classe
-                            marioGif.removeAttribute('style');
+                            marioGif.style.position = 'fixed';
+                            marioGif.style.top = '';
+                            marioGif.style.left = '-50px';
+                            marioGif.style.bottom = '20px';
                             marioGif.style.animation = 'marioRun 20s linear infinite';
                             isAnimating = true;
                         }, 100);
