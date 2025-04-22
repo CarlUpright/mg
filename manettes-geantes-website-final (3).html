@@ -270,6 +270,56 @@
             0% { left: -50px; }
             100% { left: 100%; }
         }
+        
+        /* Styles pour les accordéons */
+        .accordion {
+            background-color: #E30613;
+            color: #F8F8F8;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            text-align: left;
+            border: 2px solid #F8F8F8;
+            outline: none;
+            transition: 0.4s;
+            margin-top: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion:after {
+            content: '+';
+            font-size: 18px;
+            float: right;
+        }
+        
+        .active:after {
+            content: '-';
+        }
+        
+        .panel {
+            background-color: #000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 2px solid #E30613;
+            border-right: 2px solid #E30613;
+            border-bottom: 2px solid #E30613;
+        }
+        
+        .panel-content {
+            padding: 15px;
+        }
+        
+        .subtitle {
+            color: #E30613;
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -290,6 +340,20 @@
                         count = (count + 1) % 10;
                         lastDigit.textContent = count;
                     }, 2000);
+                    
+                    // Script pour les accordéons
+                    var acc = document.getElementsByClassName("accordion");
+                    for (var i = 0; i < acc.length; i++) {
+                        acc[i].addEventListener("click", function() {
+                            this.classList.toggle("active");
+                            var panel = this.nextElementSibling;
+                            if (panel.style.maxHeight) {
+                                panel.style.maxHeight = null;
+                            } else {
+                                panel.style.maxHeight = panel.scrollHeight + "px";
+                            }
+                        });
+                    }
                 }
             </script>
         </div>
@@ -334,33 +398,63 @@
         </div>
         
         <div class="section" id="materiel">
-            <h2>MATÉRIEL ET BESOINS TECHNIQUES</h2>
-            <div class="pixelated-border">
-                <p><span class="highlight">CE QUE NOUS APPORTONS:</span></p>
-                <ul>
-                    <li>Deux manettes géantes de Nintendo Entertainment System</li>
-                    <li>Deux tables sur lesquelles les déposer (5' chacune)</li>
-                    <li>Deux télés 50 pouces</li>
-                    <li>Si à l'extérieur, une tente (20' large par 10' profond)</li>
-                    <li>De l'éclairage colorée</li>
-                    <li>Des décorations sous le thème de Mario Bros y compris un Mario gonflable de 10 pieds de haut</li>
-                </ul>
-                <p>Nous pouvons aussi apporter d'autres consoles et écrans avec différents jeux rétros libre-service. Des frais supplémentaires peuvent s'appliquer.</p>
+            <h2>NOS INSTALLATIONS</h2>
+            
+            <button class="accordion">ÉVÉNEMENTS INTÉRIEURS (ÉCOLES, CENTRES COMMERCIAUX & BARS)</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <p class="subtitle">ÉQUIPEMENT INCLUS :</p>
+                    <ul>
+                        <li>Deux manettes géantes NES</li>
+                        <li>Deux tables de support (5' chacune)</li>
+                        <li>Deux écrans 50 pouces</li>
+                        <li>Éclairage LED coloré</li>
+                        <li>Décorations Mario Bros incluant notre Mario gonflable géant de 10 pieds</li>
+                        <li>Zone de jeux libres avec consoles rétro sur projecteurs ou télévisions supplémentaires</li>
+                        <li>Animation costumée</li>
+                        <li>Trophée pour le meilleur score de la journée</li>
+                        <li>Autocollants souvenirs pour tous les participants</li>
+                    </ul>
+                    
+                    <p class="subtitle">PRÉREQUIS TECHNIQUES :</p>
+                    <ul>
+                        <li>Alimentation électrique : prise standard 15A à moins de 15' (cache-fils à votre charge si nécessaire)</li>
+                        <li>Espace minimum requis : 14' x 7'</li>
+                        <li>Si accès difficile pour véhicule ou longue distance : prévoir chariot et assistance</li>
+                        <li>Pour les événements avec public jeunesse : présence obligatoire de parents/employés/bénévoles</li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="pixelated-border" style="margin-top: 20px;">
-                <p><span class="highlight">VOS BESOINS À COMBLER:</span></p>
-                <ul>
-                    <li>Un circuit électrique 15 ampères (prise normale de maison) à moins de 25 pieds</li>
-                    <li>Si à l'extérieur: être positionné le plus possible à l'ombre</li>
-                    <li>S'il y a beaucoup d'enfants: un/des surveillants qui s'assurent que les enfants respectent une certaine distance</li>
-                    <li>S'il y a une grande distance depuis le débarcadère: un chariot ou des bras pour transporter le matériel</li>
-                    <li>Un espace de minimum 14' de large par 7' profond</li>
-                </ul>
+            <button class="accordion">ÉVÉNEMENTS EXTÉRIEURS (FESTIVALS & ÉVÉNEMENTS PLEIN AIR)</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <p class="subtitle">ÉQUIPEMENT INCLUS :</p>
+                    <ul>
+                        <li>Deux manettes géantes NES</li>
+                        <li>Deux tables de support (5' chacune)</li>
+                        <li>Deux écrans 50 pouces</li>
+                        <li>Éclairage LED coloré</li>
+                        <li>Décorations Mario Bros incluant notre Mario gonflable géant de 10 pieds</li>
+                        <li>Tente protectrice (10' x 20')</li>
+                        <li>Animation costumée</li>
+                        <li>Trophée pour le meilleur score de la journée</li>
+                        <li>Autocollants souvenirs pour tous les participants</li>
+                    </ul>
+                    
+                    <p class="subtitle">PRÉREQUIS TECHNIQUES :</p>
+                    <ul>
+                        <li>Alimentation électrique : prise standard 15A à moins de 15' (cache-fils à votre charge si nécessaire)</li>
+                        <li>Espace minimum requis : 10' x 20' (espace de la tente)</li>
+                        <li>Possibilité de planter des pieux dans le sol pour ancrer la tente</li>
+                        <li>Emplacement idéalement à l'ombre pour une meilleure visibilité des écrans</li>
+                        <li>Si accès difficile pour véhicule ou longue distance : prévoir chariot et assistance</li>
+                        <li>Pour les événements avec public jeunesse : présence obligatoire de parents/employés/bénévoles</li>
+                        <li>Note : La tente protège contre les petites et moyennes intempéries, mais est principalement destinée à bloquer le soleil</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        
-
         
         <div class="section" id="contact">
             <h2>CONTACTEZ-NOUS</h2>
