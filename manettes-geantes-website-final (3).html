@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManettesGÉANTES - Animation d'événements rétro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        body {
+            background-color: #212121;
+            color: #F8F8F8;
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 12px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 4px solid #E30613;
+            background-color: #000000;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-side {
+            width: 20%;
+            height: auto;
+            margin: 0 15px;
+        }
+        
+        .logo-title {
+            width: 60%;
+            height: auto;
+        }
+        
+        h1 {
+            color: #E30613;
+            text-align: center;
+            font-size: 24px;
+            text-shadow: 3px 3px 0 #000;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #E30613;
+            font-size: 16px;
+            margin-top: 40px;
+            border-bottom: 2px solid #E30613;
+            padding-bottom: 5px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 2px dashed #F8F8F8;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "→";
+            position: absolute;
+            left: -20px;
+            color: #E30613;
+        }
+        
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #E30613;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        
+        .navbar a {
+            color: #F8F8F8;
+            text-decoration: none;
+            padding: 8px 12px;
+            margin: 5px;
+            background-color: #000;
+            border: 2px solid #F8F8F8;
+        }
+        
+        .navbar a:hover {
+            background-color: #F8F8F8;
+            color: #E30613;
+        }
+        
+        .blinking {
+            animation: blink 1s infinite;
+        }
+        
+        .pixelated-border {
+            border: 4px solid #F8F8F8;
+            position: relative;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .pixelated-border:before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 8px;
+            height: 8px;
+            background-color: #F8F8F8;
+        }
+        
+        .mario-block {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #E30613;
+            border: 2px solid #F8F8F8;
+            text-align: center;
+            line-height: 30px;
+            margin: 0 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 10px;
+        }
+        
+        .highlight {
+            color: #E30613;
+            font-weight: bold;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .contact {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .cta {
+            display: inline-block;
+            background-color: #E30613;
+            color: #F8F8F8;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .visitor-counter {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .counter-box {
+            display: inline-block;
+            background-color: #000;
+            border: 2px solid #F8F8F8;
+            padding: 5px 10px;
+        }
+        
+        /* Mobile responsive fixes */
+        @media (max-width: 600px) {
+            body {
+                font-size: 10px;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            h2 {
+                font-size: 14px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .navbar a {
+                width: 80%;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            
+            .logo-side {
+                width: 20%;
+                margin: 0 5px;
+            }
+            
+            .logo-title {
+                width: 60%;
+            }
+            
+            .logo-container {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+        
+        /* "Functional" visitor counter using CSS animations */
+        .digit {
+            display: inline-block;
+            background-color: #000;
+            color: #F8F8F8;
+            padding: 2px 4px;
+            border: 1px solid #F8F8F8;
+            margin: 0 2px;
+            width: 15px;
+        }
+        
+        .animated-mario {
+            position: fixed;
+            bottom: 20px;
+            left: -50px;
+            width: 40px;
+            height: 40px;
+            animation: marioRun 20s linear infinite;
+            z-index: 999;
+        }
+        
+        @keyframes marioRun {
+            0% { left: -50px; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="visitor-counter">
+        <div class="counter-box">
+            <span>VISITEURS: </span>
+            <span class="digit">1</span>
+            <span class="digit">9</span>
+            <span class="digit">8</span>
+            <span class="digit">5</span>
+            <span class="digit" id="last-digit">0</span>
+            <script>
+                // Simple JavaScript to make the counter "work"
+                window.onload = function() {
+                    let lastDigit = document.getElementById('last-digit');
+                    let count = 0;
+                    setInterval(function() {
+                        count = (count + 1) % 10;
+                        lastDigit.textContent = count;
+                    }, 2000);
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo-container">
+            <img src="Logo mG dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
+            <img src="LOGO mG Texte.png" alt="ManettesGÉANTES" class="logo-title">
+            <img src="Logo mG dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
+        </div>
+        
+        <header>
+            <p>ANIMATION D'ÉVÉNEMENTS RÉTRO DEPUIS 2022</p>
+        </header>
+        
+        <div class="navbar">
+            <a href="#accueil">ACCUEIL</a>
+            <a href="#experience">EXPÉRIENCE</a>
+            <a href="#materiel">MATÉRIEL</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+        
+        <div class="section" id="accueil">
+            <h2>BIENVENUE DANS L'UNIVERS DE MANETTES GÉANTES!</h2>
+            <p>Lancé en 2022, "ManettesGÉANTES" réinvente l'animation d'événements avec une expérience unique au monde.</p>
+            <p class="blink">IMAGINEZ: VOUS ET UN COÉQUIPIER, MANŒUVRANT UNE MANETTE NES GIGANTESQUE!</p>
+            <p>Plongés dans l'univers du légendaire "Super Mario Bros" de 1985. En 4 minutes intenses, essayez de vous placer au sommet du tableau de pointage!</p>
+        </div>
+        
+        <div class="section" id="experience">
+            <h2>NOTRE EXPÉRIENCE UNIQUE</h2>
+            <p>Cette aventure nostalgique transforme un jeu vidéo culte en un exercice de team building captivant, alliant le charme rétro à des compétences professionnelles cruciales.</p>
+            <p>Chaque partie pousse naturellement les participants à:</p>
+            <ul>
+                <li>Affiner leur communication pour orchestrer leurs mouvements</li>
+                <li>Renforcer leur collaboration en progressant vers un but commun</li>
+                <li>Développer des stratégies éclair pour maximiser leur score</li>
+                <li>Consolider leur esprit d'équipe face à un défi ludique</li>
+            </ul>
+            <p class="highlight">"ManettesGÉANTES": Bien plus qu'un jeu, une expérience inoubliable qui soude les équipes!</p>
+        </div>
+        
+        <div class="section" id="materiel">
+            <h2>MATÉRIEL ET BESOINS TECHNIQUES</h2>
+            <div class="pixelated-border">
+                <p><span class="highlight">CE QUE NOUS APPORTONS:</span></p>
+                <ul>
+                    <li>Deux manettes géantes de Nintendo Entertainment System</li>
+                    <li>Deux tables sur lesquelles les déposer (5' chacune)</li>
+                    <li>Deux télés 50 pouces</li>
+                    <li>Si à l'extérieur, une tente (20' large par 10' profond)</li>
+                    <li>De l'éclairage colorée</li>
+                    <li>Des décorations sous le thème de Mario Bros y compris un Mario gonflable de 10 pieds de haut</li>
+                </ul>
+                <p>Nous pouvons aussi apporter d'autres consoles et écrans avec différents jeux rétros libre-service. Des frais supplémentaires peuvent s'appliquer.</p>
+            </div>
+            
+            <div class="pixelated-border" style="margin-top: 20px;">
+                <p><span class="highlight">VOS BESOINS À COMBLER:</span></p>
+                <ul>
+                    <li>Un circuit électrique 15 ampères (prise normale de maison) à moins de 25 pieds</li>
+                    <li>Si à l'extérieur: être positionné le plus possible à l'ombre</li>
+                    <li>S'il y a beaucoup d'enfants: un/des surveillants qui s'assurent que les enfants respectent une certaine distance</li>
+                    <li>S'il y a une grande distance depuis le débarcadère: un chariot ou des bras pour transporter le matériel</li>
+                    <li>Un espace de minimum 14' de large par 7' profond</li>
+                </ul>
+            </div>
+        </div>
+        
+
+        
+        <div class="section" id="contact">
+            <h2>CONTACTEZ-NOUS</h2>
+            <div class="contact">
+                <p>POUR UNE SOUMISSION RAPIDE, CONTACTEZ-MOI AVEC LES DÉTAILS DE VOTRE ÉVÈNEMENT !</p>
+                <p>EMAIL: carl@manettesgeantes.ca</p>
+                
+                <div class="social-links" style="display: flex; justify-content: center; margin-top: 20px; gap: 20px;">
+                    <a href="https://www.facebook.com/manettesgeantes/" target="_blank" class="cta" style="text-decoration: none;">FACEBOOK</a>
+                    <a href="https://www.instagram.com/manettesgeantes/" target="_blank" class="cta" style="text-decoration: none;">INSTAGRAM</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 ManettesGÉANTES - Tous droits réservés</p>
+            <p><span class="blink">Ce site fonctionne mieux avec Netscape Navigator 2.0</span></p>
+            <div class="mario-block">?</div>
+        </div>
+    </div>
+    
+    <img src="https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif" class="animated-mario" alt="Mario qui court">
+</body>
+</html>
