@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Game Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+        .rank {
+            font-weight: bold;
+            text-align: center;
+        }
+        .gold {
+            background-color: #FFD700 !important;
+        }
+        .silver {
+            background-color: #C0C0C0 !important;
+        }
+        .bronze {
+            background-color: #CD7F32 !important;
+        }
+        .loading {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+        .refresh-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .refresh-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Game Leaderboard</h1>
+    
+    <button class="refresh-btn" onclick="loadLeaderboard()">Refresh Leaderboard</button>
+    
+    <div id="leaderboard-container">
+        <p class="loading">Loading leaderboard data...</p>
+    </div>
+
+    <script>
+        // Function to load and parse the CSV file
+        function loadLeaderboard() {
+            const container = document.getElementById('leaderboard-container');
+            container.innerHTML = '<p class="loading">Loading leaderboard data...</p>';
+            
+            // Create a file input to select the CSV file
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.csv';
+            fileInput.style.display = 'none';
+            document.body.appendChild(fileInput);
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) {
+                    container.innerHTML = '<p class="error">No file selected.</p>';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const csvData = e.target.result;
+                        displayLeaderboard(parseCSV(csvData));
+                    } catch (error) {
+                        container.innerHTML = `<p class="error">Error loading CSV: ${error.message}</p>`;
+                    }
+                };
+                
+                reader.onerror = function() {
+                    container.innerHTML = '<p class="error">Failed to read the file.</p>';
+                };
+                
+                reader.readAsText(file);
+            });
+            
+            fileInput.click();
+            document.body.removeChild(fileInput);
+        }
+        
+        // Function to parse CSV data
+        function parseCSV(csv) {
+            const lines = csv.split('\n');
+            const result = [];
+            
+            // Get headers
+            const headers = lines[0].split(',').map(h => h.trim());
+            
+            // Parse data rows
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                
+                const values = lines[i].split(',').map(v => v.trim());
+                const row = {};
+                
+                for (let j = 0; j < headers.length; j++) {
+                    row[headers[j]] = values[j];
+                }
+                
+                result.push(row);
+            }
+            
+            return result;
+        }
+        
+        // Function to display the leaderboard
+        function displayLeaderboard(data) {
+            const container = document.getElementById('leaderboard-container');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p class="error">No data found or invalid format.</p>';
+                return;
+            }
+            
+            // Check if we have name and score columns
+            const hasNameColumn = data[0].hasOwnProperty('Name') || data[0].hasOwnProperty('name') || data[0].hasOwnProperty('PLAYER') || data[0].hasOwnProperty('player');
+            const hasScoreColumn = data[0].hasOwnProperty('Score') || data[0].hasOwnProperty('score') || data[0].hasOwnProperty('SCORE') || data[0].hasOwnProperty('points') || data[0].hasOwnProperty('POINTS');
+            
+            if (!hasNameColumn || !hasScoreColumn) {
+                container.innerHTML = '<p class="error">CSV must contain both player name and score columns.</p>';
+                return;
+            }
+            
+            // Sort by score (descending)
+            const nameKey = Object.keys(data[0]).find(key => 
+                key.toLowerCase() === 'name' || key.toLowerCase() === 'player');
+            const scoreKey = Object.keys(data[0]).find(key => 
+                key.toLowerCase() === 'score' || key.toLowerCase() === 'points');
+                
+            data.sort((a, b) => parseInt(b[scoreKey]) - parseInt(a[scoreKey]));
+            
+            // Create table
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            // Add rows
+            data.forEach((row, index) => {
+                let rowClass = '';
+                if (index === 0) rowClass = 'gold';
+                else if (index === 1) rowClass = 'silver';
+                else if (index === 2) rowClass = 'bronze';
+                
+                tableHTML += `
+                    <tr class="${rowClass}">
+                        <td class="rank">${index + 1}</td>
+                        <td>${row[nameKey]}</td>
+                        <td>${row[scoreKey]}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        // Load leaderboard when the page loads
+        window.onload = loadLeaderboard;
+    </script>
+</body>
+</html>
