@@ -478,41 +478,26 @@
     
     <img src="https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif" id="mario-gif" class="animated-mario" alt="Mario qui court">
     <script>
+        // Script pour le gif de Mario
         document.addEventListener('DOMContentLoaded', function() {
-            const marioGif = document.getElementById('mario-gif');
-            let isAnimating = true;
-            
+            var marioGif = document.getElementById('mario-gif');
             marioGif.addEventListener('click', function() {
-                if (isAnimating) {
-                    // Mémoriser la position actuelle
-                    const currentPosition = marioGif.getBoundingClientRect();
-                    
-                    // Arrêter l'animation et fixer la position actuelle avec des styles inline
-                    marioGif.style.animation = 'none';
-                    marioGif.style.position = 'fixed';
-                    marioGif.style.left = currentPosition.left + 'px';
-                    marioGif.style.top = currentPosition.top + 'px';
-                    
-                    // Changer le gif
-                    marioGif.src = "https://media1.tenor.com/m/jCD3t-frEi8AAAAC/mario-mario-dance.gif";
-                    isAnimating = false;
-                    
-                    // Revenir au gif original après 3 secondes
-                    setTimeout(function() {
-                        marioGif.src = "https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif";
-                        
-                        // Reprendre l'animation
-                        setTimeout(function() {
-                            // Réinitialiser les styles pour revenir aux styles CSS de la classe
-                            marioGif.style.position = 'fixed';
-                            marioGif.style.top = '';
-                            marioGif.style.left = '-50px';
-                            marioGif.style.bottom = '20px';
-                            marioGif.style.animation = 'marioRun 20s linear infinite';
-                            isAnimating = true;
-                        }, 100);
-                    }, 3000);
-                }
+                // Stopper l'animation
+                this.style.animationPlayState = 'paused';
+                
+                // Changer le gif
+                var originalSrc = this.src;
+                this.src = "https://media1.tenor.com/m/jCD3t-frEi8AAAAC/mario-mario-dance.gif";
+                
+                // Revenir au gif original après 3 secondes
+                var that = this;
+                setTimeout(function() {
+                    that.src = originalSrc;
+                    // Remettre Mario à sa position de départ
+                    that.style.left = '-50px';
+                    // Reprendre l'animation
+                    that.style.animationPlayState = 'running';
+                }, 3000);
             });
         });
     </script>
