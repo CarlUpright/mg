@@ -279,7 +279,7 @@
             padding: 15px;
             width: 100%;
             text-align: left;
-            border: 2px solid #F8F8F8;
+            border: none;
             outline: none;
             transition: 0.4s;
             margin-top: 10px;
@@ -373,7 +373,7 @@
         <div class="navbar">
             <a href="#accueil">ACCUEIL</a>
             <a href="#experience">EXPÉRIENCE</a>
-            <a href="#installations">INSTALLATIONS</a>
+            <a href="#materiel">INSTALLATIONS</a>
             <a href="#contact">CONTACT</a>
         </div>
         
@@ -397,7 +397,7 @@
             <p class="highlight">"ManettesGÉANTES": Bien plus qu'un jeu, une expérience inoubliable qui soude les équipes!</p>
         </div>
         
-        <div class="section" id="installations">
+        <div class="section" id="materiel">
             <h2>NOS INSTALLATIONS</h2>
             
             <button class="accordion">ÉVÉNEMENTS INTÉRIEURS (ÉCOLES, CENTRES COMMERCIAUX & BARS)</button>
@@ -476,6 +476,35 @@
         </div>
     </div>
     
-    <img src="https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif" class="animated-mario" alt="Mario qui court">
+    <img src="https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif" id="mario-gif" class="animated-mario" alt="Mario qui court">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const marioGif = document.getElementById('mario-gif');
+            let isAnimating = true;
+            let originalPosition;
+            
+            marioGif.addEventListener('click', function() {
+                if (isAnimating) {
+                    // Arrêter l'animation et changer le gif
+                    originalPosition = window.getComputedStyle(marioGif).left;
+                    marioGif.style.animation = 'none';
+                    marioGif.src = "https://media1.tenor.com/m/jCD3t-frEi8AAAAC/mario-mario-dance.gif";
+                    isAnimating = false;
+                    
+                    // Revenir au gif original après 3 secondes
+                    setTimeout(function() {
+                        marioGif.src = "https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif";
+                        marioGif.style.left = originalPosition;
+                        
+                        // Reprendre l'animation après un petit délai
+                        setTimeout(function() {
+                            marioGif.style.animation = 'marioRun 20s linear infinite';
+                            isAnimating = true;
+                        }, 100);
+                    }, 3000);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
