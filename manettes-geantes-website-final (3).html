@@ -481,23 +481,30 @@
         document.addEventListener('DOMContentLoaded', function() {
             const marioGif = document.getElementById('mario-gif');
             let isAnimating = true;
-            let originalPosition;
             
             marioGif.addEventListener('click', function() {
                 if (isAnimating) {
-                    // Arrêter l'animation et changer le gif
-                    originalPosition = window.getComputedStyle(marioGif).left;
+                    // Mémoriser la position actuelle
+                    const currentPosition = marioGif.getBoundingClientRect();
+                    
+                    // Arrêter l'animation et fixer la position actuelle avec des styles inline
                     marioGif.style.animation = 'none';
+                    marioGif.style.position = 'fixed';
+                    marioGif.style.left = currentPosition.left + 'px';
+                    marioGif.style.bottom = currentPosition.bottom + 'px';
+                    
+                    // Changer le gif
                     marioGif.src = "https://media1.tenor.com/m/jCD3t-frEi8AAAAC/mario-mario-dance.gif";
                     isAnimating = false;
                     
                     // Revenir au gif original après 3 secondes
                     setTimeout(function() {
                         marioGif.src = "https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif";
-                        marioGif.style.left = originalPosition;
                         
-                        // Reprendre l'animation après un petit délai
+                        // Reprendre l'animation
                         setTimeout(function() {
+                            // Réinitialiser les styles pour revenir aux styles CSS de la classe
+                            marioGif.removeAttribute('style');
                             marioGif.style.animation = 'marioRun 20s linear infinite';
                             isAnimating = true;
                         }, 100);
