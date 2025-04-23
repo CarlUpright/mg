@@ -63,7 +63,7 @@
         
         h2 {
             color: #E30613;
-            font-size: 40px;
+            font-size: 36px;
             margin-top: 40px;
             border-bottom: 2px solid #E30613;
             padding-bottom: 5px;
@@ -184,13 +184,6 @@
             padding: 10px 20px;
             text-decoration: none;
             margin-top: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
         
         .visitor-counter {
@@ -206,6 +199,52 @@
             padding: 5px 10px;
         }
         
+        /* Modal pour les images */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+        
+        .modal-content {
+            display: block;
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 5px solid #E30613;
+            background-color: #000;
+        }
+        
+        .modal-img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 80vh;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #F8F8F8;
+            background-color: #E30613;
+            border: 2px solid #F8F8F8;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+        }
+        
         /* Mobile responsive fixes */
         @media (max-width: 600px) {
             body {
@@ -217,7 +256,7 @@
             }
             
             h2 {
-                font-size: 20px;
+                font-size: 28px;
             }
             
             .navbar {
@@ -262,15 +301,15 @@
             position: fixed;
             bottom: 20px;
             left: -50px;
-            width: 40px;
-            height: 40px;
+            width: 80px;  /* Taille doublée */
+            height: 80px;  /* Taille doublée */
             animation: marioRun 20s linear infinite;
             z-index: 999;
             cursor: pointer;
         }
         
         @keyframes marioRun {
-            0% { left: -50px; }
+            0% { left: -80px; }  /* Ajusté pour la taille doublée */
             100% { left: 100%; }
         }
         
@@ -318,9 +357,10 @@
         
         .subtitle {
             color: #E30613;
-            font-size: 20px;
+            font-size: 30px;  /* Augmenté de 20px à 30px */
             margin-top: 15px;
             margin-bottom: 10px;
+            font-weight: bold;
         }
         
         .installation-images {
@@ -336,6 +376,7 @@
             height: auto;
             margin: 10px;
             border: 2px solid #E30613;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -348,31 +389,6 @@
             <span class="digit">9</span>
             <span class="digit">9</span>
             <span class="digit" id="last-digit">0</span>
-            <script>
-                // Simple JavaScript to make the counter "work"
-                window.onload = function() {
-                    let lastDigit = document.getElementById('last-digit');
-                    let count = 0;
-                    setInterval(function() {
-                        count = (count + 1) % 10;
-                        lastDigit.textContent = count;
-                    }, 2000);
-                    
-                    // Script pour les accordéons
-                    var acc = document.getElementsByClassName("accordion");
-                    for (var i = 0; i < acc.length; i++) {
-                        acc[i].addEventListener("click", function() {
-                            this.classList.toggle("active");
-                            var panel = this.nextElementSibling;
-                            if (panel.style.maxHeight) {
-                                panel.style.maxHeight = null;
-                            } else {
-                                panel.style.maxHeight = panel.scrollHeight + "px";
-                            }
-                        });
-                    }
-                }
-            </script>
         </div>
     </div>
 
@@ -521,10 +537,68 @@
         </div>
     </div>
     
+    <!-- Modal pour l'agrandissement des images -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">X</span>
+            <img class="modal-img" id="expandedImg">
+        </div>
+    </div>
+    
     <img src="https://media.tenor.com/UkvleU1dQK4AAAAi/2d-mario-running.gif" id="mario-gif" class="animated-mario" alt="Mario qui court">
+    
     <script>
-        // Script pour le gif de Mario
-        document.addEventListener('DOMContentLoaded', function() {
+        // Script principal
+        window.onload = function() {
+            // Compteur de visiteurs
+            let lastDigit = document.getElementById('last-digit');
+            let count = 0;
+            setInterval(function() {
+                count = (count + 1) % 10;
+                lastDigit.textContent = count;
+            }, 10000);  // Changé de 2000 à 10000 (10 secondes)
+            
+            // Script pour les accordéons
+            var acc = document.getElementsByClassName("accordion");
+            for (var i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+            
+            // Modal pour les images
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("expandedImg");
+            var closeBtn = document.getElementsByClassName("close-btn")[0];
+            
+            // Rendre toutes les images cliquables
+            var images = document.getElementsByClassName("install-img");
+            for (var i = 0; i < images.length; i++) {
+                images[i].onclick = function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                }
+            }
+            
+            // Fermer la modal
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+            
+            // Fermer en cliquant en dehors de l'image
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            
+            // Script pour le gif de Mario
             var marioGif = document.getElementById('mario-gif');
             marioGif.addEventListener('click', function() {
                 // Stopper l'animation
@@ -539,12 +613,12 @@
                 setTimeout(function() {
                     that.src = originalSrc;
                     // Remettre Mario à sa position de départ
-                    that.style.left = '-50px';
+                    that.style.left = '-80px';  // Ajusté pour la taille doublée
                     // Reprendre l'animation
                     that.style.animationPlayState = 'running';
                 }, 3000);
             });
-        });
+        }
     </script>
 </body>
 </html>
