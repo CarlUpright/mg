@@ -44,6 +44,18 @@
             margin-bottom: 20px;
         }
         
+        .header-image {
+            margin-bottom: 20px;
+            border: 4px solid #E30613;
+            overflow: hidden;
+        }
+        
+        .main-header-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
         .logo-side {
             width: 20%;
             height: auto;
@@ -100,7 +112,7 @@
         
         .navbar {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
             background-color: #E30613;
             padding: 15px 0;
@@ -111,10 +123,12 @@
         .navbar a {
             color: #F8F8F8;
             text-decoration: none;
-            padding: 10px 15px;
-            margin: 8px;
+            padding: 8px 10px;
+            margin: 0 4px;
             background-color: #000;
             border: 2px solid #F8F8F8;
+            white-space: nowrap;
+            font-size: 24px;
         }
         
         .navbar a:hover {
@@ -330,7 +344,7 @@
         }
         
         /* Mobile responsive fixes */
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
             body {
                 font-size: 20px;
             }
@@ -348,6 +362,19 @@
                 font-size: 28px;
             }
             
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .navbar a {
+                width: 40%;
+                margin: 4px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
             .navbar {
                 display: none;
             }
@@ -528,6 +555,10 @@
             <img src="https://github.com/CarlUpright/mg/blob/main/Logo%20mG%20dessin.png?raw=true" alt="Logo ManettesGÉANTES" class="logo-side">
             <img src="https://github.com/CarlUpright/mg/blob/main/Logo%20mG%20texte.png?raw=true" alt="ManettesGÉANTES" class="logo-title">
             <img src="https://github.com/CarlUpright/mg/blob/main/Logo%20mG%20dessin.png?raw=true" alt="Logo ManettesGÉANTES" class="logo-side">
+        </div>
+        
+        <div class="header-image">
+            <img src="https://github.com/CarlUpright/mg/blob/main/2players%20closeup.jpg?raw=true" alt="Deux joueurs utilisant une manette géante" class="main-header-img">
         </div>
         
         <header>
