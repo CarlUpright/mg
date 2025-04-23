@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.95, maximum-scale=2.0, user-scalable=yes">
     <title>ManettesGÉANTES - Animation d'événements rétro</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         
         body {
             background-color: #212121;
             color: #F8F8F8;
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'VT323', monospace;
             margin: 0;
             padding: 0;
             line-height: 1.6;
-            font-size: 12px;
+            font-size: 18px;
         }
         
         .container {
@@ -55,14 +55,14 @@
         h1 {
             color: #E30613;
             text-align: center;
-            font-size: 24px;
+            font-size: 32px;
             text-shadow: 3px 3px 0 #000;
             margin-bottom: 30px;
         }
         
         h2 {
             color: #E30613;
-            font-size: 16px;
+            font-size: 24px;
             margin-top: 40px;
             border-bottom: 2px solid #E30613;
             padding-bottom: 5px;
@@ -153,7 +153,7 @@
         .footer {
             text-align: center;
             margin-top: 40px;
-            font-size: 10px;
+            font-size: 16px;
         }
         
         .highlight {
@@ -208,15 +208,15 @@
         /* Mobile responsive fixes */
         @media (max-width: 600px) {
             body {
-                font-size: 10px;
+                font-size: 16px;
             }
             
             h1 {
-                font-size: 18px;
+                font-size: 24px;
             }
             
             h2 {
-                font-size: 14px;
+                font-size: 20px;
             }
             
             .navbar {
@@ -264,6 +264,7 @@
             height: 40px;
             animation: marioRun 20s linear infinite;
             z-index: 999;
+            cursor: pointer;
         }
         
         @keyframes marioRun {
@@ -283,8 +284,8 @@
             outline: none;
             transition: 0.4s;
             margin-top: 10px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -292,7 +293,7 @@
         
         .accordion:after {
             content: '+';
-            font-size: 18px;
+            font-size: 24px;
             float: right;
         }
         
@@ -316,9 +317,24 @@
         
         .subtitle {
             color: #E30613;
-            font-size: 14px;
+            font-size: 20px;
             margin-top: 15px;
             margin-bottom: 10px;
+        }
+        
+        .installation-images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .install-img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            margin: 10px;
+            border: 2px solid #E30613;
         }
     </style>
 </head>
@@ -373,19 +389,22 @@
         <div class="navbar">
             <a href="#accueil">ACCUEIL</a>
             <a href="#experience">EXPÉRIENCE</a>
-            <a href="#materiel">INSTALLATIONS</a>
+            <a href="#fonctionnement">FONCTIONNEMENT</a>
+            <a href="#equipement">ÉQUIPEMENT</a>
             <a href="#contact">CONTACT</a>
         </div>
         
         <div class="section" id="accueil">
-            <h2>BIENVENUE DANS L'UNIVERS DE MANETTES GÉANTES!</h2>
-            <p>Lancé en 2022, "ManettesGÉANTES" réinvente l'animation d'événements avec une expérience unique au monde.</p>
-            <p class="blink">IMAGINEZ: VOUS ET UN COÉQUIPIER, MANŒUVRANT UNE MANETTE NES GIGANTESQUE!</p>
-            <p>Plongés dans l'univers du légendaire "Super Mario Bros" de 1985. En 4 minutes intenses, essayez de vous placer au sommet du tableau de pointage!</p>
+            <h2>ACCUEIL</h2>
+            <p>Lancé en 2022, ManettesGÉANTES révolutionne l'animation d'événements avec un concept unique : des manettes NES surdimensionnées qui transforment le légendaire 'Super Mario Bros' en expérience collaborative inoubliable.</p>
+            <p class="blink">IMAGINEZ: VOUS ET UN COÉQUIPIER, MANŒUVRANT ENSEMBLE UNE MANETTE NES GIGANTESQUE!</p>
+            <p>Chaque équipe dispose de maximum 4 minutes pour conquérir le Royaume Champignon et accumuler le plus de points possible. Une personne contrôle les mouvements, l'autre les actions - une coordination parfaite est la clé du succès!</p>
+            <p><span class="highlight">POUR LES ORGANISATEURS:</span> Notre animation clé en main s'adapte parfaitement aux festivals, écoles, centres commerciaux, microbrasseries et événements privés. Profitez d'une animation supervisée par un professionnel en loisir costumé qui saura engager tous vos participants.</p>
+            <p><span class="highlight">POUR LES JOUEURS:</span> Venez défier les autres équipes pour obtenir le meilleur score et remporter le trophée de l'événement! Tous les participants repartent avec un autocollant souvenir de leur aventure.</p>
         </div>
         
         <div class="section" id="experience">
-            <h2>NOTRE EXPÉRIENCE UNIQUE</h2>
+            <h2>EXPÉRIENCE</h2>
             <p>Cette aventure nostalgique transforme un jeu vidéo culte en un exercice de team building captivant, alliant le charme rétro à des compétences professionnelles cruciales.</p>
             <p>Chaque partie pousse naturellement les participants à:</p>
             <ul>
@@ -394,11 +413,26 @@
                 <li>Développer des stratégies éclair pour maximiser leur score</li>
                 <li>Consolider leur esprit d'équipe face à un défi ludique</li>
             </ul>
-            <p class="highlight">"ManettesGÉANTES": Bien plus qu'un jeu, une expérience inoubliable qui soude les équipes!</p>
+            <p class="highlight">ManettesGÉANTES: Bien plus qu'un jeu, une expérience inoubliable qui soude les équipes!</p>
         </div>
         
-        <div class="section" id="materiel">
-            <h2>NOS INSTALLATIONS</h2>
+        <div class="section" id="fonctionnement">
+            <h2>FONCTIONNEMENT</h2>
+            <ul>
+                <li>Les équipes sont obligatoirement composées de 2 joueurs: un contrôle les déplacements, l'autre les actions</li>
+                <li>Chaque session dure maximum 4 minutes (ou jusqu'à épuisement des 5 vies)</li>
+                <li>Grâce à nos deux installations, une nouvelle équipe peut démarrer toutes les 2 minutes</li>
+                <li>Notre animateur costumé en personnage de l'univers Mario explique les contrôles et donne le signal de départ</li>
+                <li>Un timer à l'écran affiche le temps restant. À zéro, l'animateur inscrit le score dans le tableau des résultats</li>
+                <li>Les participants peuvent jouer plusieurs fois, avec priorité donnée aux nouveaux joueurs</li>
+                <li>L'équipe avec le meilleur score de l'événement remporte un trophée exclusif</li>
+                <li>Lors des événements intérieurs, des consoles rétro en libre-service sont disponibles pour patienter (la supervision des adultes est demandée)</li>
+            </ul>
+            <p>L'animation est supervisée par un diplômé en Techniques de Loisir expérimenté avec diverses clientèles, garantissant une expérience inclusive et adaptée à tous les participants.</p>
+        </div>
+        
+        <div class="section" id="equipement">
+            <h2>ÉQUIPEMENT</h2>
             
             <button class="accordion">ÉVÉNEMENTS INTÉRIEURS (ÉCOLES, CENTRES COMMERCIAUX & BARS)</button>
             <div class="panel">
@@ -423,6 +457,11 @@
                         <li>Si accès difficile pour véhicule ou longue distance : prévoir chariot et assistance</li>
                         <li>Pour les événements avec public jeunesse : présence obligatoire de parents/employés/bénévoles</li>
                     </ul>
+                    
+                    <div class="installation-images">
+                        <img src="INTERIEUR01.jpg" alt="Installation intérieure" class="install-img">
+                        <img src="INTERIEUR02.jpg" alt="Installation intérieure" class="install-img">
+                    </div>
                 </div>
             </div>
             
@@ -452,6 +491,10 @@
                         <li>Pour les événements avec public jeunesse : présence obligatoire de parents/employés/bénévoles</li>
                         <li>Note : La tente protège contre les petites et moyennes intempéries, mais est principalement destinée à bloquer le soleil</li>
                     </ul>
+                    
+                    <div class="installation-images">
+                        <img src="EXTERIEUR01.jpg" alt="Installation extérieure" class="install-img">
+                    </div>
                 </div>
             </div>
         </div>
