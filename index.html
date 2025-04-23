@@ -212,6 +212,13 @@
             padding: 5px 10px;
         }
         
+        @media (max-width: 600px) {
+            .visitor-counter {
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+        
         /* Modal pour les images */
         .modal {
             display: none;
@@ -300,6 +307,12 @@
             cursor: pointer;
             z-index: 999;
             box-shadow: 3px 3px 0 #000;
+        }
+        
+        @media (max-width: 600px) {
+            .hamburger-menu {
+                display: block;
+            }
         }
         
         .mobile-menu {
@@ -810,14 +823,6 @@
             let lastScrollTop = 0;
             window.addEventListener('scroll', function() {
                 let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                
-                // Afficher le hamburger après 100px de scroll
-                if (currentScroll > 100 && window.innerWidth <= 600) {
-                    hamburgerMenu.style.display = 'block';
-                } else {
-                    hamburgerMenu.style.display = 'none';
-                }
-                
                 lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
             }, false);
             
