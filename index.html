@@ -19,7 +19,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1100px;
             width: 95%;
             margin: 0 auto;
             padding: 20px;
@@ -549,6 +549,139 @@
             text-align: center;
             line-height: 60px;
         }
+
+        /* Formules pricing cards */
+        .formules-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px 0;
+        }
+
+        .formule-card {
+            flex: 0 0 calc(33.333% - 10px);
+            min-width: 280px;
+            border: 3px solid #F8F8F8;
+            background-color: #1a1a1a;
+            scroll-snap-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .formule-card.recommended {
+            border-color: #E30613;
+            box-shadow: 0 0 20px rgba(227, 6, 19, 0.5);
+        }
+
+        .formule-header {
+            background-color: #F8F8F8;
+            color: #000;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .formule-card.recommended .formule-header {
+            background-color: #E30613;
+            color: #F8F8F8;
+        }
+
+        .formule-title {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .formule-badge {
+            display: inline-block;
+            background-color: #000;
+            color: #E30613;
+            padding: 3px 10px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .formule-card.recommended .formule-badge {
+            background-color: #F8F8F8;
+        }
+
+        .formule-content {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .formule-item {
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .formule-item:last-child {
+            border-bottom: none;
+        }
+
+        .formule-item.excluded {
+            color: #555;
+            text-decoration: line-through;
+        }
+
+        .formule-section-title {
+            text-decoration: underline;
+            text-transform: uppercase;
+            margin: 10px 0 5px 0;
+            text-align: center;
+        }
+
+        .formule-footer {
+            padding: 15px;
+            text-align: center;
+            border-top: 2px solid #333;
+        }
+
+        .formule-capacity {
+            font-size: 20px;
+            color: #E30613;
+        }
+
+        .formule-space {
+            font-size: 16px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .formule-coming-soon {
+            padding: 40px 15px;
+            text-align: center;
+            color: #666;
+            font-size: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .formule-card {
+                flex: 0 0 70%;
+                min-width: 240px;
+            }
+
+            .formules-container {
+                scroll-padding: 0 15%;
+            }
+        }
+
+        .swipe-hint {
+            display: none;
+            text-align: center;
+            color: #999;
+            font-size: clamp(12px, 4vw, 18px);
+            margin-top: 10px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 900px) {
+            .swipe-hint {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -583,8 +716,9 @@
             <a href="#presentation">PRÉSENTATION</a>
             <a href="#experience">EXPÉRIENCE</a>
             <a href="#fonctionnement">FONCTIONNEMENT</a>
+            <a href="#formules">FORMULES</a>
+            <a href="#materiel">MATÉRIEL</a>
             <a href="#galerie">GALERIE</a>
-            <a href="#equipement">ÉQUIPEMENT</a>
             <a href="#contact">CONTACT</a>
         </div>
         
@@ -595,8 +729,9 @@
             <a href="#presentation">PRÉSENTATION</a>
             <a href="#experience">EXPÉRIENCE</a>
             <a href="#fonctionnement">FONCTIONNEMENT</a>
+            <a href="#formules">FORMULES</a>
+            <a href="#materiel">MATÉRIEL</a>
             <a href="#galerie">GALERIE</a>
-            <a href="#equipement">ÉQUIPEMENT</a>
             <a href="#contact">CONTACT</a>
         </div>
         
@@ -640,7 +775,229 @@
             </ul>
             <p>L'animation est supervisée par un diplômé en Techniques de Loisir expérimenté avec diverses clientèles, garantissant une expérience inclusive et adaptée à tous les participants.</p>
         </div>
-        
+
+        <div class="section" id="formules">
+            <h2>FORMULES</h2>
+            <p>Choisissez la formule qui correspond à votre événement !</p>
+
+            <div class="formules-container" id="formulesContainer">
+                <!-- FORMULE BASE -->
+                <div class="formule-card">
+                    <div class="formule-header">
+                        <h3 class="formule-title">BASE</h3>
+                        <span class="formule-badge">L'ESSENTIEL</span>
+                    </div>
+                    <div class="formule-content">
+                        <div class="formule-item included">Deux manettes géantes NES</div>
+                        <div class="formule-item excluded">Gameboys géants</div>
+                        <div class="formule-item excluded">Atari géants</div>
+                        <div class="formule-item excluded">Consoles rétro supplémentaires</div>
+                        <div class="formule-item excluded">Tableau des scores en temps réel</div>
+                        <div class="formule-item included">Éclairage LED coloré</div>
+                        <div class="formule-item included">Décorations Mario Bros</div>
+                        <div class="formule-item included">Mario gonflable géant 10'</div>
+                        <div class="formule-item included">Animation costumée</div>
+                        <div class="formule-item included">Trophée meilleur score</div>
+                        <div class="formule-item included">Autocollants souvenirs</div>
+                    </div>
+                    <div class="formule-footer">
+                        <div class="formule-capacity">4 joueurs simultanés</div>
+                        <div class="formule-space">Espace : 14' x 7'</div>
+                    </div>
+                </div>
+
+                <!-- FORMULE SUPER -->
+                <div class="formule-card recommended">
+                    <div class="formule-header">
+                        <h3 class="formule-title">SUPER</h3>
+                        <span class="formule-badge">★ RECOMMANDÉE ★</span>
+                    </div>
+                    <div class="formule-content">
+                        <div class="formule-item included">Deux manettes géantes NES</div>
+                        <div class="formule-item included">Deux Gameboys géants (Dr. Mario, Kirby...)</div>
+                        <div class="formule-item included">Deux Atari géants (Galaga, PAC-MAN...)</div>
+                        <div class="formule-item excluded">Consoles rétro supplémentaires</div>
+                        <div class="formule-item included">Tableau des scores géant en temps réel</div>
+                        <div class="formule-item included">Éclairage LED coloré</div>
+                        <div class="formule-item included">Décorations Mario Bros</div>
+                        <div class="formule-item included">Mario gonflable géant 10'</div>
+                        <div class="formule-item included">Animation costumée</div>
+                        <div class="formule-item included">Trophée meilleur score</div>
+                        <div class="formule-item included">Autocollants souvenirs</div>
+                    </div>
+                    <div class="formule-footer">
+                        <div class="formule-capacity">8 joueurs simultanés</div>
+                        <div class="formule-space">Espace : 20' x 20' ou 40' x 10'</div>
+                    </div>
+                </div>
+
+                <!-- FORMULE FEU -->
+                <div class="formule-card">
+                    <div class="formule-header">
+                        <h3 class="formule-title">FEU</h3>
+                        <span class="formule-badge">LE MAXIMUM</span>
+                    </div>
+                    <div class="formule-content">
+                        <div class="formule-item included">Deux manettes géantes NES</div>
+                        <div class="formule-item included">Deux Gameboys géants (Dr. Mario, Kirby...)</div>
+                        <div class="formule-item included">Deux Atari géants (Galaga, PAC-MAN...)</div>
+                        <div class="formule-item included">Consoles rétro supplémentaires</div>
+                        <div class="formule-item included">Tableau des scores géant en temps réel</div>
+                        <div class="formule-item included">Éclairage LED coloré</div>
+                        <div class="formule-item included">Décorations Mario Bros</div>
+                        <div class="formule-item included">Mario gonflable géant 10'</div>
+                        <div class="formule-item included">Animation costumée</div>
+                        <div class="formule-item included">Trophée meilleur score</div>
+                        <div class="formule-item included">Autocollants souvenirs</div>
+                    </div>
+                    <div class="formule-footer">
+                        <div class="formule-capacity">??? joueurs simultanés</div>
+                        <div class="formule-space">Espace : 25' x 25' min. | Intérieur seulement</div>
+                    </div>
+                </div>
+            </div>
+            <p class="swipe-hint">← Glissez pour voir les autres formules →</p>
+        </div>
+
+        <div class="section" id="materiel">
+            <h2>MATÉRIEL</h2>
+            <p>Détails du matériel fourni et des requis selon la formule choisie.</p>
+
+            <button class="accordion">ÉVÉNEMENTS INTÉRIEURS</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <div class="formules-container">
+                        <!-- BASE INTÉRIEUR -->
+                        <div class="formule-card">
+                            <div class="formule-header">
+                                <h3 class="formule-title">BASE</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">Prise 15A à moins de 15'</div>
+                                <div class="formule-item">Espace : 14' x 7'</div>
+                                <p class="formule-section-title">Matériel fourni :</p>
+                                <div class="formule-item">Deux manettes géantes NES</div>
+                                <div class="formule-item">Deux tables de 5'</div>
+                                <div class="formule-item">Deux écrans 50"</div>
+                                <div class="formule-item">Éclairage LED coloré</div>
+                                <div class="formule-item">Décorations Mario Bros</div>
+                                <div class="formule-item">Mario gonflable géant 10'</div>
+                            </div>
+                        </div>
+
+                        <!-- SUPER INTÉRIEUR -->
+                        <div class="formule-card recommended">
+                            <div class="formule-header">
+                                <h3 class="formule-title">SUPER</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">Prise 15A à moins de 15'</div>
+                                <div class="formule-item">Espace : 20' x 20'</div>
+                                <p class="formule-section-title">Matériel fourni :</p>
+                                <div class="formule-item">Deux manettes géantes NES</div>
+                                <div class="formule-item">+ Deux Gameboys géants</div>
+                                <div class="formule-item">+ Deux Atari géants</div>
+                                <div class="formule-item">Cinq tables de 5'</div>
+                                <div class="formule-item">Quatre écrans 50"</div>
+                                <div class="formule-item">Éclairage LED coloré</div>
+                                <div class="formule-item">Décorations Mario Bros</div>
+                                <div class="formule-item">Mario gonflable géant 10'</div>
+                            </div>
+                        </div>
+
+                        <!-- FEU INTÉRIEUR -->
+                        <div class="formule-card">
+                            <div class="formule-header">
+                                <h3 class="formule-title">FEU</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">2x Prise 15A à moins de 15'</div>
+                                <div class="formule-item">Espace : 25' x 25' minimum</div>
+                                <p class="formule-section-title">Matériel fourni :</p>
+                                <div class="formule-item">Deux manettes géantes NES</div>
+                                <div class="formule-item">Deux Gameboys géants</div>
+                                <div class="formule-item">Deux Atari géants</div>
+                                <div class="formule-item">+ Consoles rétro supplémentaires</div>
+                                <div class="formule-item">Six tables de 5'</div>
+                                <div class="formule-item">Jusqu'à sept écrans 50"</div>
+                                <div class="formule-item">+ Deux projecteurs 100"</div>
+                                <div class="formule-item">Éclairage LED coloré</div>
+                                <div class="formule-item">Décorations Mario Bros</div>
+                                <div class="formule-item">Mario gonflable géant 10'</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="swipe-hint">← Glissez pour voir les autres formules →</p>
+
+                    <p style="margin-top: 15px;"><em>Note : Si accès difficile pour véhicule, prévoir chariot et assistance. Pour les événements avec public jeunesse, présence obligatoire de parents/employés/bénévoles.</em></p>
+
+                    <div class="installation-images">
+                        <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Installation intérieure" class="install-img">
+                        <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Installation intérieure" class="install-img">
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">ÉVÉNEMENTS EXTÉRIEURS</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <div class="formules-container">
+                        <!-- BASE EXTÉRIEUR -->
+                        <div class="formule-card">
+                            <div class="formule-header">
+                                <h3 class="formule-title">BASE</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">Prise 15A à moins de 15'</div>
+                                <div class="formule-item">Espace : 10' x 20'</div>
+                                <p class="formule-section-title">Matériel fourni :</p>
+                                <div class="formule-item">Tout le matériel intérieur BASE</div>
+                                <div class="formule-item">+ Tente protectrice 10' x 20'</div>
+                            </div>
+                        </div>
+
+                        <!-- SUPER EXTÉRIEUR -->
+                        <div class="formule-card recommended">
+                            <div class="formule-header">
+                                <h3 class="formule-title">SUPER</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">Prise 15A à moins de 15'</div>
+                                <div class="formule-item">Espace : 20' x 20' ou 10' x 40'</div>
+                                <p class="formule-section-title">Matériel fourni :</p>
+                                <div class="formule-item">Tout le matériel intérieur SUPER</div>
+                                <div class="formule-item">+ Deux tentes 10' x 20' (collées)</div>
+                            </div>
+                        </div>
+
+                        <!-- FEU EXTÉRIEUR -->
+                        <div class="formule-card">
+                            <div class="formule-header">
+                                <h3 class="formule-title">FEU</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title" style="color: #E30613;">Intérieur seulement</p>
+                                <p>La formule FEU est conçue pour les événements intérieurs uniquement.</p>
+                                <p>Vous avez un projet extérieur d'envergure ? <a href="#contact" style="color:#E30613;">Contactez-nous</a> !</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="swipe-hint">← Glissez pour voir les autres formules →</p>
+
+                    <p style="margin-top: 15px;"><em>Note : Les tentes protègent contre les intempéries légères, mais sont principalement pour bloquer le soleil. Emplacement à l'ombre recommandé.</em></p>
+
+                    <div class="installation-images">
+                        <img src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" alt="Installation extérieure" class="install-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="section" id="galerie">
             <h2>GALERIE</h2>
             <p>Découvrez ManettesGÉANTES en action! Cliquez sur les images pour les agrandir.</p>
@@ -666,75 +1023,7 @@
                 </div>
             </div>
         </div>
-        
-        <div class="section" id="equipement">
-            <h2>ÉQUIPEMENT</h2>
-            
-            <button class="accordion">ÉVÉNEMENTS INTÉRIEURS (ÉCOLES, CENTRES COMMERCIAUX & BARS)</button>
-            <div class="panel">
-                <div class="panel-content">
-                    <h3 class="subtitle">ÉQUIPEMENT INCLUS:</h3>
-                    <ul>
-                        <li>Deux manettes géantes NES</li>
-                        <li>Deux tables de support (5' chacune)</li>
-                        <li>Deux écrans 50 pouces</li>
-                        <li>Éclairage LED coloré</li>
-                        <li>Décorations Mario Bros incluant notre Mario gonflable géant de 10 pieds</li>
-                        <li>Zone de jeux libres avec consoles rétro sur projecteurs ou télévisions supplémentaires</li>
-                        <li>Animation costumée</li>
-                        <li>Trophée pour le meilleur score de la journée</li>
-                        <li>Autocollants souvenirs pour tous les participants</li>
-                    </ul>
-                    
-                    <h3 class="subtitle">PRÉREQUIS TECHNIQUES:</h3>
-                    <ul>
-                        <li>Alimentation électrique: prise standard 15A à moins de 15' (cache-fils à votre charge si nécessaire)</li>
-                        <li>Espace minimum requis: 14' x 7'</li>
-                        <li>Si accès difficile pour véhicule ou longue distance: prévoir chariot et assistance</li>
-                        <li>Pour les événements avec public jeunesse: présence obligatoire de parents/employés/bénévoles</li>
-                    </ul>
-                    
-                    <div class="installation-images">
-                        <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Installation intérieure" class="install-img">
-                        <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Installation intérieure" class="install-img">
-                    </div>
-                </div>
-            </div>
-            
-            <button class="accordion">ÉVÉNEMENTS EXTÉRIEURS (FESTIVALS & ÉVÉNEMENTS PLEIN AIR)</button>
-            <div class="panel">
-                <div class="panel-content">
-                    <h3 class="subtitle">ÉQUIPEMENT INCLUS:</h3>
-                    <ul>
-                        <li>Deux manettes géantes NES</li>
-                        <li>Deux tables de support (5' chacune)</li>
-                        <li>Deux écrans 50 pouces</li>
-                        <li>Éclairage LED coloré</li>
-                        <li>Décorations Mario Bros incluant notre Mario gonflable géant de 10 pieds</li>
-                        <li>Tente protectrice (10' x 20')</li>
-                        <li>Animation costumée</li>
-                        <li>Trophée pour le meilleur score de la journée</li>
-                        <li>Autocollants souvenirs pour tous les participants</li>
-                    </ul>
-                    
-                    <h3 class="subtitle">PRÉREQUIS TECHNIQUES:</h3>
-                    <ul>
-                        <li>Alimentation électrique: prise standard 15A à moins de 15' (cache-fils à votre charge si nécessaire)</li>
-                        <li>Espace minimum requis: 10' x 20' (espace de la tente)</li>
-                        <li>Possibilité de planter des pieux dans le sol pour ancrer la tente</li>
-                        <li>Emplacement idéalement à l'ombre pour une meilleure visibilité des écrans</li>
-                        <li>Si accès difficile pour véhicule ou longue distance: prévoir chariot et assistance</li>
-                        <li>Pour les événements avec public jeunesse: présence obligatoire de parents/employés/bénévoles</li>
-                        <li>Note: La tente protège contre les petites et moyennes intempéries, mais est principalement destinée à bloquer le soleil</li>
-                    </ul>
-                    
-                    <div class="installation-images">
-                        <img src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" alt="Installation extérieure" class="install-img">
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+
         <div class="section" id="contact">
             <h2>CONTACTEZ-NOUS</h2>
             <div class="contact">
@@ -783,7 +1072,19 @@
                 count = (count + 1) % 10;
                 lastDigit.textContent = count;
             }, 10000);  // 10 secondes
-            
+
+            // Centrer sur la formule SUPER (recommandée) sur mobile
+            const formulesContainer = document.getElementById('formulesContainer');
+            const recommendedCard = document.querySelector('.formule-card.recommended');
+            if (formulesContainer && recommendedCard && window.innerWidth <= 900) {
+                setTimeout(function() {
+                    const containerRect = formulesContainer.getBoundingClientRect();
+                    const cardRect = recommendedCard.getBoundingClientRect();
+                    const scrollLeft = recommendedCard.offsetLeft - (containerRect.width / 2) + (cardRect.width / 2);
+                    formulesContainer.scrollLeft = scrollLeft;
+                }, 100);
+            }
+
             // Script pour les accordéons
             var acc = document.getElementsByClassName("accordion");
             for (var i = 0; i < acc.length; i++) {
