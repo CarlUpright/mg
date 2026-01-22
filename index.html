@@ -804,7 +804,11 @@
             const mobileMenuClose = document.querySelector('.mobile-menu-close');
             
             hamburgerMenu.addEventListener('click', function() {
-                mobileMenu.style.display = 'flex';
+                if (mobileMenu.style.display === 'flex') {
+                    mobileMenu.style.display = 'none';
+                } else {
+                    mobileMenu.style.display = 'flex';
+                }
             });
             
             mobileMenuClose.addEventListener('click', function() {
