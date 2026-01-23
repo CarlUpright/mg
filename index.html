@@ -116,7 +116,7 @@
 
         li.console-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
         }
 
@@ -124,6 +124,12 @@
             width: 30px;
             height: 30px;
             object-fit: contain;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .console-text {
+            display: block;
         }
         
         .navbar {
@@ -692,6 +698,51 @@
             margin-top: 10px;
             white-space: nowrap;
         }
+
+        /* Liens de jeux avec tooltip pochette */
+        .game-link {
+            color: #F8F8F8;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .game-link:hover {
+            color: #E30613;
+        }
+
+        .game-tooltip {
+            position: fixed;
+            z-index: 1001;
+            background-color: #000;
+            border: 3px solid #E30613;
+            padding: 5px;
+            box-shadow: 0 0 15px rgba(227, 6, 19, 0.5);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .game-tooltip.visible {
+            opacity: 1;
+        }
+
+        .game-tooltip img {
+            display: block;
+            max-width: 150px;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .game-tooltip .game-title {
+            text-align: center;
+            color: #F8F8F8;
+            font-size: 14px;
+            margin-top: 5px;
+            padding: 3px;
+            background-color: #E30613;
+        }
     </style>
 </head>
 <body>
@@ -762,7 +813,7 @@
                 <div class="panel-content">
                     <p>Team Mario Bros est une <span class="highlight">animation coopérative encadrée</span>, conçue pour créer un moment structuré, dynamique et immédiatement compréhensible par le public.</p>
 
-                    <p>Deux joueurs partagent une manette Nintendo géante entièrement fonctionnelle : l'un contrôle les déplacements, l'autre les actions. Le jeu utilisé, <span class="highlight">Super Mario Bros (1985)</span>, a été choisi pour sa reconnaissance universelle et sa lisibilité immédiate.</p>
+                    <p>Deux joueurs partagent une manette Nintendo géante entièrement fonctionnelle : l'un contrôle les déplacements, l'autre les actions. Le jeu utilisé, <a class="game-link" href="https://www.youtube.com/watch?v=Aw4JccvxU-s" target="_blank" data-cover="covers/supermariobros.webp"><span class="highlight">Super Mario Bros (1985)</span></a>, a été choisi pour sa reconnaissance universelle et sa lisibilité immédiate.</p>
 
                     <p>Chaque équipe dispose d'un temps limité pour progresser dans le jeu. Un animateur encadre l'activité : il explique le fonctionnement, lance les parties, gère les rotations et compile les scores.</p>
 
@@ -775,12 +826,12 @@
                 <div class="panel-content">
                     <p>L'Arcade Géante regroupe plusieurs <span class="highlight">stations de jeu équipées de manettes surdimensionnées</span>, chacune dédiée à un jeu rétro reconnu.</p>
 
-                    <h3 class="subtitle">STATIONS DISPONIBLES</h3>
+                    <h3 class="subtitle">STATIONS</h3>
                     <ul>
-                        <li class="console-item"><img src="icons/GB.png" alt="Gameboy" class="console-icon"> Gameboys géants (Dr. Mario, Kirby)</li>
-                        <li class="console-item"><img src="icons/ATARI.png" alt="Atari" class="console-icon"> Atari géants (Galaga, PAC-MAN)</li>
-                        <li class="console-item"><img src="icons/SFCMSU.png" alt="Super Nintendo" class="console-icon"> Super Nintendo géants (Super Mario World, Donkey Kong Country) - <span class="highlight">Bientôt disponible!</span></li>
-                        <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"> Genesis géants (Sonic 2, Aladdin) - <span class="highlight">Bientôt disponible!</span></li>
+                        <li class="console-item"><img src="icons/GB.png" alt="Gameboy" class="console-icon"><span class="console-text">Gameboys géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=8Ur1A5F-Aw4" target="_blank" data-cover="covers/drmario.webp">Dr. Mario</a>, <a class="game-link" href="https://www.youtube.com/watch?v=RWbDhoauW7U" target="_blank" data-cover="covers/kirbydreamland.webp">Kirby</a>)</span></li>
+                        <li class="console-item"><img src="icons/ATARI.png" alt="Atari" class="console-icon"><span class="console-text">Atari géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=jFuU0QYlDcA" target="_blank" data-cover="covers/galaga.webp">Galaga</a>, <a class="game-link" href="https://www.youtube.com/watch?v=QLMBdrCkHdI" target="_blank" data-cover="covers/pacman.webp">PAC-MAN</a>)</span></li>
+                        <li class="console-item"><img src="icons/SFCMSU.png" alt="Super Nintendo" class="console-icon"><span class="console-text">Super Nintendo géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=HkkKjO4w_-A" target="_blank" data-cover="covers/smw.webp">Super Mario World</a>, <a class="game-link" href="https://www.youtube.com/watch?v=_WnWzAxTFRQ" target="_blank" data-cover="covers/donkeykong.webp">Donkey Kong Country</a>)</span></li>
+                        <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"><span class="console-text">Genesis géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=8cr1rqVcIhA" target="_blank" data-cover="covers/sonic2.webp">Sonic 2</a>, <a class="game-link" href="https://www.youtube.com/watch?v=c9ShDHK6dx4" target="_blank" data-cover="covers/aladdin.webp">Aladdin</a>)</span></li>
                     </ul>
 
                     <p>Les stations fonctionnent de manière autonome : un joueur à la fois, des règles simples et des jeux orientés vers le score. Le fonctionnement est rapidement compris par observation, sans nécessiter d'intervention constante.</p>
@@ -804,8 +855,8 @@
                         <li class="console-item"><img src="icons/SFCMSU.png" alt="SNES" class="console-icon"> Super Nintendo - plus de 10 jeux (1-2 joueurs)</li>
                         <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"> Sega Genesis - plus de 10 jeux (1-2 joueurs)</li>
                         <li class="console-item"><img src="icons/PS.png" alt="PlayStation" class="console-icon"> PlayStation 1 - plus de 10 jeux (1-2 joueurs)</li>
-                        <li class="console-item"><img src="icons/GC.png" alt="GameCube" class="console-icon"> GameCube - Mario Kart (4 joueurs)</li>
-                        <li class="console-item"><img src="icons/WII.png" alt="Wii" class="console-icon"> Wii - Just Dance (3 joueurs)</li>
+                        <li class="console-item"><img src="icons/GC.png" alt="GameCube" class="console-icon"> GameCube - <a class="game-link" href="https://www.youtube.com/watch?v=RfJ7FoVvOCA" target="_blank" data-cover="covers/mariokartdoubledash.webp">Mario Kart</a> (4 joueurs)</li>
+                        <li class="console-item"><img src="icons/WII.png" alt="Wii" class="console-icon"> Wii - <a class="game-link" href="https://www.youtube.com/watch?v=WLmvw_vkO9A" target="_blank" data-cover="covers/justdance2020.webp">Just Dance</a> (3 joueurs)</li>
                     </ul>
 
                     <p>En offrant plusieurs stations de jeu en accès libre, la Mini-Arcade favorise une participation spontanée et répartie dans le temps.</p>
@@ -1087,11 +1138,11 @@
             marioGif.addEventListener('click', function() {
                 // Stopper l'animation
                 this.style.animationPlayState = 'paused';
-                
+
                 // Changer le gif
                 var originalSrc = this.src;
                 this.src = "https://carlupright.github.io/mg/mario_dancing.gif";
-                
+
                 // Revenir au gif original après 3 secondes
                 var that = this;
                 setTimeout(function() {
@@ -1101,6 +1152,46 @@
                     // Reprendre l'animation
                     that.style.animationPlayState = 'running';
                 }, 3000);
+            });
+
+            // Tooltip pour les pochettes de jeux
+            const gameTooltip = document.createElement('div');
+            gameTooltip.className = 'game-tooltip';
+            gameTooltip.innerHTML = '<img src="" alt=""><div class="game-title"></div>';
+            document.body.appendChild(gameTooltip);
+
+            const gameLinks = document.querySelectorAll('.game-link');
+            gameLinks.forEach(link => {
+                link.addEventListener('mouseenter', function(e) {
+                    const cover = this.getAttribute('data-cover');
+                    const title = this.textContent;
+
+                    gameTooltip.querySelector('img').src = cover;
+                    gameTooltip.querySelector('.game-title').textContent = title;
+                    gameTooltip.classList.add('visible');
+                });
+
+                link.addEventListener('mousemove', function(e) {
+                    const tooltipWidth = 170;
+                    const tooltipHeight = 250;
+                    let x = e.clientX + 15;
+                    let y = e.clientY + 15;
+
+                    // Empêcher le tooltip de sortir de l'écran
+                    if (x + tooltipWidth > window.innerWidth) {
+                        x = e.clientX - tooltipWidth - 15;
+                    }
+                    if (y + tooltipHeight > window.innerHeight) {
+                        y = e.clientY - tooltipHeight - 15;
+                    }
+
+                    gameTooltip.style.left = x + 'px';
+                    gameTooltip.style.top = y + 'px';
+                });
+
+                link.addEventListener('mouseleave', function() {
+                    gameTooltip.classList.remove('visible');
+                });
             });
         }
     </script>
