@@ -591,12 +591,12 @@
                 stations: 2,
                 materiel: [
                     'Deux manettes géantes NES',
-                    'Deux tables de 5\'',
-                    'Deux écrans 50"',
+                    'Tables et nappes',
+                    'Écrans',
                     'Tableau des scores'
                 ],
                 materielExt: [
-                    'Tente protectrice 10\' x 20\''
+                    'Tente protectrice'
                 ],
                 espace: { int: '14\' x 7\'', ext: '10\' x 20\'' }
             },
@@ -609,12 +609,12 @@
                     'Deux Atari géants (Galaga, PAC-MAN...)',
                     'Deux SNES géants (Super Mario World...)',
                     'Deux Genesis géants (Sonic...)',
-                    'Quatre tables de 5\'',
-                    'Quatre écrans 50"',
+                    'Tables et nappes',
+                    'Écrans',
                     'Tableau des scores dynamique'
                 ],
                 materielExt: [
-                    'Tente protectrice supplémentaire 10\' x 20\''
+                    'Tente protectrice supplémentaire'
                 ],
                 espace: { int: '20\' x 10\'', ext: '20\' x 20\'' }
             },
@@ -629,7 +629,7 @@
                     'PlayStation 1 (1 joueur)',
                     'GameCube - Mario Kart (4 joueurs)',
                     'Wii - Just Dance (3 joueurs)',
-                    'Écrans nécessaires'
+                    'Écrans'
                 ],
                 materielExt: [],
                 espace: { int: 'Variable', ext: null },
@@ -824,6 +824,9 @@
                     materielList = materielList.concat(extrasData[id].materiel);
                 }
             });
+
+            // Dédupliquer le matériel
+            materielList = [...new Set(materielList)];
 
             // Notes
             if (state.activites['mini-arcade'] || state.activites['arcade-geante']) {
