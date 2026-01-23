@@ -1192,6 +1192,30 @@
                 link.addEventListener('mouseleave', function() {
                     gameTooltip.classList.remove('visible');
                 });
+
+                // Clic : afficher la pochette (pour mobile)
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const cover = this.getAttribute('data-cover');
+                    const title = this.textContent;
+
+                    gameTooltip.querySelector('img').src = cover;
+                    gameTooltip.querySelector('.game-title').textContent = title;
+
+                    // Centrer le tooltip sur l'écran
+                    gameTooltip.style.left = '50%';
+                    gameTooltip.style.top = '50%';
+                    gameTooltip.style.transform = 'translate(-50%, -50%)';
+                    gameTooltip.classList.add('visible');
+                });
+            });
+
+            // Fermer le tooltip en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('game-link')) {
+                    gameTooltip.classList.remove('visible');
+                    gameTooltip.style.transform = '';
+                }
             });
         }
     </script>
