@@ -109,6 +109,22 @@
             left: -20px;
             color: #E30613;
         }
+
+        li.console-item:before {
+            content: none;
+        }
+
+        li.console-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .console-icon {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
         
         .navbar {
             display: flex;
@@ -784,12 +800,12 @@
 
                     <h3 class="subtitle">CONSOLES DISPONIBLES</h3>
                     <ul>
-                        <li>NES - plus de 10 jeux (1-2 joueurs)</li>
-                        <li>SNES - plus de 10 jeux (1-2 joueurs)</li>
-                        <li>Sega Genesis - plus de 10 jeux (1-2 joueurs)</li>
-                        <li>PlayStation 1 - plus de 10 jeux (1-2 joueurs)</li>
-                        <li>GameCube - Mario Kart (4 joueurs)</li>
-                        <li>Wii - Just Dance (3 joueurs)</li>
+                        <li class="console-item"><img src="icons/FC.png" alt="NES" class="console-icon"> NES - plus de 10 jeux (1-2 joueurs)</li>
+                        <li class="console-item"><img src="icons/SFC.png" alt="SNES" class="console-icon"> SNES - plus de 10 jeux (1-2 joueurs)</li>
+                        <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"> Sega Genesis - plus de 10 jeux (1-2 joueurs)</li>
+                        <li class="console-item"><img src="icons/PS.png" alt="PlayStation" class="console-icon"> PlayStation 1 - plus de 10 jeux (1-2 joueurs)</li>
+                        <li class="console-item"><img src="icons/NGC.png" alt="GameCube" class="console-icon"> GameCube - Mario Kart (4 joueurs)</li>
+                        <li class="console-item"><img src="icons/nintendo-wii-icon-12.jpg" alt="Wii" class="console-icon"> Wii - Just Dance (3 joueurs)</li>
                     </ul>
 
                     <p>En offrant plusieurs stations de jeu en accès libre, la Mini-Arcade favorise une participation spontanée et répartie dans le temps.</p>
