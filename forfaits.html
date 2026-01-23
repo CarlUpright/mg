@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJMz/AAIvoQAAAO0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIAACIiAAACIgAAIiAAAAAzMAMzAAAAETMzMzMRAAAREzMzMREAABEjEzEyEQAAIiIzMyIiAAACIjIjIiAAAAAiMiIAAAAAAAEREREAAAACIRESIiAAAAISIREhEQAAAhIREhEQAAAAIiESEAAAAAAzMzMzMAAAAAMzMwAAAAAPDwAAjx8AAMY/AAAADwAAAA8AAAAPAAAADwAAgB8AAMD/AADgPwAAgB8AAIAPAACAHwAAwH8AAMAfAADg/wAA" rel="icon" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.95, maximum-scale=2.0, user-scalable=yes">
+    <title>Forfaits - ManettesGEANTES.ca</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        body {
+            background-color: #212121;
+            color: #F8F8F8;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 4px solid #E30613;
+            background-color: #000000;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-side {
+            width: 15%;
+            height: auto;
+            margin: 0 10px;
+        }
+
+        .logo-title {
+            width: 50%;
+            height: auto;
+        }
+
+        h1 {
+            color: #E30613;
+            text-align: center;
+            font-size: 42px;
+            text-shadow: 3px 3px 0 #000;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #E30613;
+            font-size: 28px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #E30613;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #E30613;
+            font-size: 24px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #E30613;
+        }
+
+        .back-link {
+            display: inline-block;
+            background-color: #E30613;
+            color: #F8F8F8;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            border: 2px solid #F8F8F8;
+        }
+
+        .back-link:hover {
+            background-color: #F8F8F8;
+            color: #E30613;
+        }
+
+        /* Sections */
+        .section-box {
+            background-color: #1a1a1a;
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .section-box.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Checkboxes custom */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #000;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #E30613;
+        }
+
+        .checkbox-item.checked {
+            border-color: #E30613;
+            background-color: #1a0a0a;
+        }
+
+        .checkbox-item.forced {
+            border-color: #4a4a4a;
+            background-color: #0a1a0a;
+            cursor: default;
+        }
+
+        .checkbox-item.forced .custom-checkbox {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .custom-checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #F8F8F8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            background-color: #000;
+        }
+
+        .checkbox-item.checked .custom-checkbox {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .checkbox-content {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-size: 26px;
+            color: #F8F8F8;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-desc {
+            font-size: 18px;
+            color: #999;
+        }
+
+        .checkbox-item.forced .checkbox-title::after {
+            content: " (inclus)";
+            color: #4CAF50;
+            font-size: 18px;
+        }
+
+        /* Type événement */
+        .event-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .event-btn {
+            flex: 1;
+            background-color: #000;
+            color: #F8F8F8;
+            border: 2px solid #333;
+            padding: 15px;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .event-btn:hover {
+            border-color: #E30613;
+        }
+
+        .event-btn.active {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .event-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .event-btn.disabled:hover {
+            border-color: #333;
+        }
+
+        /* Message d'avertissement */
+        .warning-msg {
+            background-color: #2a1a1a;
+            border-left: 4px solid #E30613;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .warning-msg.visible {
+            display: block;
+        }
+
+        /* Résultat */
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 3px solid #E30613;
+            background-color: #1a1a1a;
+            display: none;
+        }
+
+        .result-container.visible {
+            display: block;
+        }
+
+        .result-header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #E30613;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 32px;
+            color: #E30613;
+            margin: 0;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background-color: #000;
+            border: 2px solid #F8F8F8;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            color: #E30613;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #999;
+        }
+
+        /* Listes */
+        .result-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #000;
+            border-left: 4px solid #E30613;
+        }
+
+        .result-section h3 {
+            margin-top: 0;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-list li::before {
+            content: ">";
+            color: #E30613;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Requis */
+        .requis-box {
+            background-color: #1a1a0a;
+            border: 2px solid #E30613;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .requis-box h3 {
+            margin-top: 0;
+            color: #E30613;
+        }
+
+        /* Notes */
+        .notes {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #0a0a1a;
+            border-left: 4px solid #F8F8F8;
+            font-size: 20px;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #E30613;
+        }
+
+        .contact-cta a {
+            color: #F8F8F8;
+            text-decoration: none;
+            font-size: 26px;
+        }
+
+        .contact-cta a:hover {
+            text-decoration: underline;
+        }
+
+        /* Placeholder */
+        .placeholder-msg {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 22px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+            font-size: 16px;
+        }
+
+        .footer a {
+            color: #E30613;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                font-size: 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-type-selector {
+                flex-direction: column;
+            }
+
+            .checkbox-title {
+                font-size: 22px;
+            }
+
+            .checkbox-desc {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">< RETOUR AU SITE</a>
+
+        <header>
+            <div class="logo-container">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20texte.png" alt="ManettesGÉANTES" class="logo-title">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
+            </div>
+            <h1>CRÉEZ VOTRE FORFAIT</h1>
+            <p>Sélectionnez les activités et options pour votre événement</p>
+        </header>
+
+        <!-- ÉTAPE 1 : Activités -->
+        <div class="section-box">
+            <h2>1. CHOISISSEZ VOS ACTIVITÉS</h2>
+            <div class="checkbox-group" id="activitesGroup">
+                <div class="checkbox-item" data-id="team-mario">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">TEAM MARIO BROS</div>
+                        <div class="checkbox-desc">Animation coopérative encadrée - 2 joueurs par manette NES géante</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="arcade-geante">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">ARCADE GÉANTE</div>
+                        <div class="checkbox-desc">Stations autonomes - Gameboys, Atari, SNES, Genesis géants</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="mini-arcade">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">MINI-ARCADE</div>
+                        <div class="checkbox-desc">Consoles rétro en libre-service - NES, SNES, Genesis, PS1, GameCube, Wii</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 2 : Extras -->
+        <div class="section-box" id="extrasSection">
+            <h2>2. OPTIONS SUPPLÉMENTAIRES</h2>
+            <div id="extrasIncludedMsg" style="display: none; color: #4CAF50; margin-bottom: 15px;">
+                Ces options sont incluses avec Team Mario Bros
+            </div>
+            <div class="checkbox-group" id="extrasGroup">
+                <div class="checkbox-item" data-id="animation">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">ANIMATION COSTUMÉE</div>
+                        <div class="checkbox-desc">Animateur diplômé en Techniques de Loisir</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="decorations">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">DÉCORATIONS</div>
+                        <div class="checkbox-desc">Décorations Mario Bros + Mario gonflable géant 10'</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="eclairage">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">ÉCLAIRAGE LED</div>
+                        <div class="checkbox-desc">Éclairage LED coloré ambiance arcade</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="trophee">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">TROPHÉE + AUTOCOLLANTS</div>
+                        <div class="checkbox-desc">Trophée meilleur score + autocollants souvenirs pour tous</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 3 : Type événement -->
+        <div class="section-box" id="eventSection">
+            <h2>3. TYPE D'ÉVÉNEMENT</h2>
+            <div class="event-type-selector">
+                <button class="event-btn" data-type="interieur">INTÉRIEUR</button>
+                <button class="event-btn" data-type="exterieur">EXTÉRIEUR</button>
+            </div>
+            <div class="warning-msg" id="exterieurWarning">
+                Mini-Arcade est disponible en intérieur seulement.
+            </div>
+        </div>
+
+        <!-- Résultat -->
+        <div class="result-container" id="resultContainer">
+            <div class="result-header">
+                <h2 class="result-title">VOTRE FORFAIT</h2>
+                <p id="resultSubtitle"></p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-value" id="statJoueurs">-</span>
+                    <span class="stat-label">Joueurs simultanés</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="statStations">-</span>
+                    <span class="stat-label">Stations de jeu</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="statEspace">-</span>
+                    <span class="stat-label">Espace requis</span>
+                </div>
+            </div>
+
+            <!-- Activités -->
+            <div class="result-section">
+                <h3>ACTIVITÉS</h3>
+                <ul class="item-list" id="activitesList"></ul>
+            </div>
+
+            <!-- Matériel -->
+            <div class="result-section">
+                <h3>MATÉRIEL FOURNI</h3>
+                <ul class="item-list" id="materielList"></ul>
+            </div>
+
+            <!-- Requis -->
+            <div class="requis-box">
+                <h3>VOUS FOURNISSEZ</h3>
+                <ul class="item-list" id="requisList"></ul>
+            </div>
+
+            <!-- Notes -->
+            <div class="notes" id="notesBox"></div>
+
+            <!-- Contact -->
+            <div class="contact-cta">
+                <a href="#" id="contactLink">DEMANDER UNE SOUMISSION<br>Carl@manettesGEANTES.ca</a>
+            </div>
+        </div>
+
+        <!-- Placeholder quand rien sélectionné -->
+        <div class="placeholder-msg" id="placeholder">
+            Sélectionnez au moins une activité pour voir les détails du forfait.
+        </div>
+
+        <div class="footer">
+            <p>© 2025 ManettesGÉANTES - Tous droits réservés</p>
+            <p><a href="index.html">Retour au site principal</a></p>
+        </div>
+    </div>
+
+    <script>
+        // État
+        const state = {
+            activites: {
+                'team-mario': false,
+                'arcade-geante': false,
+                'mini-arcade': false
+            },
+            extras: {
+                'animation': false,
+                'decorations': false,
+                'eclairage': false,
+                'trophee': false
+            },
+            eventType: null
+        };
+
+        // Données
+        const activitesData = {
+            'team-mario': {
+                nom: 'Team Mario Bros',
+                joueurs: 4,
+                stations: 2,
+                materiel: [
+                    'Deux manettes géantes NES',
+                    'Deux tables de 5\'',
+                    'Deux écrans 50"',
+                    'Tableau des scores'
+                ],
+                materielExt: [
+                    'Tente protectrice 10\' x 20\''
+                ],
+                espace: { int: '14\' x 7\'', ext: '10\' x 20\'' }
+            },
+            'arcade-geante': {
+                nom: 'Arcade Géante',
+                joueurs: 8,
+                stations: 8,
+                materiel: [
+                    'Deux Gameboys géants (Dr. Mario, Kirby...)',
+                    'Deux Atari géants (Galaga, PAC-MAN...)',
+                    'Deux SNES géants (Super Mario World...)',
+                    'Deux Genesis géants (Sonic...)',
+                    'Quatre tables de 5\'',
+                    'Quatre écrans 50"',
+                    'Tableau des scores dynamique'
+                ],
+                materielExt: [
+                    'Tente protectrice supplémentaire 10\' x 20\''
+                ],
+                espace: { int: '20\' x 10\'', ext: '20\' x 20\'' }
+            },
+            'mini-arcade': {
+                nom: 'Mini-Arcade',
+                joueurs: 11,
+                stations: 6,
+                materiel: [
+                    'NES (1 joueur)',
+                    'SNES (1 joueur)',
+                    'Sega Genesis (1 joueur)',
+                    'PlayStation 1 (1 joueur)',
+                    'GameCube - Mario Kart (4 joueurs)',
+                    'Wii - Just Dance (3 joueurs)',
+                    'Écrans nécessaires'
+                ],
+                materielExt: [],
+                espace: { int: 'Variable', ext: null },
+                intOnly: true
+            }
+        };
+
+        const extrasData = {
+            'animation': {
+                nom: 'Animation costumée',
+                materiel: ['Animateur diplômé en Techniques de Loisir']
+            },
+            'decorations': {
+                nom: 'Décorations',
+                materiel: ['Décorations Mario Bros', 'Mario gonflable géant 10\'']
+            },
+            'eclairage': {
+                nom: 'Éclairage LED',
+                materiel: ['Éclairage LED coloré']
+            },
+            'trophee': {
+                nom: 'Trophée + Autocollants',
+                materiel: ['Trophée meilleur score', 'Autocollants souvenirs']
+            }
+        };
+
+        // DOM
+        const activitesItems = document.querySelectorAll('#activitesGroup .checkbox-item');
+        const extrasItems = document.querySelectorAll('#extrasGroup .checkbox-item');
+        const extrasSection = document.getElementById('extrasSection');
+        const extrasIncludedMsg = document.getElementById('extrasIncludedMsg');
+        const eventBtns = document.querySelectorAll('.event-btn');
+        const exterieurWarning = document.getElementById('exterieurWarning');
+        const resultContainer = document.getElementById('resultContainer');
+        const placeholder = document.getElementById('placeholder');
+
+        // Événements activités
+        activitesItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const id = item.dataset.id;
+                state.activites[id] = !state.activites[id];
+                item.classList.toggle('checked', state.activites[id]);
+                item.querySelector('.custom-checkbox').textContent = state.activites[id] ? '✓' : '';
+
+                updateExtrasState();
+                updateEventButtons();
+                updateResult();
+            });
+        });
+
+        // Événements extras
+        extrasItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.classList.contains('forced')) return;
+
+                const id = item.dataset.id;
+                state.extras[id] = !state.extras[id];
+                item.classList.toggle('checked', state.extras[id]);
+                item.querySelector('.custom-checkbox').textContent = state.extras[id] ? '✓' : '';
+
+                updateResult();
+            });
+        });
+
+        // Événements type
+        eventBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('disabled')) return;
+
+                eventBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.eventType = btn.dataset.type;
+
+                updateResult();
+            });
+        });
+
+        // Mise à jour des extras selon les activités sélectionnées
+        function updateExtrasState() {
+            const teamMarioSelected = state.activites['team-mario'];
+            const miniArcadeOnly = state.activites['mini-arcade'] &&
+                                   !state.activites['team-mario'] &&
+                                   !state.activites['arcade-geante'];
+
+            // Gérer l'option Trophée (masquer si Mini-Arcade seule)
+            const tropheeItem = document.querySelector('#extrasGroup .checkbox-item[data-id="trophee"]');
+            if (miniArcadeOnly) {
+                tropheeItem.style.display = 'none';
+                state.extras['trophee'] = false;
+            } else {
+                tropheeItem.style.display = 'flex';
+            }
+
+            if (teamMarioSelected) {
+                // Forcer tous les extras
+                extrasIncludedMsg.style.display = 'block';
+                extrasItems.forEach(item => {
+                    const id = item.dataset.id;
+                    state.extras[id] = true;
+                    item.classList.add('forced', 'checked');
+                    item.classList.remove('checked');
+                    item.querySelector('.custom-checkbox').textContent = '✓';
+                });
+            } else {
+                // Libérer les extras
+                extrasIncludedMsg.style.display = 'none';
+                extrasItems.forEach(item => {
+                    const id = item.dataset.id;
+                    item.classList.remove('forced');
+                    // Garder l'état actuel si déjà coché manuellement
+                    item.classList.toggle('checked', state.extras[id]);
+                    item.querySelector('.custom-checkbox').textContent = state.extras[id] ? '✓' : '';
+                });
+            }
+        }
+
+        // Mise à jour boutons événement
+        function updateEventButtons() {
+            const miniArcadeOnly = state.activites['mini-arcade'] &&
+                                   !state.activites['team-mario'] &&
+                                   !state.activites['arcade-geante'];
+
+            const extBtn = document.querySelector('.event-btn[data-type="exterieur"]');
+
+            if (state.activites['mini-arcade']) {
+                extBtn.classList.add('disabled');
+                exterieurWarning.classList.add('visible');
+
+                // Si extérieur était sélectionné, basculer sur intérieur
+                if (state.eventType === 'exterieur') {
+                    state.eventType = 'interieur';
+                    eventBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelector('.event-btn[data-type="interieur"]').classList.add('active');
+                }
+            } else {
+                extBtn.classList.remove('disabled');
+                exterieurWarning.classList.remove('visible');
+            }
+        }
+
+        // Mise à jour du résultat
+        function updateResult() {
+            const hasActivites = Object.values(state.activites).some(v => v);
+
+            if (!hasActivites || !state.eventType) {
+                resultContainer.classList.remove('visible');
+                placeholder.style.display = 'block';
+                if (!hasActivites) {
+                    placeholder.textContent = 'Sélectionnez au moins une activité pour voir les détails du forfait.';
+                } else if (!state.eventType) {
+                    placeholder.textContent = 'Sélectionnez le type d\'événement (intérieur ou extérieur) pour voir les détails du forfait.';
+                }
+                return;
+            }
+
+            placeholder.style.display = 'none';
+            resultContainer.classList.add('visible');
+
+            // Calculer les stats
+            let totalJoueurs = 0;
+            let totalStations = 0;
+            let espaces = [];
+            let materielList = [];
+            let activitesList = [];
+            let notes = [];
+
+            // Parcourir les activités sélectionnées
+            Object.keys(state.activites).forEach(id => {
+                if (state.activites[id]) {
+                    const data = activitesData[id];
+                    totalJoueurs += data.joueurs;
+                    totalStations += data.stations;
+                    activitesList.push(data.nom);
+
+                    // Matériel
+                    materielList = materielList.concat(data.materiel);
+
+                    // Matériel extérieur
+                    if (state.eventType === 'exterieur' && data.materielExt.length > 0) {
+                        materielList = materielList.concat(data.materielExt);
+                    }
+
+                    // Espace
+                    const espace = state.eventType === 'exterieur' ? data.espace.ext : data.espace.int;
+                    if (espace) espaces.push(espace);
+                }
+            });
+
+            // Ajouter extras au matériel
+            Object.keys(state.extras).forEach(id => {
+                if (state.extras[id]) {
+                    materielList = materielList.concat(extrasData[id].materiel);
+                }
+            });
+
+            // Notes
+            if (state.activites['mini-arcade'] || state.activites['arcade-geante']) {
+                notes.push('Supervision adulte demandée pour les jeunes.');
+            }
+            if (state.eventType === 'exterieur') {
+                notes.push('Les tentes protègent contre les intempéries légères et bloquent le soleil. Emplacement à l\'ombre recommandé.');
+            }
+            if (state.activites['team-mario']) {
+                notes.push('Animation encadrée par un diplômé en Techniques de Loisir.');
+            }
+
+            // Afficher
+            document.getElementById('resultSubtitle').textContent = activitesList.join(' + ') + ' - ' + (state.eventType === 'exterieur' ? 'Extérieur' : 'Intérieur');
+            document.getElementById('statJoueurs').textContent = totalJoueurs;
+            document.getElementById('statStations').textContent = totalStations;
+            document.getElementById('statEspace').textContent = espaces.length > 0 ? espaces[espaces.length - 1] : 'Variable';
+
+            // Liste activités
+            const actList = document.getElementById('activitesList');
+            actList.innerHTML = '';
+            activitesList.forEach(act => {
+                const li = document.createElement('li');
+                li.textContent = act;
+                actList.appendChild(li);
+            });
+
+            // Liste matériel
+            const matList = document.getElementById('materielList');
+            matList.innerHTML = '';
+            materielList.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                matList.appendChild(li);
+            });
+
+            // Requis
+            const reqList = document.getElementById('requisList');
+            reqList.innerHTML = '';
+            const requis = ['Prise 15A à moins de 15\''];
+            if (totalStations > 10) requis[0] = '2x Prise 15A à moins de 15\'';
+            requis.push('Espace : ' + (espaces.length > 0 ? espaces[espaces.length - 1] : 'À déterminer'));
+            requis.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                reqList.appendChild(li);
+            });
+
+            // Notes
+            const notesBox = document.getElementById('notesBox');
+            notesBox.innerHTML = '<strong>Notes :</strong><br>' + notes.join('<br>');
+
+            // Générer le lien mailto avec le forfait pré-rempli
+            const selectedExtras = [];
+            Object.keys(state.extras).forEach(id => {
+                if (state.extras[id]) {
+                    selectedExtras.push(extrasData[id].nom);
+                }
+            });
+
+            const eventTypeText = state.eventType === 'exterieur' ? 'Extérieur' : 'Intérieur';
+            const subject = encodeURIComponent('Demande de soumission - ' + activitesList.join(' + '));
+            const body = encodeURIComponent(
+                'Bonjour,\n\n' +
+                'Je souhaite obtenir une soumission pour le forfait suivant :\n\n' +
+                'ACTIVITÉS :\n- ' + activitesList.join('\n- ') + '\n\n' +
+                'OPTIONS :\n- ' + (selectedExtras.length > 0 ? selectedExtras.join('\n- ') : 'Aucune') + '\n\n' +
+                'TYPE D\'ÉVÉNEMENT : ' + eventTypeText + '\n\n' +
+                'DATE DE L\'ÉVÉNEMENT : \n' +
+                'LIEU : \n' +
+                'NOMBRE DE PARTICIPANTS ATTENDUS : \n\n' +
+                'Merci!'
+            );
+
+            document.getElementById('contactLink').href = 'mailto:Carl@manettesGEANTES.ca?subject=' + subject + '&body=' + body;
+        }
+    </script>
+</body>
+</html>

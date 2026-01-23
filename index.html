@@ -557,7 +557,7 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            padding: 10px 0;
+            padding: 10px calc(50% - 140px);
         }
 
         .formule-card {
@@ -669,18 +669,12 @@
         }
 
         .swipe-hint {
-            display: none;
+            display: block;
             text-align: center;
             color: #999;
             font-size: clamp(12px, 4vw, 18px);
             margin-top: 10px;
             white-space: nowrap;
-        }
-
-        @media (max-width: 900px) {
-            .swipe-hint {
-                display: block;
-            }
         }
     </style>
 </head>
@@ -714,22 +708,24 @@
         
         <div class="navbar">
             <a href="#presentation">PRÉSENTATION</a>
+            <a href="#activites">ACTIVITÉS</a>
             <a href="#experience">EXPÉRIENCE</a>
-            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="#formules">FORMULES</a>
+            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="#materiel">MATÉRIEL</a>
             <a href="#galerie">GALERIE</a>
             <a href="#contact">CONTACT</a>
         </div>
-        
+
         <!-- Menu hamburger pour mobile -->
         <div class="hamburger-menu">☰</div>
         <div class="mobile-menu">
             <div class="mobile-menu-close">✕</div>
             <a href="#presentation">PRÉSENTATION</a>
+            <a href="#activites">ACTIVITÉS</a>
             <a href="#experience">EXPÉRIENCE</a>
-            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="#formules">FORMULES</a>
+            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="#materiel">MATÉRIEL</a>
             <a href="#galerie">GALERIE</a>
             <a href="#contact">CONTACT</a>
@@ -737,43 +733,123 @@
         
         <div class="section" id="presentation">
             <h2>PRÉSENTATION</h2>
-            <p>Lancé en 2022, ManettesGÉANTES révolutionne l'animation d'événements avec un concept unique : des manettes NES surdimensionnées qui transforment le légendaire 'Super Mario Bros' en expérience collaborative inoubliable.</p>
-            <p class="pulse">IMAGINEZ: VOUS ET UN COÉQUIPIER, MANŒUVRANT ENSEMBLE UNE MANETTE NES GIGANTESQUE!</p>
-            <p>Chaque équipe dispose de maximum 4 minutes pour conquérir le Royaume Champignon et accumuler le plus de points possible. Une personne contrôle les mouvements, l'autre les actions - une coordination parfaite est la clé du succès!</p>
-            
-            <h3 class="subtitle">POUR LES ORGANISATEURS:</h3>
-            <p>Notre animation clé en main s'adapte parfaitement aux festivals, écoles, centres commerciaux, microbrasseries et événements privés. Profitez d'une animation supervisée par un professionnel en loisir costumé qui saura engager tous vos participants.</p>
-            
-            <h3 class="subtitle">POUR LES JOUEURS:</h3>
-            <p>Venez défier les autres équipes pour obtenir le meilleur score et remporter le trophée de l'événement! Pas de trophée? Pas de problème! Tous les participants repartent quand même avec le sourire et un autocollant souvenir de leur aventure.</p>
+            <p>Lancé en 2022, ManettesGÉANTES propose des expériences de rétrogaming conçues pour des contextes événementiels et des projets de location temporaire. L'offre combine des jeux emblématiques, des dispositifs physiques uniques et des formats de participation pensés pour des publics variés.</p>
+
+            <p class="pulse" style="font-size: 1.1em; margin: 20px 0;">TEAM MARIO BROS + ARCADE GÉANTE + MINI-ARCADE</p>
+
+            <p>Les services se déclinent en <span class="highlight">trois formules distinctes et complémentaires</span>, chacune répondant à un usage précis : animation encadrée, installation autonome et location de consoles rétro.</p>
+        </div>
+
+        <div class="section" id="activites">
+            <h2>NOS ACTIVITÉS</h2>
+
+            <button class="accordion">TEAM MARIO BROS - L'expérience signature</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <p>Team Mario Bros est une <span class="highlight">animation coopérative encadrée</span>, conçue pour créer un moment structuré, dynamique et immédiatement compréhensible par le public.</p>
+
+                    <p>Deux joueurs partagent une manette NES géante entièrement fonctionnelle : l'un contrôle les déplacements, l'autre les actions. Le jeu utilisé, <span class="highlight">Super Mario Bros (1985)</span>, a été choisi pour sa reconnaissance universelle et sa lisibilité immédiate.</p>
+
+                    <p>Chaque équipe dispose d'un temps limité pour progresser dans le jeu. Un animateur encadre l'activité : il explique le fonctionnement, lance les parties, gère les rotations et compile les scores.</p>
+
+                    <p>L'animation favorise la <span class="highlight">communication</span>, la <span class="highlight">coordination</span> et l'<span class="highlight">esprit d'équipe</span>, tout en offrant un fort potentiel de spectacle pour les spectateurs.</p>
+                </div>
+            </div>
+
+            <button class="accordion">ARCADE GÉANTE - Stations de jeu autonomes</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <p>L'Arcade Géante regroupe plusieurs <span class="highlight">stations de jeu équipées de manettes surdimensionnées</span>, chacune dédiée à un jeu rétro reconnu.</p>
+
+                    <h3 class="subtitle">STATIONS DISPONIBLES</h3>
+                    <ul>
+                        <li>Gameboys géants (Dr. Mario, Kirby...)</li>
+                        <li>Atari géants (Galaga, PAC-MAN...)</li>
+                        <li>SNES géants (Super Mario World...)</li>
+                        <li>Genesis géants (Sonic...)</li>
+                    </ul>
+
+                    <p>Les stations fonctionnent de manière autonome : un joueur à la fois, des règles simples et des jeux orientés vers le score. Le fonctionnement est rapidement compris par observation, sans nécessiter d'intervention constante.</p>
+
+                    <p>Un <span class="highlight">tableau de scores dynamique</span> permet de suivre les performances et d'encourager la participation.</p>
+
+                    <p><em>L'Arcade Géante est particulièrement adaptée aux contextes à fort achalandage, comme complément à une animation encadrée ou comme activité continue au sein d'un événement.</em></p>
+                </div>
+            </div>
+
+            <button class="accordion">MINI-ARCADE - Location de consoles rétro</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <p>La Mini-Arcade est un service de <span class="highlight">location de consoles rétro au format standard</span>, permettant de transformer temporairement un espace en salle de jeux accessible et conviviale.</p>
+
+                    <p>Elle peut être déployée de façon autonome, sur une ou plusieurs journées, dans des contextes variés : bars, écoles, bibliothèques, lieux communautaires...</p>
+
+                    <h3 class="subtitle">CONSOLES DISPONIBLES</h3>
+                    <ul>
+                        <li>NES (1 joueur)</li>
+                        <li>SNES (1 joueur)</li>
+                        <li>Sega Genesis (1 joueur)</li>
+                        <li>PlayStation 1 (1 joueur)</li>
+                        <li>GameCube - Mario Kart (4 joueurs)</li>
+                        <li>Wii - Just Dance (3 joueurs)</li>
+                    </ul>
+
+                    <p>En offrant plusieurs stations de jeu en accès libre, la Mini-Arcade favorise une participation spontanée et répartie dans le temps.</p>
+
+                    <p><em>Elle peut également s'intégrer aux autres services de ManettesGÉANTES afin de diversifier les types de jeux proposés, multiplier les points de participation et soutenir le rythme global de l'activité.</em></p>
+                </div>
+            </div>
         </div>
         
         <div class="section" id="experience">
             <h2>EXPÉRIENCE</h2>
-            <p>Cette aventure nostalgique transforme un jeu vidéo culte en un exercice de team building captivant, alliant le charme rétro à des compétences professionnelles cruciales.</p>
-            <p>Chaque partie pousse naturellement les participants à:</p>
+
+            <h3 class="subtitle">UNE OFFRE CONÇUE POUR S'INTÉGRER FACILEMENT</h3>
+            <p>Chaque formule précise clairement les besoins en matière d'espace, d'alimentation électrique et de matériel fourni, ainsi que la capacité de joueurs simultanés.</p>
+
+            <p>Les installations sont pensées pour fonctionner telles quelles, selon le service choisi, avec une animation ciblée uniquement lorsqu'elle apporte une valeur ajoutée.</p>
+
+            <h3 class="subtitle">POUR LES JOUEURS</h3>
             <ul>
-                <li>Affiner leur communication pour orchestrer leurs mouvements</li>
-                <li>Renforcer leur collaboration en progressant vers un but commun</li>
-                <li>Développer des stratégies éclair pour maximiser leur score</li>
-                <li>Consolider leur esprit d'équipe face à un défi ludique</li>
+                <li><span class="highlight">Team Mario Bros</span> : communication, coordination et esprit d'équipe</li>
+                <li><span class="highlight">Arcade Géante</span> : défi personnel et compétition amicale</li>
+                <li><span class="highlight">Mini-Arcade</span> : découverte et plaisir pour tous les âges</li>
             </ul>
-            <p class="highlight">ManettesGÉANTES: Bien plus qu'un jeu, une expérience inoubliable qui soude les équipes!</p>
+
+            <p style="margin-top: 20px;"><em>ManettesGÉANTES propose des solutions de rétrogaming claires, structurées et modulables, permettant aux organisateurs de choisir exactement le format, la durée et le niveau d'animation correspondant à leur projet.</em></p>
         </div>
         
         <div class="section" id="fonctionnement">
             <h2>FONCTIONNEMENT</h2>
+
+            <h3 class="subtitle">TEAM MARIO BROS (Animation encadrée)</h3>
             <ul>
-                <li>Les équipes sont obligatoirement composées de 2 joueurs: un contrôle les déplacements, l'autre les actions</li>
-                <li>Chaque session dure maximum 4 minutes (ou jusqu'à épuisement des 5 vies)</li>
-                <li>Grâce à nos deux installations, une nouvelle équipe peut démarrer toutes les 2 minutes</li>
-                <li>L'animateur explique les contrôles et donne le signal de départ</li>
-                <li>Un timer à l'écran affiche le temps restant. À zéro, l'animateur inscrit le score dans le tableau des résultats</li>
-                <li>Les participants peuvent jouer plusieurs fois, mais la priorité est donnée aux nouveaux joueurs (tout le monde doit pouvoir essayer!)</li>
-                <li>L'équipe avec le meilleur score de l'événement remporte un trophée exclusif</li>
-                <li>Lors des événements intérieurs, des consoles rétro en libre-service sont disponibles pour patienter (la supervision des adultes est demandée)</li>
+                <li>Équipes de <span class="highlight">2 joueurs</span> sur une manette NES géante</li>
+                <li>Un contrôle les déplacements, l'autre les actions</li>
+                <li>Session de maximum 4 minutes (ou 5 vies)</li>
+                <li>Deux installations permettent une rotation toutes les 2 minutes</li>
+                <li>L'animateur explique, lance les parties et compile les scores</li>
+                <li>Priorité aux nouveaux joueurs pour maximiser la participation</li>
             </ul>
-            <p>L'animation est supervisée par un diplômé en Techniques de Loisir expérimenté avec diverses clientèles, garantissant une expérience inclusive et adaptée à tous les participants.</p>
+
+            <h3 class="subtitle">ARCADE GÉANTE (Stations autonomes)</h3>
+            <ul>
+                <li><span class="highlight">1 joueur</span> par station de jeu</li>
+                <li>Fonctionnement compris par observation</li>
+                <li>Score inscrit au tableau des scores dynamique</li>
+                <li>Rotation naturelle entre les joueurs</li>
+                <li>Supervision adulte demandée pour les jeunes</li>
+            </ul>
+
+            <h3 class="subtitle">MINI-ARCADE (Libre-service)</h3>
+            <ul>
+                <li>Accès libre aux consoles rétro</li>
+                <li>Participation spontanée et répartie dans le temps</li>
+                <li>Supervision adulte demandée pour les jeunes</li>
+            </ul>
+
+            <h3 class="subtitle">ENCADREMENT</h3>
+            <p>L'animation est assurée par un diplômé en Techniques de Loisir, expérimenté avec diverses clientèles, garantissant une expérience inclusive et adaptée à tous les participants.</p>
         </div>
 
         <div class="section" id="formules">
@@ -781,6 +857,34 @@
             <p>Choisissez la formule qui correspond à votre événement !</p>
 
             <div class="formules-container" id="formulesContainer">
+                <!-- FORMULE MINI-ARCADE -->
+                <div class="formule-card">
+                    <div class="formule-header">
+                        <h3 class="formule-title">MINI-ARCADE</h3>
+                        <span class="formule-badge">LOCATION</span>
+                    </div>
+                    <div class="formule-content">
+                        <p class="formule-section-title">TEAM MARIO BROS</p>
+                        <div class="formule-item excluded">Non inclus</div>
+                        <p class="formule-section-title">ARCADE GÉANTE</p>
+                        <div class="formule-item excluded">Non inclus</div>
+                        <p class="formule-section-title">MINI-ARCADE</p>
+                        <div class="formule-item included">NES, SNES, Genesis, PS1, GameCube, Wii</div>
+                        <p class="formule-section-title">EXTRAS</p>
+                        <div class="formule-item excluded">Tableau des scores</div>
+                        <div class="formule-item excluded">Éclairage LED coloré</div>
+                        <div class="formule-item excluded">Décorations Mario Bros</div>
+                        <div class="formule-item excluded">Mario gonflable géant 10'</div>
+                        <div class="formule-item excluded">Animation costumée</div>
+                        <div class="formule-item excluded">Trophée meilleur score</div>
+                        <div class="formule-item excluded">Autocollants souvenirs</div>
+                    </div>
+                    <div class="formule-footer">
+                        <div class="formule-capacity">11 joueurs simultanés</div>
+                        <div class="formule-space" style="color: #E30613;">Intérieur seulement</div>
+                    </div>
+                </div>
+
                 <!-- FORMULE BASE -->
                 <div class="formule-card">
                     <div class="formule-header">
@@ -788,11 +892,14 @@
                         <span class="formule-badge">L'ESSENTIEL</span>
                     </div>
                     <div class="formule-content">
+                        <p class="formule-section-title">TEAM MARIO BROS</p>
                         <div class="formule-item included">Deux manettes géantes NES</div>
-                        <div class="formule-item excluded">Gameboys géants</div>
-                        <div class="formule-item excluded">Atari géants</div>
-                        <div class="formule-item excluded">Consoles rétro supplémentaires</div>
-                        <div class="formule-item excluded">Tableau des scores en temps réel</div>
+                        <p class="formule-section-title">ARCADE GÉANTE</p>
+                        <div class="formule-item excluded">Non inclus</div>
+                        <p class="formule-section-title">MINI-ARCADE</p>
+                        <div class="formule-item excluded">Non inclus</div>
+                        <p class="formule-section-title">EXTRAS</p>
+                        <div class="formule-item included">Tableau des scores (1 jeu)</div>
                         <div class="formule-item included">Éclairage LED coloré</div>
                         <div class="formule-item included">Décorations Mario Bros</div>
                         <div class="formule-item included">Mario gonflable géant 10'</div>
@@ -802,7 +909,8 @@
                     </div>
                     <div class="formule-footer">
                         <div class="formule-capacity">4 joueurs simultanés</div>
-                        <div class="formule-space">Espace : 14' x 7'</div>
+                        <div class="formule-space">Idéal : 10' x 20'</div>
+                        <div class="formule-space">Minimum : 14' x 7'</div>
                     </div>
                 </div>
 
@@ -813,11 +921,17 @@
                         <span class="formule-badge">★ RECOMMANDÉE ★</span>
                     </div>
                     <div class="formule-content">
+                        <p class="formule-section-title">TEAM MARIO BROS</p>
                         <div class="formule-item included">Deux manettes géantes NES</div>
+                        <p class="formule-section-title">ARCADE GÉANTE</p>
                         <div class="formule-item included">Deux Gameboys géants (Dr. Mario, Kirby...)</div>
                         <div class="formule-item included">Deux Atari géants (Galaga, PAC-MAN...)</div>
-                        <div class="formule-item excluded">Consoles rétro supplémentaires</div>
-                        <div class="formule-item included">Tableau des scores géant en temps réel</div>
+                        <div class="formule-item included">Deux SNES géants (Super Mario World...)</div>
+                        <div class="formule-item included">Deux Genesis géants (Sonic...)</div>
+                        <p class="formule-section-title">MINI-ARCADE</p>
+                        <div class="formule-item excluded">Consoles rétro (non incluses)</div>
+                        <p class="formule-section-title">EXTRAS</p>
+                        <div class="formule-item included">Tableau des scores dynamique</div>
                         <div class="formule-item included">Éclairage LED coloré</div>
                         <div class="formule-item included">Décorations Mario Bros</div>
                         <div class="formule-item included">Mario gonflable géant 10'</div>
@@ -826,8 +940,9 @@
                         <div class="formule-item included">Autocollants souvenirs</div>
                     </div>
                     <div class="formule-footer">
-                        <div class="formule-capacity">8 joueurs simultanés</div>
-                        <div class="formule-space">Espace : 20' x 20' ou 40' x 10'</div>
+                        <div class="formule-capacity">12 joueurs simultanés</div>
+                        <div class="formule-space">Idéal : 20' x 20'</div>
+                        <div class="formule-space">Minimum : 25' x 7'</div>
                     </div>
                 </div>
 
@@ -838,11 +953,17 @@
                         <span class="formule-badge">LE MAXIMUM</span>
                     </div>
                     <div class="formule-content">
+                        <p class="formule-section-title">TEAM MARIO BROS</p>
                         <div class="formule-item included">Deux manettes géantes NES</div>
+                        <p class="formule-section-title">ARCADE GÉANTE</p>
                         <div class="formule-item included">Deux Gameboys géants (Dr. Mario, Kirby...)</div>
                         <div class="formule-item included">Deux Atari géants (Galaga, PAC-MAN...)</div>
-                        <div class="formule-item included">Consoles rétro supplémentaires</div>
-                        <div class="formule-item included">Tableau des scores géant en temps réel</div>
+                        <div class="formule-item included">Deux SNES géants (Super Mario World...)</div>
+                        <div class="formule-item included">Deux Genesis géants (Sonic...)</div>
+                        <p class="formule-section-title">MINI-ARCADE</p>
+                        <div class="formule-item included">NES, SNES, Genesis, PS1, GameCube, Wii</div>
+                        <p class="formule-section-title">EXTRAS</p>
+                        <div class="formule-item included">Tableau des scores dynamique</div>
                         <div class="formule-item included">Éclairage LED coloré</div>
                         <div class="formule-item included">Décorations Mario Bros</div>
                         <div class="formule-item included">Mario gonflable géant 10'</div>
@@ -851,8 +972,10 @@
                         <div class="formule-item included">Autocollants souvenirs</div>
                     </div>
                     <div class="formule-footer">
-                        <div class="formule-capacity">??? joueurs simultanés</div>
-                        <div class="formule-space">Espace : 25' x 25' min. | Intérieur seulement</div>
+                        <div class="formule-capacity">23 joueurs simultanés</div>
+                        <div class="formule-space">Idéal : 25' x 25' ou plus</div>
+                        <div class="formule-space">Minimum : 50' x 7'</div>
+                        <div class="formule-space" style="color: #E30613;">Intérieur seulement</div>
                     </div>
                 </div>
             </div>
@@ -867,6 +990,25 @@
             <div class="panel">
                 <div class="panel-content">
                     <div class="formules-container">
+                        <!-- MINI-ARCADE INTÉRIEUR -->
+                        <div class="formule-card">
+                            <div class="formule-header">
+                                <h3 class="formule-title">MINI-ARCADE</h3>
+                            </div>
+                            <div class="formule-content">
+                                <p class="formule-section-title">Vous fournissez :</p>
+                                <div class="formule-item">Prise 15A à moins de 15'</div>
+                                <p class="formule-section-title">Matériel fourni (taille standard) :</p>
+                                <div class="formule-item">NES (1 joueur)</div>
+                                <div class="formule-item">SNES (1 joueur)</div>
+                                <div class="formule-item">Sega Genesis (1 joueur)</div>
+                                <div class="formule-item">Playstation (1 joueur)</div>
+                                <div class="formule-item">GameCube - Mario Kart (4 joueurs)</div>
+                                <div class="formule-item">Wii - Just Dance (3 joueurs)</div>
+                                <div class="formule-item">Écrans nécessaires</div>
+                            </div>
+                        </div>
+
                         <!-- BASE INTÉRIEUR -->
                         <div class="formule-card">
                             <div class="formule-header">
@@ -875,7 +1017,8 @@
                             <div class="formule-content">
                                 <p class="formule-section-title">Vous fournissez :</p>
                                 <div class="formule-item">Prise 15A à moins de 15'</div>
-                                <div class="formule-item">Espace : 14' x 7'</div>
+                                <div class="formule-item">Idéal : 10' x 20'</div>
+                                <div class="formule-item">Minimum : 14' x 7'</div>
                                 <p class="formule-section-title">Matériel fourni :</p>
                                 <div class="formule-item">Deux manettes géantes NES</div>
                                 <div class="formule-item">Deux tables de 5'</div>
@@ -894,13 +1037,16 @@
                             <div class="formule-content">
                                 <p class="formule-section-title">Vous fournissez :</p>
                                 <div class="formule-item">Prise 15A à moins de 15'</div>
-                                <div class="formule-item">Espace : 20' x 20'</div>
+                                <div class="formule-item">Idéal : 20' x 20'</div>
+                                <div class="formule-item">Minimum : 25' x 7'</div>
                                 <p class="formule-section-title">Matériel fourni :</p>
                                 <div class="formule-item">Deux manettes géantes NES</div>
                                 <div class="formule-item">+ Deux Gameboys géants</div>
                                 <div class="formule-item">+ Deux Atari géants</div>
-                                <div class="formule-item">Cinq tables de 5'</div>
-                                <div class="formule-item">Quatre écrans 50"</div>
+                                <div class="formule-item">+ Deux SNES géants</div>
+                                <div class="formule-item">+ Deux Genesis géants</div>
+                                <div class="formule-item">Six tables de 5'</div>
+                                <div class="formule-item">Six écrans 50"</div>
                                 <div class="formule-item">Éclairage LED coloré</div>
                                 <div class="formule-item">Décorations Mario Bros</div>
                                 <div class="formule-item">Mario gonflable géant 10'</div>
@@ -915,14 +1061,22 @@
                             <div class="formule-content">
                                 <p class="formule-section-title">Vous fournissez :</p>
                                 <div class="formule-item">2x Prise 15A à moins de 15'</div>
-                                <div class="formule-item">Espace : 25' x 25' minimum</div>
+                                <div class="formule-item">Idéal : 25' x 25' ou plus</div>
+                                <div class="formule-item">Minimum : 50' x 7'</div>
                                 <p class="formule-section-title">Matériel fourni :</p>
                                 <div class="formule-item">Deux manettes géantes NES</div>
                                 <div class="formule-item">Deux Gameboys géants</div>
                                 <div class="formule-item">Deux Atari géants</div>
-                                <div class="formule-item">+ Consoles rétro supplémentaires</div>
-                                <div class="formule-item">Six tables de 5'</div>
-                                <div class="formule-item">Jusqu'à sept écrans 50"</div>
+                                <div class="formule-item">Deux SNES géants</div>
+                                <div class="formule-item">Deux Genesis géants</div>
+                                <div class="formule-item">+ NES (1 joueur)</div>
+                                <div class="formule-item">+ SNES (1 joueur)</div>
+                                <div class="formule-item">+ Sega Genesis (1 joueur)</div>
+                                <div class="formule-item">+ Playstation (1 joueur)</div>
+                                <div class="formule-item">+ GameCube - Mario Kart (4 joueurs)</div>
+                                <div class="formule-item">+ Wii - Just Dance (3 joueurs)</div>
+                                <div class="formule-item">Sept tables de 5'</div>
+                                <div class="formule-item">Jusqu'à neuf écrans 50"</div>
                                 <div class="formule-item">+ Deux projecteurs 100"</div>
                                 <div class="formule-item">Éclairage LED coloré</div>
                                 <div class="formule-item">Décorations Mario Bros</div>
@@ -955,7 +1109,12 @@
                                 <div class="formule-item">Prise 15A à moins de 15'</div>
                                 <div class="formule-item">Espace : 10' x 20'</div>
                                 <p class="formule-section-title">Matériel fourni :</p>
-                                <div class="formule-item">Tout le matériel intérieur BASE</div>
+                                <div class="formule-item">Deux manettes géantes NES</div>
+                                <div class="formule-item">Deux tables de 5'</div>
+                                <div class="formule-item">Deux écrans 50"</div>
+                                <div class="formule-item">Éclairage LED coloré</div>
+                                <div class="formule-item">Décorations Mario Bros</div>
+                                <div class="formule-item">Mario gonflable géant 10'</div>
                                 <div class="formule-item">+ Tente protectrice 10' x 20'</div>
                             </div>
                         </div>
@@ -968,9 +1127,19 @@
                             <div class="formule-content">
                                 <p class="formule-section-title">Vous fournissez :</p>
                                 <div class="formule-item">Prise 15A à moins de 15'</div>
-                                <div class="formule-item">Espace : 20' x 20' ou 10' x 40'</div>
+                                <div class="formule-item">Idéal : 20' x 20'</div>
+                                <div class="formule-item">Minimum : 10' x 40'</div>
                                 <p class="formule-section-title">Matériel fourni :</p>
-                                <div class="formule-item">Tout le matériel intérieur SUPER</div>
+                                <div class="formule-item">Deux manettes géantes NES</div>
+                                <div class="formule-item">Deux Gameboys géants</div>
+                                <div class="formule-item">Deux Atari géants</div>
+                                <div class="formule-item">Deux SNES géants</div>
+                                <div class="formule-item">Deux Genesis géants</div>
+                                <div class="formule-item">Six tables de 5'</div>
+                                <div class="formule-item">Six écrans 50"</div>
+                                <div class="formule-item">Éclairage LED coloré</div>
+                                <div class="formule-item">Décorations Mario Bros</div>
+                                <div class="formule-item">Mario gonflable géant 10'</div>
                                 <div class="formule-item">+ Deux tentes 10' x 20' (collées)</div>
                             </div>
                         </div>
@@ -1073,10 +1242,10 @@
                 lastDigit.textContent = count;
             }, 10000);  // 10 secondes
 
-            // Centrer sur la formule SUPER (recommandée) sur mobile
+            // Centrer sur la formule SUPER (recommandée) sur tous les devices
             const formulesContainer = document.getElementById('formulesContainer');
-            const recommendedCard = document.querySelector('.formule-card.recommended');
-            if (formulesContainer && recommendedCard && window.innerWidth <= 900) {
+            const recommendedCard = document.querySelector('#formulesContainer .formule-card.recommended');
+            if (formulesContainer && recommendedCard) {
                 setTimeout(function() {
                     const containerRect = formulesContainer.getBoundingClientRect();
                     const cardRect = recommendedCard.getBoundingClientRect();
