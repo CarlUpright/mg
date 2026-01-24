@@ -903,29 +903,15 @@
             <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
         </div>
         
-        <!-- Carrousel d'images -->
+        <!-- Carrousel d'images (chargé dynamiquement depuis TopPics) -->
         <div class="carousel-container" id="carousel">
             <div class="carousel-slides" id="carouselSlides">
-                <div class="carousel-slide">
-                    <img src="https://carlupright.github.io/mg/2players%20closeup.jpg" alt="Manettes géantes en action">
-                </div>
-                <div class="carousel-slide">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Installation intérieure">
-                </div>
-                <div class="carousel-slide">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Installation intérieure">
-                </div>
-                <div class="carousel-slide">
-                    <img src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" alt="Installation extérieure">
-                </div>
+                <!-- Images chargées automatiquement via API GitHub -->
             </div>
             <button class="carousel-btn prev" id="carouselPrev">◀</button>
             <button class="carousel-btn next" id="carouselNext">▶</button>
             <div class="carousel-dots" id="carouselDots">
-                <span class="carousel-dot active" data-index="0"></span>
-                <span class="carousel-dot" data-index="1"></span>
-                <span class="carousel-dot" data-index="2"></span>
-                <span class="carousel-dot" data-index="3"></span>
+                <!-- Dots générés automatiquement -->
             </div>
         </div>
         
@@ -1408,14 +1394,56 @@
                 }
             });
 
-            // Carrousel
+            // Carrousel - Chargement dynamique depuis TopPics via API GitHub
             const carouselSlides = document.getElementById('carouselSlides');
-            const carouselDots = document.querySelectorAll('.carousel-dot');
+            const carouselDotsContainer = document.getElementById('carouselDots');
             const prevBtn = document.getElementById('carouselPrev');
             const nextBtn = document.getElementById('carouselNext');
             let currentSlide = 0;
-            const totalSlides = 4;
+            let totalSlides = 0;
             let carouselInterval;
+
+            // Charger les images depuis le dossier TopPics via l'API GitHub
+            async function loadCarouselImages() {
+                try {
+                    const response = await fetch('https://api.github.com/repos/CarlUpright/mg/contents/TopPics');
+                    const files = await response.json();
+
+                    // Filtrer pour ne garder que les images
+                    const imageFiles = files.filter(file =>
+                        /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+                    );
+
+                    totalSlides = imageFiles.length;
+
+                    // Générer les slides
+                    imageFiles.forEach((file, index) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'carousel-slide';
+                        slide.innerHTML = `<img src="TopPics/${encodeURIComponent(file.name)}" alt="${file.name}">`;
+                        carouselSlides.appendChild(slide);
+
+                        // Générer les dots
+                        const dot = document.createElement('span');
+                        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+                        dot.dataset.index = index;
+                        dot.addEventListener('click', function() {
+                            stopCarousel();
+                            goToSlide(index);
+                            startCarousel();
+                        });
+                        carouselDotsContainer.appendChild(dot);
+                    });
+
+                    // Démarrer le carrousel une fois les images chargées
+                    if (totalSlides > 0) {
+                        startCarousel();
+                    }
+                } catch (error) {
+                    console.error('Erreur lors du chargement des images:', error);
+                    // Fallback: afficher un message ou une image par défaut
+                }
+            }
 
             function goToSlide(index) {
                 currentSlide = index;
@@ -1424,7 +1452,8 @@
 
                 carouselSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-                carouselDots.forEach((dot, i) => {
+                const dots = carouselDotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, i) => {
                     dot.classList.toggle('active', i === currentSlide);
                 });
             }
@@ -1458,16 +1487,8 @@
                 startCarousel();
             });
 
-            carouselDots.forEach((dot, index) => {
-                dot.addEventListener('click', function() {
-                    stopCarousel();
-                    goToSlide(index);
-                    startCarousel();
-                });
-            });
-
-            // Démarrer le carrousel
-            startCarousel();
+            // Charger les images du carrousel
+            loadCarouselImages();
         }
     </script>
 </body>
