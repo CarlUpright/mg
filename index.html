@@ -743,6 +743,137 @@
             padding: 3px;
             background-color: #E30613;
         }
+
+        /* Carrousel d'images */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 4px solid #E30613;
+            overflow: hidden;
+        }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: auto;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(227, 6, 19, 0.8);
+            color: #F8F8F8;
+            border: 2px solid #F8F8F8;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            font-family: 'VT323', monospace;
+        }
+
+        .carousel-btn:hover {
+            background-color: #E30613;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px solid #F8F8F8;
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background-color: #E30613;
+        }
+
+        @media (max-width: 600px) {
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .carousel-dot {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Sous-sections dans les accordéons */
+        .activity-subsection {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #E30613;
+        }
+
+        .activity-subsection:first-of-type {
+            margin-top: 15px;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .subsection-title {
+            color: #E30613;
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .constraints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .constraint-item {
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-left: 3px solid #E30613;
+        }
+
+        .constraint-label {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .constraint-value {
+            color: #F8F8F8;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -764,8 +895,30 @@
             <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGÉANTES" class="logo-side">
         </div>
         
-        <div class="header-image">
-            <img src="https://carlupright.github.io/mg/2players%20closeup.jpg" class="main-header-img">
+        <!-- Carrousel d'images -->
+        <div class="carousel-container" id="carousel">
+            <div class="carousel-slides" id="carouselSlides">
+                <div class="carousel-slide">
+                    <img src="https://carlupright.github.io/mg/2players%20closeup.jpg" alt="Manettes géantes en action">
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Installation intérieure">
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Installation intérieure">
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" alt="Installation extérieure">
+                </div>
+            </div>
+            <button class="carousel-btn prev" id="carouselPrev">◀</button>
+            <button class="carousel-btn next" id="carouselNext">▶</button>
+            <div class="carousel-dots" id="carouselDots">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+            </div>
         </div>
         
         <header>
@@ -776,10 +929,7 @@
         <div class="navbar">
             <a href="#presentation">PRÉSENTATION</a>
             <a href="#activites">ACTIVITÉS</a>
-            <a href="#experience">EXPÉRIENCE</a>
-            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="forfaits.html">FORFAITS</a>
-            <a href="#galerie">GALERIE</a>
             <a href="#contact">CONTACT</a>
         </div>
 
@@ -789,10 +939,7 @@
             <div class="mobile-menu-close">✕</div>
             <a href="#presentation">PRÉSENTATION</a>
             <a href="#activites">ACTIVITÉS</a>
-            <a href="#experience">EXPÉRIENCE</a>
-            <a href="#fonctionnement">FONCTIONNEMENT</a>
             <a href="forfaits.html">FORFAITS</a>
-            <a href="#galerie">GALERIE</a>
             <a href="#contact">CONTACT</a>
         </div>
         
@@ -811,112 +958,177 @@
             <button class="accordion">TEAM MARIO BROS - L'expérience signature</button>
             <div class="panel">
                 <div class="panel-content">
-                    <p>Team Mario Bros est une <span class="highlight">animation coopérative encadrée</span>, conçue pour créer un moment structuré, dynamique et immédiatement compréhensible par le public.</p>
+                    <!-- Description -->
+                    <div class="activity-subsection">
+                        <p>Team Mario Bros est une <span class="highlight">animation coopérative encadrée</span>, conçue pour créer un moment structuré, dynamique et immédiatement compréhensible par le public.</p>
+                        <p>Deux joueurs partagent une manette Nintendo géante entièrement fonctionnelle : l'un contrôle les déplacements, l'autre les actions. Le jeu utilisé, <a class="game-link" href="https://www.youtube.com/watch?v=Aw4JccvxU-s" target="_blank" data-cover="covers/supermariobros.webp"><span class="highlight">Super Mario Bros (1985)</span></a>, a été choisi pour sa reconnaissance universelle et sa lisibilité immédiate.</p>
+                    </div>
 
-                    <p>Deux joueurs partagent une manette Nintendo géante entièrement fonctionnelle : l'un contrôle les déplacements, l'autre les actions. Le jeu utilisé, <a class="game-link" href="https://www.youtube.com/watch?v=Aw4JccvxU-s" target="_blank" data-cover="covers/supermariobros.webp"><span class="highlight">Super Mario Bros (1985)</span></a>, a été choisi pour sa reconnaissance universelle et sa lisibilité immédiate.</p>
+                    <!-- Expérience -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Expérience vécue</h4>
+                        <p><strong>Pour les joueurs :</strong> <span class="highlight">communication</span>, <span class="highlight">coordination</span> et <span class="highlight">esprit d'équipe</span>. La réussite dépend de la synchronisation entre les deux partenaires.</p>
+                        <p><strong>Pour les spectateurs :</strong> un fort potentiel de spectacle - encouragements, rires et moments mémorables garantis.</p>
+                    </div>
 
-                    <p>Chaque équipe dispose d'un temps limité pour progresser dans le jeu. Un animateur encadre l'activité : il explique le fonctionnement, lance les parties, gère les rotations et compile les scores.</p>
+                    <!-- Fonctionnement -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Fonctionnement</h4>
+                        <ul>
+                            <li>Équipes de <span class="highlight">2 joueurs</span> sur une manette Nintendo géante</li>
+                            <li>Session de maximum 4 minutes (ou 5 vies)</li>
+                            <li>Deux installations permettent une rotation toutes les 2 minutes</li>
+                            <li>L'animateur explique, lance les parties et compile les scores</li>
+                            <li>Priorité aux nouveaux joueurs pour maximiser la participation</li>
+                        </ul>
+                    </div>
 
-                    <p>L'animation favorise la <span class="highlight">communication</span>, la <span class="highlight">coordination</span> et l'<span class="highlight">esprit d'équipe</span>, tout en offrant un fort potentiel de spectacle pour les spectateurs.</p>
+                    <!-- Contraintes -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Contraintes techniques</h4>
+                        <div class="constraints-grid">
+                            <div class="constraint-item">
+                                <div class="constraint-label">Espace intérieur</div>
+                                <div class="constraint-value">14' x 7'</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Espace extérieur</div>
+                                <div class="constraint-value">10' x 20'</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Électricité</div>
+                                <div class="constraint-value">1 prise 15A</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Encadrement</div>
+                                <div class="constraint-value">Animateur inclus</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <button class="accordion">ARCADE GÉANTE - Stations de jeu autonomes</button>
             <div class="panel">
                 <div class="panel-content">
-                    <p>L'Arcade Géante regroupe plusieurs <span class="highlight">stations de jeu équipées de manettes surdimensionnées</span>, chacune dédiée à un jeu rétro reconnu.</p>
+                    <!-- Description -->
+                    <div class="activity-subsection">
+                        <p>L'Arcade Géante regroupe plusieurs <span class="highlight">stations de jeu équipées de manettes surdimensionnées</span>, chacune dédiée à un jeu rétro reconnu.</p>
+                        <h3 class="subtitle">STATIONS</h3>
+                        <ul>
+                            <li class="console-item"><img src="icons/GB.png" alt="Gameboy" class="console-icon"><span class="console-text">Gameboys géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=8Ur1A5F-Aw4" target="_blank" data-cover="covers/drmario.webp">Dr. Mario</a>, <a class="game-link" href="https://www.youtube.com/watch?v=RWbDhoauW7U" target="_blank" data-cover="covers/kirbydreamland.webp">Kirby</a>)</span></li>
+                            <li class="console-item"><img src="icons/ATARI.png" alt="Atari" class="console-icon"><span class="console-text">Atari géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=jFuU0QYlDcA" target="_blank" data-cover="covers/galaga.webp">Galaga</a>, <a class="game-link" href="https://www.youtube.com/watch?v=QLMBdrCkHdI" target="_blank" data-cover="covers/pacman.webp">PAC-MAN</a>)</span></li>
+                            <li class="console-item"><img src="icons/SFCMSU.png" alt="Super Nintendo" class="console-icon"><span class="console-text">Super Nintendo géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=HkkKjO4w_-A" target="_blank" data-cover="covers/smw.webp">Super Mario World</a>, <a class="game-link" href="https://www.youtube.com/watch?v=_WnWzAxTFRQ" target="_blank" data-cover="covers/donkeykong.webp">Donkey Kong Country</a>)</span></li>
+                            <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"><span class="console-text">Genesis géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=8cr1rqVcIhA" target="_blank" data-cover="covers/sonic2.webp">Sonic 2</a>, <a class="game-link" href="https://www.youtube.com/watch?v=c9ShDHK6dx4" target="_blank" data-cover="covers/aladdin.webp">Aladdin</a>)</span></li>
+                        </ul>
+                    </div>
 
-                    <h3 class="subtitle">STATIONS</h3>
-                    <ul>
-                        <li class="console-item"><img src="icons/GB.png" alt="Gameboy" class="console-icon"><span class="console-text">Gameboys géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=8Ur1A5F-Aw4" target="_blank" data-cover="covers/drmario.webp">Dr. Mario</a>, <a class="game-link" href="https://www.youtube.com/watch?v=RWbDhoauW7U" target="_blank" data-cover="covers/kirbydreamland.webp">Kirby</a>)</span></li>
-                        <li class="console-item"><img src="icons/ATARI.png" alt="Atari" class="console-icon"><span class="console-text">Atari géants<br>(<a class="game-link" href="https://www.youtube.com/watch?v=jFuU0QYlDcA" target="_blank" data-cover="covers/galaga.webp">Galaga</a>, <a class="game-link" href="https://www.youtube.com/watch?v=QLMBdrCkHdI" target="_blank" data-cover="covers/pacman.webp">PAC-MAN</a>)</span></li>
-                        <li class="console-item"><img src="icons/SFCMSU.png" alt="Super Nintendo" class="console-icon"><span class="console-text">Super Nintendo géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=HkkKjO4w_-A" target="_blank" data-cover="covers/smw.webp">Super Mario World</a>, <a class="game-link" href="https://www.youtube.com/watch?v=_WnWzAxTFRQ" target="_blank" data-cover="covers/donkeykong.webp">Donkey Kong Country</a>)</span></li>
-                        <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"><span class="console-text">Genesis géants - <span class="highlight">Bientôt disponible!</span><br>(<a class="game-link" href="https://www.youtube.com/watch?v=8cr1rqVcIhA" target="_blank" data-cover="covers/sonic2.webp">Sonic 2</a>, <a class="game-link" href="https://www.youtube.com/watch?v=c9ShDHK6dx4" target="_blank" data-cover="covers/aladdin.webp">Aladdin</a>)</span></li>
-                    </ul>
+                    <!-- Expérience -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Expérience vécue</h4>
+                        <p><strong>Pour les joueurs :</strong> <span class="highlight">défi personnel</span> et <span class="highlight">compétition amicale</span>. Chaque partie est une occasion de battre son propre score ou celui des autres.</p>
+                        <p><strong>Pour les spectateurs :</strong> un <span class="highlight">tableau de scores dynamique</span> permet de suivre les performances et encourage la participation.</p>
+                    </div>
 
-                    <p>Les stations fonctionnent de manière autonome : un joueur à la fois, des règles simples et des jeux orientés vers le score. Le fonctionnement est rapidement compris par observation, sans nécessiter d'intervention constante.</p>
+                    <!-- Fonctionnement -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Fonctionnement</h4>
+                        <ul>
+                            <li><span class="highlight">1 joueur</span> par station de jeu</li>
+                            <li>Fonctionnement compris par observation, sans intervention constante</li>
+                            <li>Score inscrit au tableau des scores dynamique</li>
+                            <li>Rotation naturelle entre les joueurs</li>
+                            <li>Supervision adulte demandée pour les jeunes</li>
+                        </ul>
+                        <p><em>Particulièrement adapté aux contextes à fort achalandage, comme complément à une animation encadrée ou comme activité continue.</em></p>
+                    </div>
 
-                    <p>Un <span class="highlight">tableau de scores dynamique</span> permet de suivre les performances et d'encourager la participation.</p>
-
-                    <p><em>L'Arcade Géante est particulièrement adaptée aux contextes à fort achalandage, comme complément à une animation encadrée ou comme activité continue au sein d'un événement.</em></p>
+                    <!-- Contraintes -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Contraintes techniques</h4>
+                        <div class="constraints-grid">
+                            <div class="constraint-item">
+                                <div class="constraint-label">Espace intérieur</div>
+                                <div class="constraint-value">20' x 10'</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Espace extérieur</div>
+                                <div class="constraint-value">20' x 20'</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Électricité</div>
+                                <div class="constraint-value">1 prise 15A</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Encadrement</div>
+                                <div class="constraint-value">Autonome</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <button class="accordion">MINI-ARCADE - Location de consoles rétro</button>
             <div class="panel">
                 <div class="panel-content">
-                    <p>La Mini-Arcade est un service de <span class="highlight">location de consoles rétro au format standard</span>, permettant de transformer temporairement un espace en salle de jeux accessible et conviviale.</p>
+                    <!-- Description -->
+                    <div class="activity-subsection">
+                        <p>La Mini-Arcade est un service de <span class="highlight">location de consoles rétro au format standard</span>, permettant de transformer temporairement un espace en salle de jeux accessible et conviviale.</p>
+                        <p>Elle peut être déployée de façon autonome, sur une ou plusieurs journées, dans des contextes variés : bars, écoles, bibliothèques, lieux communautaires...</p>
+                        <h3 class="subtitle">CONSOLES DISPONIBLES</h3>
+                        <ul>
+                            <li class="console-item"><img src="icons/FC.png" alt="NES" class="console-icon"> Nintendo Entertainment System - plus de 10 jeux (1-2 joueurs)</li>
+                            <li class="console-item"><img src="icons/SFCMSU.png" alt="SNES" class="console-icon"> Super Nintendo - plus de 10 jeux (1-2 joueurs)</li>
+                            <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"> Sega Genesis - plus de 10 jeux (1-2 joueurs)</li>
+                            <li class="console-item"><img src="icons/PS.png" alt="PlayStation" class="console-icon"> PlayStation 1 - plus de 10 jeux (1-2 joueurs)</li>
+                            <li class="console-item"><img src="icons/GC.png" alt="GameCube" class="console-icon"> GameCube - <a class="game-link" href="https://www.youtube.com/watch?v=RfJ7FoVvOCA" target="_blank" data-cover="covers/mariokartdoubledash.webp">Mario Kart</a> (4 joueurs)</li>
+                            <li class="console-item"><img src="icons/WII.png" alt="Wii" class="console-icon"> Wii - <a class="game-link" href="https://www.youtube.com/watch?v=WLmvw_vkO9A" target="_blank" data-cover="covers/justdance2020.webp">Just Dance</a> (3 joueurs)</li>
+                        </ul>
+                    </div>
 
-                    <p>Elle peut être déployée de façon autonome, sur une ou plusieurs journées, dans des contextes variés : bars, écoles, bibliothèques, lieux communautaires...</p>
+                    <!-- Expérience -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Expérience vécue</h4>
+                        <p><strong>Pour les joueurs :</strong> <span class="highlight">découverte</span> et <span class="highlight">plaisir pour tous les âges</span>. Chacun trouve une console qui lui parle.</p>
+                        <p><strong>Pour l'événement :</strong> permet de diversifier les types de jeux, multiplier les points de participation et soutenir le rythme global de l'activité.</p>
+                    </div>
 
-                    <h3 class="subtitle">CONSOLES DISPONIBLES</h3>
-                    <ul>
-                        <li class="console-item"><img src="icons/FC.png" alt="NES" class="console-icon"> Nintendo Entertainment System - plus de 10 jeux (1-2 joueurs)</li>
-                        <li class="console-item"><img src="icons/SFCMSU.png" alt="SNES" class="console-icon"> Super Nintendo - plus de 10 jeux (1-2 joueurs)</li>
-                        <li class="console-item"><img src="icons/MD.png" alt="Genesis" class="console-icon"> Sega Genesis - plus de 10 jeux (1-2 joueurs)</li>
-                        <li class="console-item"><img src="icons/PS.png" alt="PlayStation" class="console-icon"> PlayStation 1 - plus de 10 jeux (1-2 joueurs)</li>
-                        <li class="console-item"><img src="icons/GC.png" alt="GameCube" class="console-icon"> GameCube - <a class="game-link" href="https://www.youtube.com/watch?v=RfJ7FoVvOCA" target="_blank" data-cover="covers/mariokartdoubledash.webp">Mario Kart</a> (4 joueurs)</li>
-                        <li class="console-item"><img src="icons/WII.png" alt="Wii" class="console-icon"> Wii - <a class="game-link" href="https://www.youtube.com/watch?v=WLmvw_vkO9A" target="_blank" data-cover="covers/justdance2020.webp">Just Dance</a> (3 joueurs)</li>
-                    </ul>
+                    <!-- Fonctionnement -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Fonctionnement</h4>
+                        <ul>
+                            <li>Accès libre aux consoles rétro</li>
+                            <li>Participation spontanée et répartie dans le temps</li>
+                            <li>Supervision adulte demandée pour les jeunes</li>
+                        </ul>
+                    </div>
 
-                    <p>En offrant plusieurs stations de jeu en accès libre, la Mini-Arcade favorise une participation spontanée et répartie dans le temps.</p>
-
-                    <p><em>Elle peut également s'intégrer aux autres services de ManettesGÉANTES afin de diversifier les types de jeux proposés, multiplier les points de participation et soutenir le rythme global de l'activité.</em></p>
+                    <!-- Contraintes -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Contraintes techniques</h4>
+                        <div class="constraints-grid">
+                            <div class="constraint-item">
+                                <div class="constraint-label">Espace</div>
+                                <div class="constraint-value">Variable</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Électricité</div>
+                                <div class="constraint-value">1-2 prises 15A</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Environnement</div>
+                                <div class="constraint-value">Intérieur seulement</div>
+                            </div>
+                            <div class="constraint-item">
+                                <div class="constraint-label">Encadrement</div>
+                                <div class="constraint-value">Libre-service</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="section" id="experience">
-            <h2>EXPÉRIENCE</h2>
-
-            <h3 class="subtitle">UNE OFFRE CONÇUE POUR S'INTÉGRER FACILEMENT</h3>
-            <p>Chaque formule précise clairement les besoins en matière d'espace, d'alimentation électrique et de matériel fourni, ainsi que la capacité de joueurs simultanés.</p>
-
-            <p>Les installations sont pensées pour fonctionner telles quelles, selon le service choisi, avec une animation ciblée uniquement lorsqu'elle apporte une valeur ajoutée.</p>
-
-            <h3 class="subtitle">POUR LES JOUEURS</h3>
-            <ul>
-                <li><span class="highlight">Team Mario Bros</span> : communication, coordination et esprit d'équipe</li>
-                <li><span class="highlight">Arcade Géante</span> : défi personnel et compétition amicale</li>
-                <li><span class="highlight">Mini-Arcade</span> : découverte et plaisir pour tous les âges</li>
-            </ul>
-
-            <p style="margin-top: 20px;"><em>ManettesGÉANTES propose des solutions de rétrogaming claires, structurées et modulables, permettant aux organisateurs de choisir exactement le format, la durée et le niveau d'animation correspondant à leur projet.</em></p>
-        </div>
-        
-        <div class="section" id="fonctionnement">
-            <h2>FONCTIONNEMENT</h2>
-
-            <h3 class="subtitle">TEAM MARIO BROS (Animation encadrée)</h3>
-            <ul>
-                <li>Équipes de <span class="highlight">2 joueurs</span> sur une manette Nintendo géante</li>
-                <li>Un contrôle les déplacements, l'autre les actions</li>
-                <li>Session de maximum 4 minutes (ou 5 vies)</li>
-                <li>Deux installations permettent une rotation toutes les 2 minutes</li>
-                <li>L'animateur explique, lance les parties et compile les scores</li>
-                <li>Priorité aux nouveaux joueurs pour maximiser la participation</li>
-            </ul>
-
-            <h3 class="subtitle">ARCADE GÉANTE (Stations autonomes)</h3>
-            <ul>
-                <li><span class="highlight">1 joueur</span> par station de jeu</li>
-                <li>Fonctionnement compris par observation</li>
-                <li>Score inscrit au tableau des scores dynamique</li>
-                <li>Rotation naturelle entre les joueurs</li>
-                <li>Supervision adulte demandée pour les jeunes</li>
-            </ul>
-
-            <h3 class="subtitle">MINI-ARCADE (Libre-service)</h3>
-            <ul>
-                <li>Accès libre aux consoles rétro</li>
-                <li>Participation spontanée et répartie dans le temps</li>
-                <li>Supervision adulte demandée pour les jeunes</li>
-            </ul>
-
-            <h3 class="subtitle">ENCADREMENT</h3>
-            <p>L'animation est assurée par un diplômé en Techniques de Loisir, expérimenté avec diverses clientèles, garantissant une expérience inclusive et adaptée à tous les participants.</p>
-        </div>
-
         <div class="section" id="forfaits">
             <h2>CRÉEZ VOTRE FORFAIT</h2>
             <p>Combinez les activités et options selon vos besoins. Notre outil interactif vous permet de composer votre forfait sur mesure et de voir instantanément le matériel inclus, l'espace requis et les détails techniques.</p>
@@ -926,32 +1138,6 @@
             </div>
 
             <p style="text-align: center; color: #999; font-size: 20px;"><em>Sélectionnez vos activités, ajoutez des options, choisissez intérieur ou extérieur, et obtenez tous les détails pour votre événement.</em></p>
-        </div>
-
-        <div class="section" id="galerie">
-            <h2>GALERIE</h2>
-            <p>Découvrez ManettesGÉANTES en action! Cliquez sur les images pour les agrandir.</p>
-            
-            <div class="gallery-grid">
-                <!-- Images -->
-                <div class="gallery-item" data-type="image" data-src="https://carlupright.github.io/mg/INTERIEUR01.jpg" data-description="Installation intérieure">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Installation intérieure">
-                </div>
-                <div class="gallery-item" data-type="image" data-src="https://carlupright.github.io/mg/INTERIEUR02.jpg" data-description="Installation intérieure">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Installation intérieure">
-                </div>
-                <div class="gallery-item" data-type="image" data-src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" data-description="Notre installation extérieure complète avec tente protectrice, parfaite pour les festivals d'été ou événements en plein air.">
-                    <img src="https://carlupright.github.io/mg/EXTERIEUR01.jpg" alt="Installation extérieure">
-                </div>
-                
-                <!-- Vidéos (exemples) -->
-                <div class="gallery-item video" data-type="video" data-src="https://www.youtube.com/embed/VIDEO_ID_1" data-description="Vidéo à venir!">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR01.jpg" alt="Vidéo de démonstration">
-                </div>
-                <div class="gallery-item video" data-type="video" data-src="https://www.youtube.com/embed/VIDEO_ID_2" data-description="Vidéo à venir!">
-                    <img src="https://carlupright.github.io/mg/INTERIEUR02.jpg" alt="Vidéo témoignages">
-                </div>
-            </div>
         </div>
 
         <div class="section" id="contact">
@@ -1217,6 +1403,67 @@
                     gameTooltip.style.transform = '';
                 }
             });
+
+            // Carrousel
+            const carouselSlides = document.getElementById('carouselSlides');
+            const carouselDots = document.querySelectorAll('.carousel-dot');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            let currentSlide = 0;
+            const totalSlides = 4;
+            let carouselInterval;
+
+            function goToSlide(index) {
+                currentSlide = index;
+                if (currentSlide >= totalSlides) currentSlide = 0;
+                if (currentSlide < 0) currentSlide = totalSlides - 1;
+
+                carouselSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+                carouselDots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+            }
+
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+
+            function startCarousel() {
+                carouselInterval = setInterval(nextSlide, 3000);
+            }
+
+            function stopCarousel() {
+                clearInterval(carouselInterval);
+            }
+
+            // Event listeners
+            prevBtn.addEventListener('click', function() {
+                stopCarousel();
+                prevSlide();
+                startCarousel();
+            });
+
+            nextBtn.addEventListener('click', function() {
+                stopCarousel();
+                nextSlide();
+                startCarousel();
+            });
+
+            carouselDots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    stopCarousel();
+                    goToSlide(index);
+                    startCarousel();
+                });
+            });
+
+            // Démarrer le carrousel
+            startCarousel();
         }
     </script>
 </body>
