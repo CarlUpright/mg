@@ -1,0 +1,3261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJMz/AAIvoQAAAO0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIAACIiAAACIgAAIiAAAAAzMAMzAAAAETMzMzMRAAAREzMzMREAABEjEzEyEQAAIiIzMyIiAAACIjIjIiAAAAAiMiIAAAAAAAEREREAAAACIRESIiAAAAISIREhEQAAAhIREhEQAAAAIiESEAAAAAAzMzMzMAAAAAMzMwAAAAAPDwAAjx8AAMY/AAAADwAAAA8AAAAPAAAADwAAgB8AAMD/AADgPwAAgB8AAIAPAACAHwAAwH8AAMAfAADg/wAA" rel="icon" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.95, maximum-scale=2.0, user-scalable=yes">
+    <title>Forfaits - ManettesGEANTES.ca (DEV)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        body {
+            background-color: #212121;
+            color: #F8F8F8;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 4px solid #E30613;
+            background-color: #000000;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-side {
+            width: 15%;
+            height: auto;
+            margin: 0 10px;
+        }
+
+        .logo-title {
+            width: 50%;
+            height: auto;
+        }
+
+        h1 {
+            color: #E30613;
+            text-align: center;
+            font-size: 42px;
+            text-shadow: 3px 3px 0 #000;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #E30613;
+            font-size: 28px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #E30613;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #E30613;
+            font-size: 24px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #E30613;
+        }
+
+        .back-link {
+            display: inline-block;
+            background-color: #E30613;
+            color: #F8F8F8;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            border: 2px solid #F8F8F8;
+        }
+
+        .back-link:hover {
+            background-color: #F8F8F8;
+            color: #E30613;
+        }
+
+        /* DEV Banner */
+        .dev-banner {
+            background-color: #FFC107;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Sections */
+        .section-box {
+            background-color: #1a1a1a;
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .section-box.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Checkboxes custom */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #000;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #E30613;
+        }
+
+        .checkbox-item.checked {
+            border-color: #E30613;
+            background-color: #1a0a0a;
+        }
+
+        .checkbox-item.forced {
+            border-color: #4a4a4a;
+            background-color: #0a1a0a;
+            cursor: default;
+        }
+
+        .checkbox-item.forced .custom-checkbox {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .custom-checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #F8F8F8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            background-color: #000;
+        }
+
+        .checkbox-item.checked .custom-checkbox {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .checkbox-content {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-size: 26px;
+            color: #F8F8F8;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-desc {
+            font-size: 18px;
+            color: #999;
+        }
+
+        .checkbox-price {
+            font-size: 20px;
+            color: #4CAF50;
+            margin-top: 5px;
+        }
+
+        .checkbox-item.forced .checkbox-title::after {
+            content: " (inclus)";
+            color: #4CAF50;
+            font-size: 18px;
+        }
+
+        /* Radio buttons */
+        .custom-checkbox.radio {
+            border-radius: 50%;
+        }
+
+        .radio-item.checked .custom-checkbox.radio {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .checkbox-includes {
+            font-size: 16px;
+            color: #4CAF50;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Type événement */
+        .event-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .event-btn {
+            flex: 1;
+            background-color: #000;
+            color: #F8F8F8;
+            border: 2px solid #333;
+            padding: 15px;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .event-btn:hover {
+            border-color: #E30613;
+        }
+
+        .event-btn.active {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .event-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .event-btn.disabled:hover {
+            border-color: #333;
+        }
+
+        /* Message d'avertissement */
+        .warning-msg {
+            background-color: #2a1a1a;
+            border-left: 4px solid #E30613;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .warning-msg.visible {
+            display: block;
+        }
+
+        /* Input fields */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #E30613;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #000;
+            border: 2px solid #333;
+            color: #F8F8F8;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            box-sizing: border-box;
+        }
+
+        .input-field:focus {
+            border-color: #E30613;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #666;
+        }
+
+        /* Rendre l'icone du calendrier visible (blanc) */
+        .input-field[type="date"]::-webkit-calendar-picker-indicator,
+        .input-field[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Duration selector */
+        .duration-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .duration-btn {
+            flex: 1;
+            min-width: 60px;
+            background-color: #000;
+            color: #F8F8F8;
+            border: 2px solid #333;
+            padding: 12px 8px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .duration-btn:hover {
+            border-color: #E30613;
+        }
+
+        .duration-btn.active {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        /* Distance result */
+        .distance-result {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .distance-result.visible {
+            display: block;
+        }
+
+        .distance-result.loading {
+            color: #999;
+            background-color: #1a1a1a;
+        }
+
+        .distance-result.success {
+            color: #4CAF50;
+            background-color: #0a1a0a;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .distance-result.warning {
+            color: #FFC107;
+            background-color: #1a1a0a;
+            border-left: 3px solid #FFC107;
+        }
+
+        .distance-result.error {
+            color: #E30613;
+            background-color: #1a0a0a;
+            border-left: 3px solid #E30613;
+        }
+
+        /* Résultat */
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 3px solid #E30613;
+            background-color: #1a1a1a;
+            display: none;
+        }
+
+        .result-container.visible {
+            display: block;
+        }
+
+        .result-header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #E30613;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 32px;
+            color: #E30613;
+            margin: 0;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background-color: #000;
+            border: 2px solid #F8F8F8;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            color: #E30613;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #999;
+        }
+
+        /* Listes */
+        .result-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #000;
+            border-left: 4px solid #E30613;
+        }
+
+        .result-section h3 {
+            margin-top: 0;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-list li::before {
+            content: ">";
+            color: #E30613;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Quote breakdown */
+        .quote-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #000;
+            border: 2px solid #E30613;
+        }
+
+        .quote-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+        }
+
+        .quote-line:last-child {
+            border-bottom: none;
+        }
+
+        .quote-line.discount {
+            color: #4CAF50;
+        }
+
+        .quote-line.surcharge {
+            color: #FFC107;
+        }
+
+        .quote-line.subtotal {
+            border-top: 2px solid #333;
+            padding-top: 15px;
+            margin-top: 10px;
+            font-size: 22px;
+        }
+
+        .quote-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 28px;
+            color: #E30613;
+            border-top: 3px solid #E30613;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .quote-estimate {
+            display: inline-block;
+            background-color: #FFC107;
+            color: #000;
+            padding: 3px 8px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        /* Schedule section */
+        .schedule-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #0a0a1a;
+            border: 2px solid #333;
+        }
+
+        .schedule-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 18px;
+        }
+
+        .schedule-line.warning {
+            color: #FFC107;
+        }
+
+        .schedule-line.error {
+            color: #E30613;
+        }
+
+        .accommodation-alert {
+            background-color: #1a1a0a;
+            border: 2px solid #FFC107;
+            padding: 15px;
+            margin-top: 15px;
+            color: #FFC107;
+        }
+
+        /* Requis */
+        .requis-box {
+            background-color: #1a1a0a;
+            border: 2px solid #E30613;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .requis-box h3 {
+            margin-top: 0;
+            color: #E30613;
+        }
+
+        /* Notes */
+        .notes {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #0a0a1a;
+            border-left: 4px solid #F8F8F8;
+            font-size: 20px;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #E30613;
+        }
+
+        .contact-cta a {
+            color: #F8F8F8;
+            text-decoration: none;
+            font-size: 26px;
+        }
+
+        .contact-cta a:hover {
+            text-decoration: underline;
+        }
+
+        /* Prolongation */
+        .prolongation-section {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border: 1px dashed #333;
+            text-align: center;
+        }
+
+        .prolongation-btn {
+            background-color: #333;
+            color: #F8F8F8;
+            border: 2px solid #E30613;
+            padding: 10px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .prolongation-btn:hover {
+            background-color: #E30613;
+        }
+
+        /* Calculate button */
+        .calculate-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .calculate-btn {
+            background-color: #E30613;
+            color: #F8F8F8;
+            border: 3px solid #F8F8F8;
+            padding: 20px 40px;
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .calculate-btn:hover {
+            background-color: #F8F8F8;
+            color: #E30613;
+            transform: scale(1.05);
+        }
+
+        .calculate-btn:active {
+            transform: scale(0.98);
+        }
+
+        .calculate-btn.calculating {
+            background-color: #666;
+            cursor: wait;
+        }
+
+        .validation-errors {
+            background-color: #2a1a1a;
+            border: 2px solid #E30613;
+            color: #E30613;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 20px;
+            text-align: left;
+            display: none;
+        }
+
+        /* Placeholder */
+        .placeholder-msg {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 22px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border: 3px solid #E30613;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            color: #E30613;
+            font-size: 28px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .modal-message {
+            color: #FFC107;
+            font-size: 20px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #1a1a0a;
+            border-left: 4px solid #FFC107;
+        }
+
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-option {
+            background-color: #000;
+            border: 2px solid #333;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-option:hover {
+            border-color: #E30613;
+        }
+
+        .modal-option.selected {
+            border-color: #4CAF50;
+            background-color: #0a1a0a;
+        }
+
+        .modal-option-title {
+            font-size: 22px;
+            color: #F8F8F8;
+            margin-bottom: 10px;
+        }
+
+        .modal-option-desc {
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .modal-option-price {
+            font-size: 20px;
+            color: #4CAF50;
+        }
+
+        .modal-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #333;
+        }
+
+        .modal-option.disabled:hover {
+            border-color: #333;
+        }
+
+        .modal-option.disabled .modal-option-title::after {
+            content: " (impossible)";
+            color: #E30613;
+            font-size: 16px;
+        }
+
+        .modal-close {
+            background-color: #333;
+            color: #F8F8F8;
+            border: 2px solid #666;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .modal-close:hover {
+            background-color: #E30613;
+            border-color: #E30613;
+        }
+
+        .modal-confirm {
+            background-color: #E30613;
+            color: #F8F8F8;
+            border: 2px solid #F8F8F8;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-confirm:hover {
+            background-color: #F8F8F8;
+            color: #E30613;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+            font-size: 16px;
+        }
+
+        .footer a {
+            color: #E30613;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                font-size: 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-type-selector {
+                flex-direction: column;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .duration-selector {
+                flex-wrap: wrap;
+            }
+
+            .duration-btn {
+                min-width: 45px;
+                padding: 10px 5px;
+                font-size: 18px;
+            }
+
+            .checkbox-title {
+                font-size: 22px;
+            }
+
+            .checkbox-desc {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="pricing-config.js"></script>
+
+    <div class="container">
+        <div class="dev-banner">
+            VERSION DE DEVELOPPEMENT - Ne pas partager ce lien
+        </div>
+
+        <a href="index.html" class="back-link">< RETOUR AU SITE</a>
+
+        <header>
+            <div class="logo-container">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGEANTES" class="logo-side">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20texte.png" alt="ManettesGEANTES" class="logo-title">
+                <img src="https://carlupright.github.io/mg/Logo%20mG%20dessin.png" alt="Logo ManettesGEANTES" class="logo-side">
+            </div>
+            <h1>CREEZ VOTRE FORFAIT</h1>
+            <p>Selectionnez les activites et options pour votre evenement</p>
+        </header>
+
+        <!-- ETAPE 1 : Activite principale -->
+        <div class="section-box">
+            <h2>1. CHOISISSEZ VOTRE ACTIVITE PRINCIPALE</h2>
+            <div class="checkbox-group" id="activitesGroup">
+                <div class="checkbox-item radio-item" data-id="team-mario">
+                    <div class="custom-checkbox radio"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">TEAM MARIO BROS</div>
+                        <div class="checkbox-desc">Animation cooperative encadree - 2 joueurs par manette Nintendo geante</div>
+                        <div class="checkbox-price" id="price-team-mario">A partir de 500,00 $ (3h)</div>
+                        <div class="checkbox-includes">Inclut: Animation costumee, decorations, eclairage LED, trophees</div>
+                    </div>
+                </div>
+                <div class="checkbox-item radio-item" data-id="arcade-geante">
+                    <div class="custom-checkbox radio"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">ARCADE GEANTE</div>
+                        <div class="checkbox-desc">Stations autonomes - Gameboys, Atari, SNES, Genesis geants (8 jeux)</div>
+                        <div class="checkbox-price" id="price-arcade-geante">Location: 500$/jour | Anime: 500$ (3h)</div>
+                    </div>
+                </div>
+                <div class="checkbox-item radio-item" data-id="mini-arcade">
+                    <div class="custom-checkbox radio"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">MINI-ARCADE</div>
+                        <div class="checkbox-desc">Consoles retro en libre-service - NES, SNES, Genesis, PS1, GameCube, Wii</div>
+                        <div class="checkbox-price" id="price-mini-arcade">A partir de 300,00 $/jour</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPE 1.5 : Mode (pour Arcade Geante) -->
+        <div class="section-box" id="modeSection" style="display: none;">
+            <h2>1.5. MODE DE SERVICE</h2>
+            <div class="event-type-selector" id="modeSelector">
+                <button class="event-btn" data-mode="anime">
+                    <strong>ANIME</strong><br>
+                    <span style="font-size: 16px; color: #999;">Avec animateur sur place</span><br>
+                    <span style="font-size: 18px; color: #4CAF50;">500$ + 50$/h</span>
+                </button>
+                <button class="event-btn" data-mode="location">
+                    <strong>LOCATION</strong><br>
+                    <span style="font-size: 16px; color: #999;">Livraison et recuperation</span><br>
+                    <span style="font-size: 18px; color: #4CAF50;">500$/jour</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ETAPE 2 : Extras (activites supplementaires) -->
+        <div class="section-box" id="extrasSection" style="display: none;">
+            <h2>2. AJOUTEZ DES EXTRAS</h2>
+            <p style="color: #999; margin-bottom: 15px;">Ajoutez d'autres activites a prix reduit!</p>
+            <div class="checkbox-group" id="extrasGroup">
+                <div class="checkbox-item" data-id="arcade-geante" style="display: none;">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">+ ARCADE GEANTE</div>
+                        <div class="checkbox-desc">Ajoutez les 8 stations de jeu geantes a votre evenement</div>
+                        <div class="checkbox-price">+150,00 $</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="mini-arcade" style="display: none;">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">+ MINI-ARCADE</div>
+                        <div class="checkbox-desc">Ajoutez les consoles retro en libre-service</div>
+                        <div class="checkbox-price">+100,00 $</div>
+                    </div>
+                </div>
+            </div>
+            <div id="noExtrasMsg" style="display: none; color: #666; text-align: center; padding: 20px;">
+                Aucun extra disponible pour cette activite.
+            </div>
+        </div>
+
+        <!-- ETAPE 2.5 : Options (decorations, etc.) -->
+        <div class="section-box" id="optionsSection" style="display: none;">
+            <h2>2.5. OPTIONS</h2>
+            <div id="optionsIncludedMsg" style="display: none; color: #4CAF50; margin-bottom: 15px;">
+                Ces options sont incluses avec Team Mario Bros
+            </div>
+            <div class="checkbox-group" id="optionsGroup">
+                <div class="checkbox-item" data-id="decorations">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">DECORATIONS</div>
+                        <div class="checkbox-desc">Decorations Mario Bros + Mario gonflable geant 10'</div>
+                        <div class="checkbox-price">Gratuit</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="eclairage">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">ECLAIRAGE LED</div>
+                        <div class="checkbox-desc">Eclairage LED colore ambiance arcade</div>
+                        <div class="checkbox-price">Gratuit</div>
+                    </div>
+                </div>
+                <div class="checkbox-item" data-id="trophee">
+                    <div class="custom-checkbox"></div>
+                    <div class="checkbox-content">
+                        <div class="checkbox-title">TROPHEE + AUTOCOLLANTS</div>
+                        <div class="checkbox-desc">Trophee meilleur score + autocollants souvenirs pour tous</div>
+                        <div class="checkbox-price">Gratuit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPE 3 : Type evenement -->
+        <div class="section-box" id="eventSection">
+            <h2>3. TYPE D'EVENEMENT</h2>
+            <div class="event-type-selector">
+                <button class="event-btn" data-type="interieur">INTERIEUR</button>
+                <button class="event-btn" data-type="exterieur">EXTERIEUR</button>
+            </div>
+            <div class="warning-msg" id="exterieurWarning">
+                Mini-Arcade est disponible en interieur seulement (les projecteurs ne sont pas visibles a la lumiere du jour).
+            </div>
+        </div>
+
+        <!-- ETAPE 4 : Details evenement -->
+        <div class="section-box" id="eventDetailsSection">
+            <h2>4. DETAILS DE L'EVENEMENT</h2>
+
+            <div class="input-group">
+                <label class="input-label">CODE POSTAL DE L'EVENEMENT</label>
+                <input type="text" id="postalCode" class="input-field" placeholder="G1A 1A1" maxlength="7">
+                <div class="distance-result" id="distanceResult"></div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label class="input-label">DATE</label>
+                    <input type="date" id="eventDate" class="input-field">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">HEURE DE DEBUT</label>
+                    <input type="time" id="startTime" class="input-field" value="10:00">
+                </div>
+            </div>
+
+            <div class="input-group" id="durationGroup">
+                <label class="input-label">DUREE DE L'ANIMATION</label>
+                <select id="durationSelect" class="input-field">
+                    <option value="3" selected>3 heures (minimum)</option>
+                    <option value="4">4 heures</option>
+                    <option value="5">5 heures</option>
+                    <option value="6">6 heures</option>
+                    <option value="7">7 heures</option>
+                    <option value="8">8 heures</option>
+                    <option value="9">9 heures</option>
+                    <option value="10">10 heures</option>
+                    <option value="11">11 heures</option>
+                    <option value="12">12 heures</option>
+                </select>
+            </div>
+
+            <div id="rentalTimesGroup" style="display: none;">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">LIVRAISON - DATE</label>
+                        <input type="date" id="deliveryDate" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">LIVRAISON - HEURE</label>
+                        <input type="time" id="deliveryTime" class="input-field" value="10:00">
+                    </div>
+                </div>
+                <div class="input-row" style="margin-top: 10px;">
+                    <div class="input-group">
+                        <label class="input-label">RAMASSAGE - DATE</label>
+                        <input type="date" id="pickupDate" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">RAMASSAGE - HEURE</label>
+                        <input type="time" id="pickupTime" class="input-field" value="18:00">
+                    </div>
+                </div>
+                <p id="rentalDaysInfo" style="color: #4CAF50; font-size: 18px; margin-top: 10px; font-weight: bold;"></p>
+                <p style="color: #999; font-size: 16px; margin-top: 5px;">
+                    Livraison: arrivee 2h avant l'heure indiquee pour le montage<br>
+                    Ramassage: depart 2h apres l'heure indiquee pour le demontage
+                </p>
+            </div>
+        </div>
+
+        <!-- Bouton Calculer -->
+        <div class="calculate-section" id="calculateSection">
+            <button class="calculate-btn" id="calculateBtn">CALCULER MA SOUMISSION</button>
+        </div>
+
+        <!-- Resultat -->
+        <div class="result-container" id="resultContainer">
+            <div class="result-header">
+                <h2 class="result-title">VOTRE SOUMISSION</h2>
+                <p id="resultSubtitle"></p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-value" id="statJoueurs">-</span>
+                    <span class="stat-label">Joueurs simultanes</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="statStations">-</span>
+                    <span class="stat-label">Stations de jeu</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="statEspace">-</span>
+                    <span class="stat-label">Espace requis</span>
+                </div>
+            </div>
+
+            <!-- Horaire de la journee -->
+            <div class="schedule-section" id="scheduleSection">
+                <h3>VOTRE JOURNEE</h3>
+                <div id="scheduleContent"></div>
+            </div>
+
+            <!-- Alerte hebergement -->
+            <div class="accommodation-alert" id="accommodationAlert" style="display: none;">
+                <div id="accommodationMessage"></div>
+            </div>
+
+            <!-- Devis detaille -->
+            <div class="quote-section" id="quoteSection">
+                <h3>DETAIL DU DEVIS</h3>
+                <div id="quoteContent"></div>
+                <div class="quote-total">
+                    <span>TOTAL</span>
+                    <span id="quoteTotal">0.00 $</span>
+                </div>
+            </div>
+
+            <!-- Prolongation -->
+            <div class="prolongation-section">
+                <p>Besoin de plus de temps?</p>
+                <button class="prolongation-btn" id="addHourBtn">+ 1 HEURE (50$)</button>
+            </div>
+
+            <!-- Activites -->
+            <div class="result-section">
+                <h3>ACTIVITES</h3>
+                <ul class="item-list" id="activitesList"></ul>
+            </div>
+
+            <!-- Materiel -->
+            <div class="result-section">
+                <h3>MATERIEL FOURNI</h3>
+                <ul class="item-list" id="materielList"></ul>
+            </div>
+
+            <!-- Requis -->
+            <div class="requis-box">
+                <h3>VOUS FOURNISSEZ</h3>
+                <ul class="item-list" id="requisList"></ul>
+            </div>
+
+            <!-- Notes -->
+            <div class="notes" id="notesBox"></div>
+
+            <!-- Contact -->
+            <div class="contact-cta">
+                <a href="#" id="contactLink">DEMANDER CETTE SOUMISSION<br>Carl@manettesGEANTES.ca</a>
+            </div>
+        </div>
+
+        <!-- Placeholder quand rien selectionne -->
+        <div class="placeholder-msg" id="placeholder">
+            Selectionnez au moins une activite pour voir les details du forfait.
+        </div>
+
+        <!-- Modal pour options d'hebergement -->
+        <div class="modal-overlay" id="accommodationModal" style="display: none;">
+            <div class="modal-content">
+                <h3 class="modal-title">ATTENTION - HORAIRE DIFFICILE</h3>
+                <div id="modalMessage"></div>
+                <div class="modal-options" id="modalOptions"></div>
+                <button class="modal-close" id="modalClose">ANNULER</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 ManettesGEANTES - Tous droits reserves</p>
+            <p><a href="index.html">Retour au site principal</a></p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // ETAT DE L'APPLICATION
+        // ============================================================
+        const state = {
+            // Activite principale (une seule)
+            mainActivity: null,          // 'team-mario', 'arcade-geante', 'mini-arcade'
+            mode: null,                   // 'anime' ou 'location' (pour arcade-geante)
+
+            // Extras (activites supplementaires)
+            extras: {
+                'arcade-geante': false,   // +150$ si extra
+                'mini-arcade': false      // +100$ si extra
+            },
+
+            // Options
+            options: {
+                'decorations': false,
+                'eclairage': false,
+                'trophee': false
+            },
+
+            // Type d'evenement
+            eventType: null,              // 'interieur' ou 'exterieur'
+
+            // Details evenement
+            postalCode: '',
+            eventDate: null,
+            startTime: '10:00',
+            duration: 3,                  // Pour mode anime (minimum 3h)
+            prolongation: 0,
+            // Pour mode location
+            deliveryDate: null,           // Date de livraison
+            deliveryTime: '10:00',        // Heure de livraison
+            pickupDate: null,             // Date de ramassage
+            pickupTime: '18:00',          // Heure de ramassage
+            days: 1,                      // Calcule automatiquement
+
+            // Choix d'hebergement (pour les conflits horaires - location)
+            deliveryChoice: null,         // Choix pour le trajet de livraison
+            pickupChoice: null,           // Choix pour le trajet de ramassage
+
+            // Calculs
+            calculatedDistance: null,
+            distanceSource: 'none',       // 'api', 'fallback', 'none'
+            travelTime: 0,
+            currentQuote: null,
+            rentalTripAnalysis: null      // Analyse des trajets pour location
+        };
+
+        // Helper: Est-ce un evenement anime?
+        function isAnimatedEvent() {
+            if (state.mainActivity === 'team-mario') return true;
+            if (state.mainActivity === 'arcade-geante' && state.mode === 'anime') return true;
+            return false;
+        }
+
+        // Helper: Tarif de deplacement applicable
+        function getTravelRate() {
+            return isAnimatedEvent() ?
+                   PRICING_CONFIG.deplacement.prixParKmAnime :
+                   PRICING_CONFIG.deplacement.prixParKmLocation;
+        }
+
+        // ============================================================
+        // DONNEES DES ACTIVITES
+        // ============================================================
+        const activitesData = {
+            'team-mario': {
+                nom: 'Team Mario Bros',
+                joueurs: 4,
+                stations: 2,
+                materiel: [
+                    'Deux manettes Nintendo geantes',
+                    'Tables et nappes',
+                    'Ecrans',
+                    'Tableau des scores',
+                    'Animation costumee',
+                    'Decorations Mario Bros',
+                    'Mario gonflable geant 10\'',
+                    'Eclairage LED colore',
+                    'Trophee meilleur score',
+                    'Autocollants souvenirs'
+                ],
+                materielExt: [
+                    'Tente protectrice'
+                ],
+                espace: { int: '14\' x 7\'', ext: '10\' x 20\'' }
+            },
+            'arcade-geante': {
+                nom: 'Arcade Geante',
+                joueurs: 8,
+                stations: 8,
+                materiel: [
+                    'Deux Gameboys geants (Dr. Mario, Kirby)',
+                    'Deux Atari geants (Galaga, PAC-MAN)',
+                    'Deux Super Nintendo geants (Super Mario World, Donkey Kong Country) - Bientot disponible!',
+                    'Deux Genesis geants (Sonic 2, Aladdin) - Bientot disponible!',
+                    'Tables et nappes',
+                    'Ecrans',
+                    'Tableau des scores dynamique'
+                ],
+                materielExt: [
+                    'Tente protectrice supplementaire'
+                ],
+                espace: { int: '20\' x 10\'', ext: '20\' x 20\'' }
+            },
+            'mini-arcade': {
+                nom: 'Mini-Arcade',
+                joueurs: 11,
+                stations: 6,
+                materiel: [
+                    'Nintendo Entertainment System (1-2 joueurs)',
+                    'Super Nintendo (1-2 joueurs)',
+                    'Sega Genesis (1-2 joueurs)',
+                    'PlayStation 1 (1-2 joueurs)',
+                    'GameCube - Mario Kart (4 joueurs)',
+                    'Wii - Just Dance (3 joueurs)',
+                    'Ecrans'
+                ],
+                materielExt: [],
+                espace: { int: 'Variable', ext: null },
+                intOnly: true
+            }
+        };
+
+        const optionsData = {
+            'decorations': {
+                nom: 'Decorations',
+                materiel: ['Decorations Mario Bros', 'Mario gonflable geant 10\'']
+            },
+            'eclairage': {
+                nom: 'Eclairage LED',
+                materiel: ['Eclairage LED colore']
+            },
+            'trophee': {
+                nom: 'Trophee + Autocollants',
+                materiel: ['Trophee meilleur score', 'Autocollants souvenirs']
+            }
+        };
+
+        // ============================================================
+        // ELEMENTS DOM
+        // ============================================================
+        const activitesItems = document.querySelectorAll('#activitesGroup .checkbox-item');
+        const modeSection = document.getElementById('modeSection');
+        const modeBtns = document.querySelectorAll('#modeSelector .event-btn');
+        const extrasSection = document.getElementById('extrasSection');
+        const extrasItems = document.querySelectorAll('#extrasGroup .checkbox-item');
+        const noExtrasMsg = document.getElementById('noExtrasMsg');
+        const optionsSection = document.getElementById('optionsSection');
+        const optionsItems = document.querySelectorAll('#optionsGroup .checkbox-item');
+        const optionsIncludedMsg = document.getElementById('optionsIncludedMsg');
+        const eventBtns = document.querySelectorAll('#eventSection .event-btn');
+        const exterieurWarning = document.getElementById('exterieurWarning');
+        const resultContainer = document.getElementById('resultContainer');
+        const placeholder = document.getElementById('placeholder');
+        const durationSelect = document.getElementById('durationSelect');
+        const durationGroup = document.getElementById('durationGroup');
+        const rentalTimesGroup = document.getElementById('rentalTimesGroup');
+        const rentalDaysInfo = document.getElementById('rentalDaysInfo');
+        const postalCodeInput = document.getElementById('postalCode');
+        const distanceResult = document.getElementById('distanceResult');
+        const eventDateInput = document.getElementById('eventDate');
+        const startTimeInput = document.getElementById('startTime');
+        const deliveryDateInput = document.getElementById('deliveryDate');
+        const deliveryTimeInput = document.getElementById('deliveryTime');
+        const pickupDateInput = document.getElementById('pickupDate');
+        const pickupTimeInput = document.getElementById('pickupTime');
+        const accommodationModal = document.getElementById('accommodationModal');
+
+        // ============================================================
+        // INITIALISATION
+        // ============================================================
+        function initializeApp() {
+            // Set minimum date to today and default values
+            const today = new Date().toISOString().split('T')[0];
+            eventDateInput.setAttribute('min', today);
+            eventDateInput.value = today;
+            state.eventDate = today;
+
+            deliveryDateInput.setAttribute('min', today);
+            deliveryDateInput.value = today;
+            state.deliveryDate = today;
+
+            pickupDateInput.setAttribute('min', today);
+            pickupDateInput.value = today;
+            state.pickupDate = today;
+
+            // Masquer les sections qui dependent d'une selection
+            modeSection.style.display = 'none';
+            extrasSection.style.display = 'none';
+            optionsSection.style.display = 'none';
+        }
+
+        // ============================================================
+        // MISE A JOUR DE L'INTERFACE SELON SELECTION
+        // ============================================================
+        function updateInterfaceAfterMainActivity() {
+            const main = state.mainActivity;
+
+            // 1. Mode section (seulement pour Arcade Geante)
+            if (main === 'arcade-geante') {
+                modeSection.style.display = 'block';
+                // Reset mode si on change d'activite
+                if (!state.mode) {
+                    state.mode = null;
+                }
+            } else {
+                modeSection.style.display = 'none';
+                // Team Mario = toujours anime, Mini-Arcade = toujours location
+                if (main === 'team-mario') {
+                    state.mode = 'anime';
+                } else if (main === 'mini-arcade') {
+                    state.mode = 'location';
+                }
+            }
+
+            // 2. Extras section
+            updateExtrasSection();
+
+            // 3. Options section
+            updateOptionsSection();
+
+            // 4. Duration vs Days selector
+            updateDurationDaysSelector();
+
+            // 5. Event type buttons (exterieur disabled for mini-arcade)
+            updateEventButtons();
+        }
+
+        function updateExtrasSection() {
+            const main = state.mainActivity;
+
+            if (!main) {
+                extrasSection.style.display = 'none';
+                return;
+            }
+
+            // Reset extras state
+            state.extras['arcade-geante'] = false;
+            state.extras['mini-arcade'] = false;
+
+            // Update visibility of each extra
+            const arcadeExtraItem = document.querySelector('#extrasGroup .checkbox-item[data-id="arcade-geante"]');
+            const miniExtraItem = document.querySelector('#extrasGroup .checkbox-item[data-id="mini-arcade"]');
+
+            let hasExtras = false;
+
+            // Arcade Geante comme extra (disponible avec Team Mario)
+            if (main === 'team-mario') {
+                arcadeExtraItem.style.display = 'flex';
+                arcadeExtraItem.classList.remove('checked');
+                arcadeExtraItem.querySelector('.custom-checkbox').textContent = '';
+                hasExtras = true;
+            } else {
+                arcadeExtraItem.style.display = 'none';
+            }
+
+            // Mini-Arcade comme extra (disponible avec Team Mario ou Arcade Geante)
+            if (main === 'team-mario' || main === 'arcade-geante') {
+                miniExtraItem.style.display = 'flex';
+                miniExtraItem.classList.remove('checked');
+                miniExtraItem.querySelector('.custom-checkbox').textContent = '';
+                hasExtras = true;
+            } else {
+                miniExtraItem.style.display = 'none';
+            }
+
+            // Show/hide section
+            if (hasExtras) {
+                extrasSection.style.display = 'block';
+                noExtrasMsg.style.display = 'none';
+            } else if (main === 'mini-arcade') {
+                extrasSection.style.display = 'block';
+                noExtrasMsg.style.display = 'block';
+            } else {
+                extrasSection.style.display = 'none';
+            }
+        }
+
+        function updateOptionsSection() {
+            const main = state.mainActivity;
+
+            if (!main) {
+                optionsSection.style.display = 'none';
+                return;
+            }
+
+            // Team Mario inclut toutes les options
+            if (main === 'team-mario') {
+                optionsSection.style.display = 'block';
+                optionsIncludedMsg.style.display = 'block';
+                optionsItems.forEach(item => {
+                    const id = item.dataset.id;
+                    state.options[id] = true;
+                    item.classList.add('forced', 'checked');
+                    item.querySelector('.custom-checkbox').textContent = '✓';
+                });
+            } else {
+                // Options disponibles mais pas incluses
+                optionsSection.style.display = 'block';
+                optionsIncludedMsg.style.display = 'none';
+                optionsItems.forEach(item => {
+                    const id = item.dataset.id;
+                    item.classList.remove('forced');
+                    item.classList.toggle('checked', state.options[id]);
+                    item.querySelector('.custom-checkbox').textContent = state.options[id] ? '✓' : '';
+                });
+            }
+        }
+
+        function updateDurationDaysSelector() {
+            // Anime = selecteur d'heures + heure debut
+            // Location = dates/heures livraison/ramassage
+            const startTimeGroup = startTimeInput.closest('.input-group');
+            const eventDateGroup = eventDateInput.closest('.input-row');
+
+            if (isAnimatedEvent()) {
+                durationGroup.style.display = 'block';
+                rentalTimesGroup.style.display = 'none';
+                // Afficher date et heure de debut pour anime
+                if (startTimeGroup) startTimeGroup.style.display = 'block';
+                if (eventDateGroup) eventDateGroup.style.display = 'flex';
+            } else {
+                durationGroup.style.display = 'none';
+                rentalTimesGroup.style.display = 'block';
+                // Cacher date/heure anime pour location (on utilise les dates livraison/ramassage)
+                if (startTimeGroup) startTimeGroup.style.display = 'none';
+                if (eventDateGroup) eventDateGroup.style.display = 'none';
+            }
+            // Reset accommodation choices when mode changes
+            state.deliveryChoice = null;
+            state.pickupChoice = null;
+        }
+
+        // ============================================================
+        // FORMATAGE
+        // ============================================================
+        function formatCurrency(amount) {
+            return amount.toFixed(2).replace('.', ',') + ' $';
+        }
+
+        function formatTime(decimalHours) {
+            const hours = Math.floor(decimalHours);
+            const minutes = Math.round((decimalHours - hours) * 60);
+            return hours.toString().padStart(2, '0') + 'h' + minutes.toString().padStart(2, '0');
+        }
+
+        function formatDateFr(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr + 'T12:00:00'); // Midi pour eviter les problemes de timezone
+            const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            const mois = ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'];
+            return jours[date.getDay()] + ' ' + date.getDate() + ' ' + mois[date.getMonth()];
+        }
+
+        function parseTime(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours + minutes / 60;
+        }
+
+        function formatPostalCode(input) {
+            // Remove all non-alphanumeric characters
+            let cleaned = input.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            // Format as A1A 1A1
+            if (cleaned.length > 3) {
+                cleaned = cleaned.substring(0, 3) + ' ' + cleaned.substring(3, 6);
+            }
+            return cleaned;
+        }
+
+        // ============================================================
+        // CALCUL DE DISTANCE
+        // ============================================================
+        let distanceTimeout = null;
+
+        async function calculateDistance(postalCode) {
+            if (!postalCode || postalCode.length < 6) {
+                state.calculatedDistance = null;
+                state.distanceSource = 'none';
+                hideDistanceResult();
+                return;
+            }
+
+            showDistanceLoading();
+
+            // Try Google Maps API first
+            if (PRICING_CONFIG.googleMapsApiKey) {
+                try {
+                    const distance = await getDistanceFromGoogleMaps(postalCode);
+                    if (distance) {
+                        state.calculatedDistance = distance;
+                        state.distanceSource = 'api';
+                        state.travelTime = distance / PRICING_CONFIG.hebergement.vitesseMoyenne;
+                        showDistanceSuccess(distance, false);
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Google Maps API error:', error);
+                }
+            }
+
+            // Fallback to postal code table
+            const fsa = postalCode.substring(0, 3).toUpperCase();
+            if (typeof FSA_DISTANCES !== 'undefined' && FSA_DISTANCES[fsa]) {
+                state.calculatedDistance = FSA_DISTANCES[fsa];
+                state.distanceSource = 'fallback';
+                state.travelTime = FSA_DISTANCES[fsa] / PRICING_CONFIG.hebergement.vitesseMoyenne;
+                showDistanceSuccess(FSA_DISTANCES[fsa], true);
+                return;
+            }
+
+            // Fallback to province default
+            const provinceChar = postalCode.charAt(0).toUpperCase();
+            if (typeof PROVINCE_DEFAULTS !== 'undefined' && PROVINCE_DEFAULTS[provinceChar]) {
+                state.calculatedDistance = PROVINCE_DEFAULTS[provinceChar];
+                state.distanceSource = 'fallback';
+                state.travelTime = PROVINCE_DEFAULTS[provinceChar] / PRICING_CONFIG.hebergement.vitesseMoyenne;
+                showDistanceSuccess(PROVINCE_DEFAULTS[provinceChar], true);
+                return;
+            }
+
+            // No distance found
+            showDistanceError();
+        }
+
+        async function getDistanceFromGoogleMaps(postalCode) {
+            const origin = PRICING_CONFIG.deplacement.pointDepart.lat + ',' + PRICING_CONFIG.deplacement.pointDepart.lon;
+            const destination = postalCode + ', Canada';
+            const url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' +
+                        encodeURIComponent(origin) +
+                        '&destinations=' + encodeURIComponent(destination) +
+                        '&key=' + PRICING_CONFIG.googleMapsApiKey +
+                        '&units=metric';
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.status === 'OK' && data.rows[0].elements[0].status === 'OK') {
+                // Distance in meters, convert to km
+                return Math.round(data.rows[0].elements[0].distance.value / 1000);
+            }
+            return null;
+        }
+
+        function showDistanceLoading() {
+            distanceResult.className = 'distance-result visible loading';
+            distanceResult.textContent = 'Calcul de la distance...';
+        }
+
+        function showDistanceSuccess(distance, isEstimate) {
+            const rate = getTravelRate();
+            // Anime = aller-retour (2x), Location = 2 aller-retours (2x deja dans le calcul)
+            const kmTotal = isAnimatedEvent() ? distance * 2 : distance * 2;
+            const travelFee = kmTotal * rate;
+            const rateType = isAnimatedEvent() ? 'anime' : 'location';
+            distanceResult.className = 'distance-result visible success';
+            distanceResult.innerHTML = distance + ' km depuis ' + PRICING_CONFIG.deplacement.pointDepart.nom +
+                                       ' - Deplacement: ' + formatCurrency(travelFee) +
+                                       ' <span style="color: #999;">(' + kmTotal + ' km x ' + rate.toFixed(2) + '$/km)</span>' +
+                                       (isEstimate ? ' <span class="quote-estimate">ESTIME</span>' : '');
+        }
+
+        function showDistanceError() {
+            distanceResult.className = 'distance-result visible error';
+            distanceResult.textContent = 'Code postal non reconnu. Verifiez le format (ex: G1A 1A1)';
+            state.calculatedDistance = null;
+            state.distanceSource = 'none';
+        }
+
+        function hideDistanceResult() {
+            distanceResult.className = 'distance-result';
+        }
+
+        // ============================================================
+        // CALCUL DE L'HEBERGEMENT (evenements animes)
+        // Logique: quand on dort, les heures de la journee se "reset"
+        // ============================================================
+        function calculateAccommodation() {
+            if (!state.calculatedDistance || !state.startTime || !state.duration) {
+                return { nights: 0, reasons: [] };
+            }
+
+            const config = PRICING_CONFIG.hebergement;
+            const travelTime = state.calculatedDistance / config.vitesseMoyenne;
+            const startTimeDecimal = parseTime(state.startTime);
+            const totalDuration = state.duration + state.prolongation;
+            const montage = PRICING_CONFIG.tempsTravail.montageAnime;
+            const demontage = PRICING_CONFIG.tempsTravail.demontageAnime;
+
+            // Calculate key times
+            const arrivalRequired = startTimeDecimal - montage;
+            const departureFromHome = arrivalRequired - travelTime;
+            const endTime = startTimeDecimal + totalDuration;
+            const departureFromSite = endTime + demontage;
+            const arrivalHome = departureFromSite + travelTime;
+
+            let nights = 0;
+            let reasons = [];
+            let needsNightBefore = false;
+            let needsNightAfter = false;
+
+            // ETAPE 1: Verifier si le depart est trop tot
+            if (departureFromHome < config.heureDepartMinimum) {
+                needsNightBefore = true;
+                reasons.push('Depart requis a ' + formatTime(departureFromHome) + ' (avant ' + formatTime(config.heureDepartMinimum) + ')');
+            }
+
+            // ETAPE 2: Verifier si le retour est trop tard
+            if (arrivalHome > config.heureRetourMaximum || arrivalHome >= 24) {
+                needsNightAfter = true;
+                const displayTime = arrivalHome >= 24 ? formatTime(arrivalHome - 24) + ' (lendemain)' : formatTime(arrivalHome);
+                reasons.push('Retour a ' + displayTime + ' (apres ' + formatTime(config.heureRetourMaximum) + ')');
+            }
+
+            // ETAPE 3: Calculer les heures de travail selon le scenario
+            // Les heures se "reset" quand on dort
+            let effectiveDayHours = 0;
+            let dayDescription = '';
+
+            if (needsNightBefore && needsNightAfter) {
+                // Scenario: dort avant ET apres = journee = montage + animation + demontage seulement
+                effectiveDayHours = montage + totalDuration + demontage;
+                dayDescription = 'Journee sur place: ' + effectiveDayHours.toFixed(1) + 'h';
+            } else if (needsNightBefore) {
+                // Scenario: dort avant = journee = arrivee (deja sur place) jusqu'au retour maison
+                // Journee = montage + animation + demontage + retour
+                effectiveDayHours = montage + totalDuration + demontage + travelTime;
+                dayDescription = 'Journee (avec retour): ' + effectiveDayHours.toFixed(1) + 'h';
+
+                // Si cette journee depasse aussi le max, il faut une 2e nuit!
+                if (effectiveDayHours > config.heuresMaxParJour) {
+                    needsNightAfter = true;
+                    reasons.push('Journee de ' + effectiveDayHours.toFixed(1) + 'h apres nuitee (max ' + config.heuresMaxParJour + 'h)');
+                    // Recalculer sans le retour
+                    effectiveDayHours = montage + totalDuration + demontage;
+                    dayDescription = 'Journee sur place: ' + effectiveDayHours.toFixed(1) + 'h';
+                }
+            } else if (needsNightAfter) {
+                // Scenario: dort apres = journee = depart maison jusqu'a fin demontage
+                // Journee = aller + montage + animation + demontage
+                effectiveDayHours = travelTime + montage + totalDuration + demontage;
+                dayDescription = 'Journee (avec aller): ' + effectiveDayHours.toFixed(1) + 'h';
+            } else {
+                // Scenario: pas de nuit = journee complete
+                effectiveDayHours = (travelTime * 2) + montage + totalDuration + demontage;
+                dayDescription = 'Journee complete: ' + effectiveDayHours.toFixed(1) + 'h';
+
+                // Verifier si la journee est trop longue
+                if (effectiveDayHours > config.heuresMaxParJour) {
+                    // Ajouter une nuit avant (le plus logique)
+                    needsNightBefore = true;
+                    reasons.push('Journee de ' + effectiveDayHours.toFixed(1) + 'h (max ' + config.heuresMaxParJour + 'h)');
+
+                    // Recalculer avec la nuit avant
+                    effectiveDayHours = montage + totalDuration + demontage + travelTime;
+                    dayDescription = 'Journee (avec retour): ' + effectiveDayHours.toFixed(1) + 'h';
+
+                    // Si ca depasse encore, ajouter nuit apres aussi
+                    if (effectiveDayHours > config.heuresMaxParJour) {
+                        needsNightAfter = true;
+                        reasons.push('Journee de ' + effectiveDayHours.toFixed(1) + 'h apres nuitee (max ' + config.heuresMaxParJour + 'h)');
+                        effectiveDayHours = montage + totalDuration + demontage;
+                        dayDescription = 'Journee sur place: ' + effectiveDayHours.toFixed(1) + 'h';
+                    }
+                }
+            }
+
+            if (needsNightBefore) nights++;
+            if (needsNightAfter) nights++;
+
+            return {
+                nights: nights,
+                reasons: reasons,
+                departureFromHome: departureFromHome,
+                arrivalRequired: arrivalRequired,
+                endTime: endTime,
+                departureFromSite: departureFromSite,
+                arrivalHome: arrivalHome,
+                effectiveDayHours: effectiveDayHours,
+                dayDescription: dayDescription,
+                needsNightBefore: needsNightBefore,
+                needsNightAfter: needsNightAfter
+            };
+        }
+
+        // ============================================================
+        // ANALYSE DES TRAJETS POUR LOCATION
+        // ============================================================
+        function analyzeRentalTrips() {
+            if (!state.calculatedDistance) {
+                return null;
+            }
+
+            const config = PRICING_CONFIG.hebergement;
+            const travelTime = state.calculatedDistance / config.vitesseMoyenne;
+            const montage = PRICING_CONFIG.tempsTravail.montageLocation;
+            const demontage = PRICING_CONFIG.tempsTravail.demontageLocation;
+            const rate = PRICING_CONFIG.deplacement.prixParKmLocation;
+            const sameDay = state.deliveryDate && state.pickupDate && state.deliveryDate === state.pickupDate;
+
+            const deliveryTimeDecimal = parseTime(state.deliveryTime);
+            const pickupTimeDecimal = parseTime(state.pickupTime);
+
+            // Calculer le temps d'attente pour same-day
+            const waitingTime = sameDay ? (pickupTimeDecimal - deliveryTimeDecimal) : 0;
+
+            // Analyse du trajet de LIVRAISON
+            // Arrivee 2h avant l'heure de livraison pour le montage
+            const deliveryArrivalRequired = deliveryTimeDecimal - montage;
+            const deliveryDepartureFromHome = deliveryArrivalRequired - travelTime;
+            const deliveryDepartureFromSite = deliveryTimeDecimal; // On part apres le montage
+            const deliveryArrivalHome = deliveryDepartureFromSite + travelTime;
+            const deliveryTotalHours = (travelTime * 2) + montage;
+
+            // Analyse du trajet de RAMASSAGE
+            // Arrivee a l'heure de ramassage, puis 2h de demontage
+            const pickupArrivalRequired = pickupTimeDecimal;
+            const pickupDepartureFromHome = pickupArrivalRequired - travelTime;
+            const pickupDepartureFromSite = pickupTimeDecimal + demontage;
+            const pickupArrivalHome = pickupDepartureFromSite + travelTime;
+            const pickupTotalHours = (travelTime * 2) + demontage;
+
+            // Pour same-day "rester sur place", calculer aussi ce scenario
+            let stayOnSiteData = null;
+            if (sameDay) {
+                const stayArrivalRequired = deliveryTimeDecimal - montage;
+                const stayDepartureFromHome = stayArrivalRequired - travelTime;
+                const stayDepartureFromSite = pickupTimeDecimal + demontage;
+                const stayArrivalHome = stayDepartureFromSite + travelTime;
+
+                let stayProblem = null;
+                let stayOptions = [];
+
+                if (stayDepartureFromHome < config.heureDepartMinimum) {
+                    const minDeliveryTime = config.heureDepartMinimum + travelTime + montage;
+                    stayProblem = {
+                        type: 'too-early',
+                        message: 'Depart requis a ' + formatTime(stayDepartureFromHome) + ' (avant ' + formatTime(config.heureDepartMinimum) + ')',
+                        suggestedTime: minDeliveryTime
+                    };
+                    stayOptions.push({
+                        id: 'change-time',
+                        title: 'Changer l\'heure',
+                        description: 'Livraison a ' + formatTime(minDeliveryTime) + ' au lieu de ' + formatTime(deliveryTimeDecimal),
+                        cost: 0, extraKm: 0, newTime: minDeliveryTime
+                    });
+                    stayOptions.push({
+                        id: 'overnight',
+                        title: 'Nuitee la veille',
+                        description: 'Arrivee la veille au soir',
+                        cost: config.fraisParNuit, extraKm: 0
+                    });
+                } else if (stayArrivalHome > config.heureRetourMaximum) {
+                    const maxPickupTime = config.heureRetourMaximum - travelTime - demontage;
+                    stayProblem = {
+                        type: 'too-late',
+                        message: 'Retour a ' + formatTime(stayArrivalHome) + ' (apres ' + formatTime(config.heureRetourMaximum) + ')',
+                        suggestedTime: maxPickupTime
+                    };
+                    stayOptions.push({
+                        id: 'change-time',
+                        title: 'Changer l\'heure',
+                        description: 'Ramassage a ' + formatTime(maxPickupTime) + ' au lieu de ' + formatTime(pickupTimeDecimal),
+                        cost: 0, extraKm: 0, newTime: maxPickupTime, isPickup: true
+                    });
+                    stayOptions.push({
+                        id: 'overnight-after',
+                        title: 'Nuitee apres',
+                        description: 'Rester sur place, retour le lendemain',
+                        cost: config.fraisParNuit, extraKm: 0
+                    });
+                }
+
+                stayOnSiteData = {
+                    departureFromHome: stayDepartureFromHome,
+                    arrivalRequired: stayArrivalRequired,
+                    departureFromSite: stayDepartureFromSite,
+                    arrivalHome: stayArrivalHome,
+                    problem: stayProblem,
+                    options: stayOptions
+                };
+            }
+
+            // Pour same-day avec 2 trajets, utiliser les memes calculs que multi-day
+            // La structure delivery/pickup est la meme
+
+            // Verifier problemes de LIVRAISON (2 trajets)
+            let deliveryProblem = null;
+            let deliveryOptions = [];
+
+            if (deliveryDepartureFromHome < config.heureDepartMinimum) {
+                const minDeliveryTime = config.heureDepartMinimum + travelTime + montage;
+                deliveryProblem = {
+                    type: 'too-early',
+                    message: 'Depart requis a ' + formatTime(deliveryDepartureFromHome) + ' (avant ' + formatTime(config.heureDepartMinimum) + ')',
+                    suggestedTime: minDeliveryTime
+                };
+                deliveryOptions.push({
+                    id: 'change-time',
+                    title: 'Changer l\'heure',
+                    description: 'Livraison a ' + formatTime(minDeliveryTime) + ' au lieu de ' + formatTime(deliveryTimeDecimal),
+                    cost: 0, extraKm: 0, newTime: minDeliveryTime
+                });
+                deliveryOptions.push({
+                    id: 'overnight',
+                    title: 'Nuitee sur place',
+                    description: 'Arrivee la veille au soir, montage le matin',
+                    cost: config.fraisParNuit, extraKm: 0
+                });
+            }
+
+            if (deliveryArrivalHome > config.heureRetourMaximum && !deliveryProblem) {
+                const maxDeliveryTime = config.heureRetourMaximum - travelTime;
+                deliveryProblem = {
+                    type: 'too-late',
+                    message: 'Retour a ' + formatTime(deliveryArrivalHome) + ' (apres ' + formatTime(config.heureRetourMaximum) + ')',
+                    suggestedTime: maxDeliveryTime
+                };
+                deliveryOptions.push({
+                    id: 'change-time',
+                    title: 'Changer l\'heure',
+                    description: 'Livraison a ' + formatTime(maxDeliveryTime) + ' au lieu de ' + formatTime(deliveryTimeDecimal),
+                    cost: 0, extraKm: 0, newTime: maxDeliveryTime
+                });
+                deliveryOptions.push({
+                    id: 'overnight-after',
+                    title: 'Nuitee apres livraison',
+                    description: 'Rester sur place apres le montage',
+                    cost: config.fraisParNuit, extraKm: 0
+                });
+            }
+
+            // Verifier problemes de RAMASSAGE (2 trajets)
+            let pickupProblem = null;
+            let pickupOptions = [];
+
+            if (pickupDepartureFromHome < config.heureDepartMinimum) {
+                const minPickupTime = config.heureDepartMinimum + travelTime;
+                pickupProblem = {
+                    type: 'too-early',
+                    message: 'Depart requis a ' + formatTime(pickupDepartureFromHome) + ' pour ramassage',
+                    suggestedTime: minPickupTime
+                };
+                pickupOptions.push({
+                    id: 'change-time',
+                    title: 'Changer l\'heure',
+                    description: 'Ramassage a ' + formatTime(minPickupTime) + ' au lieu de ' + formatTime(pickupTimeDecimal),
+                    cost: 0, extraKm: 0, newTime: minPickupTime
+                });
+                pickupOptions.push({
+                    id: 'overnight-before-pickup',
+                    title: 'Nuitee avant ramassage',
+                    description: 'Arrivee la veille, ramassage tot le matin',
+                    cost: config.fraisParNuit, extraKm: 0
+                });
+            }
+
+            if (pickupArrivalHome > config.heureRetourMaximum && !pickupProblem) {
+                const maxPickupTime = config.heureRetourMaximum - travelTime - demontage;
+                pickupProblem = {
+                    type: 'too-late',
+                    message: 'Retour apres ramassage a ' + formatTime(pickupArrivalHome),
+                    suggestedTime: maxPickupTime
+                };
+                pickupOptions.push({
+                    id: 'change-time',
+                    title: 'Changer l\'heure',
+                    description: 'Ramassage a ' + formatTime(maxPickupTime) + ' au lieu de ' + formatTime(pickupTimeDecimal),
+                    cost: 0, extraKm: 0, newTime: maxPickupTime
+                });
+                pickupOptions.push({
+                    id: 'overnight-after-pickup',
+                    title: 'Nuitee apres ramassage',
+                    description: 'Rester sur place, retour le lendemain',
+                    cost: config.fraisParNuit, extraKm: 0
+                });
+            }
+
+            return {
+                sameDay: sameDay,
+                travelTime: travelTime,
+                waitingTime: waitingTime,
+                stayOnSite: stayOnSiteData,
+                delivery: {
+                    departureFromHome: deliveryDepartureFromHome,
+                    arrivalRequired: deliveryArrivalRequired,
+                    departureFromSite: deliveryDepartureFromSite,
+                    arrivalHome: deliveryArrivalHome,
+                    totalHours: deliveryTotalHours,
+                    problem: deliveryProblem,
+                    options: deliveryOptions
+                },
+                pickup: {
+                    departureFromHome: pickupDepartureFromHome,
+                    arrivalRequired: pickupArrivalRequired,
+                    departureFromSite: pickupDepartureFromSite,
+                    arrivalHome: pickupArrivalHome,
+                    totalHours: pickupTotalHours,
+                    problem: pickupProblem,
+                    options: pickupOptions
+                }
+            };
+        }
+
+        // ============================================================
+        // AFFICHER LE MODAL D'OPTIONS
+        // ============================================================
+        function showAccommodationModal(tripType, problem, options) {
+            const modal = document.getElementById('accommodationModal');
+            const message = document.getElementById('modalMessage');
+            const optionsContainer = document.getElementById('modalOptions');
+            const closeBtn = document.getElementById('modalClose');
+
+            const tripLabel = tripType === 'delivery' ? 'LIVRAISON' : 'RAMASSAGE';
+
+            message.innerHTML = '<div class="modal-message">' + problem.message + '</div>';
+
+            let optionsHtml = '';
+            options.forEach(opt => {
+                const disabledClass = opt.disabled ? 'disabled' : '';
+                optionsHtml += '<div class="modal-option ' + disabledClass + '" data-option="' + opt.id + '">';
+                optionsHtml += '<div class="modal-option-title">' + opt.title + '</div>';
+                optionsHtml += '<div class="modal-option-desc">' + opt.description + '</div>';
+                optionsHtml += '<div class="modal-option-price">+ ' + formatCurrency(opt.cost) + '</div>';
+                if (opt.extraKm > 0) {
+                    optionsHtml += '<div style="color: #999; font-size: 14px;">(' + opt.extraKm + ' km supplementaires)</div>';
+                }
+                optionsHtml += '</div>';
+            });
+
+            optionsHtml += '<button class="modal-confirm" id="modalConfirm" disabled>CONFIRMER LA SELECTION</button>';
+
+            optionsContainer.innerHTML = optionsHtml;
+
+            // Event listeners pour les options
+            const optionElements = optionsContainer.querySelectorAll('.modal-option:not(.disabled)');
+            const confirmBtn = document.getElementById('modalConfirm');
+            let selectedOption = null;
+
+            optionElements.forEach(el => {
+                el.addEventListener('click', () => {
+                    optionElements.forEach(o => o.classList.remove('selected'));
+                    el.classList.add('selected');
+                    selectedOption = el.dataset.option;
+                    confirmBtn.disabled = false;
+                });
+            });
+
+            confirmBtn.addEventListener('click', () => {
+                if (selectedOption) {
+                    const choiceData = options.find(o => o.id === selectedOption);
+
+                    // Stocker le choix dans la bonne variable selon le type de trajet
+                    if (tripType === 'delivery') {
+                        state.deliveryChoice = {
+                            option: selectedOption,
+                            data: choiceData
+                        };
+                        // Si c'est un changement d'heure, mettre a jour l'heure
+                        if (selectedOption === 'change-time' && choiceData.newTime) {
+                            // Pour same-day avec isPickup, changer l'heure de ramassage
+                            if (choiceData.isPickup) {
+                                state.pickupTime = formatTime(choiceData.newTime).replace('h', ':');
+                                document.getElementById('pickupTime').value = state.pickupTime;
+                            } else {
+                                state.deliveryTime = formatTime(choiceData.newTime).replace('h', ':');
+                                document.getElementById('deliveryTime').value = state.deliveryTime;
+                            }
+                        }
+                    } else {
+                        state.pickupChoice = {
+                            option: selectedOption,
+                            data: choiceData
+                        };
+                        // Si c'est un changement d'heure, mettre a jour l'heure
+                        if (selectedOption === 'change-time' && choiceData.newTime) {
+                            state.pickupTime = formatTime(choiceData.newTime).replace('h', ':');
+                            document.getElementById('pickupTime').value = state.pickupTime;
+                        }
+                    }
+
+                    modal.style.display = 'none';
+                    // Recalculer avec le choix
+                    updateResult();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        // ============================================================
+        // CALCUL DU DEVIS
+        // ============================================================
+        function calculateQuote() {
+            const quote = {
+                items: [],
+                subtotal: 0,
+                discounts: [],
+                surcharges: [],
+                travel: 0,
+                accommodation: 0,
+                total: 0,
+                isEstimate: state.distanceSource === 'fallback',
+                isAnimated: isAnimatedEvent()
+            };
+
+            const mainConfig = PRICING_CONFIG.activites[state.mainActivity];
+            const mainData = activitesData[state.mainActivity];
+
+            // 1. Calculer le cout de l'activite principale
+            if (isAnimatedEvent()) {
+                // Mode anime = tarification horaire
+                const totalDuration = state.duration + state.prolongation;
+                const extraHours = Math.max(0, totalDuration - mainConfig.heuresMinimum);
+                const mainCost = mainConfig.prixBase + (extraHours * mainConfig.prixParHeure);
+
+                quote.items.push({
+                    type: 'activity',
+                    name: mainData.nom + ' (' + totalDuration + 'h)',
+                    amount: mainCost
+                });
+                quote.subtotal += mainCost;
+
+                // Animation incluse dans le prix de base pour Team Mario ET Arcade Geante animee
+            } else {
+                // Mode location = tarification journaliere
+                const days = state.days;
+                const priceTable = mainConfig.prixParJour;
+                const maxDays = Math.max(...Object.keys(priceTable).map(Number));
+                const priceDays = Math.min(days, maxDays);
+                const mainCost = priceTable[priceDays] || priceTable[maxDays];
+
+                quote.items.push({
+                    type: 'activity',
+                    name: mainData.nom + ' - Location (' + days + ' jour' + (days > 1 ? 's' : '') + ')',
+                    amount: mainCost
+                });
+                quote.subtotal += mainCost;
+            }
+
+            // 2. Calculer les extras (activites supplementaires a prix reduit)
+            if (state.extras['arcade-geante']) {
+                quote.items.push({
+                    type: 'extra',
+                    name: '+ Arcade Geante (extra)',
+                    amount: PRICING_CONFIG.extras['arcade-geante'].prix
+                });
+                quote.subtotal += PRICING_CONFIG.extras['arcade-geante'].prix;
+            }
+
+            if (state.extras['mini-arcade']) {
+                quote.items.push({
+                    type: 'extra',
+                    name: '+ Mini-Arcade (extra)',
+                    amount: PRICING_CONFIG.extras['mini-arcade'].prix
+                });
+                quote.subtotal += PRICING_CONFIG.extras['mini-arcade'].prix;
+            }
+
+            // 3. Options (gratuites mais affichees si selectionnees et pas incluses)
+            if (state.mainActivity === 'team-mario') {
+                // Team Mario inclut tout
+                quote.items.push({
+                    type: 'included',
+                    name: 'Animation, decorations, eclairage, trophees (inclus)',
+                    amount: 0
+                });
+            } else {
+                // Autres activites: options payantes (si configurees)
+                Object.keys(state.options).forEach(id => {
+                    if (state.options[id] && PRICING_CONFIG.options[id]) {
+                        const opt = PRICING_CONFIG.options[id];
+                        if (opt.prix && opt.prix > 0) {
+                            quote.items.push({
+                                type: 'option',
+                                name: opt.nom,
+                                amount: opt.prix
+                            });
+                            quote.subtotal += opt.prix;
+                        }
+                    }
+                });
+            }
+
+            // 4. Prolongation (mode anime seulement)
+            if (isAnimatedEvent() && state.prolongation > 0) {
+                const prolongationCost = state.prolongation * PRICING_CONFIG.prolongation.prixParHeure;
+                quote.items.push({
+                    type: 'surcharge',
+                    name: 'Prolongation (+' + state.prolongation + 'h)',
+                    amount: prolongationCost
+                });
+                quote.subtotal += prolongationCost;
+            }
+
+            // 5. Rabais longue duree (mode anime seulement)
+            if (isAnimatedEvent()) {
+                const totalDuration = state.duration + state.prolongation;
+                let appliedDiscount = null;
+
+                Object.keys(PRICING_CONFIG.rabais.longueDuree).forEach(hours => {
+                    if (totalDuration >= parseInt(hours)) {
+                        const rate = PRICING_CONFIG.rabais.longueDuree[hours];
+                        if (rate > 0) {
+                            const discountAmount = quote.subtotal * rate;
+                            if (!appliedDiscount || discountAmount > appliedDiscount.amount) {
+                                appliedDiscount = {
+                                    name: 'Rabais longue duree (' + hours + 'h+, -' + (rate * 100) + '%)',
+                                    amount: discountAmount
+                                };
+                            }
+                        }
+                    }
+                });
+
+                if (appliedDiscount) {
+                    quote.discounts.push(appliedDiscount);
+                }
+            }
+
+            // 6. Calculer le deplacement et hebergement
+            if (state.calculatedDistance) {
+                if (isAnimatedEvent()) {
+                    // Mode anime: deplacement simple + hebergement si necessaire
+                    const rate = PRICING_CONFIG.deplacement.prixParKmAnime;
+                    const kmTotal = state.calculatedDistance * 2; // Aller-retour
+                    quote.travel = kmTotal * rate;
+                    quote.travelRate = rate;
+                    quote.travelNote = 'anime (aller-retour)';
+                    quote.travelKm = kmTotal;
+
+                    // Hebergement pour anime
+                    const accommodationInfo = calculateAccommodation();
+                    if (accommodationInfo.nights > 0) {
+                        quote.accommodation = accommodationInfo.nights * PRICING_CONFIG.hebergement.fraisParNuit;
+                        quote.accommodationInfo = accommodationInfo;
+                    }
+                } else {
+                    // Mode location
+                    const rate = PRICING_CONFIG.deplacement.prixParKmLocation;
+                    const waitingRate = 50; // 50$/h pour l'attente sur place
+                    const sameDay = state.deliveryDate && state.pickupDate && state.deliveryDate === state.pickupDate;
+
+                    let baseKm, travelNote, waitingCost = 0, stayOnSite = false;
+
+                    if (sameDay) {
+                        // Calculer le temps d'attente
+                        const deliveryTime = parseTime(state.deliveryTime);
+                        const pickupTime = parseTime(state.pickupTime);
+                        const waitingHours = pickupTime - deliveryTime;
+                        const travelTime = state.calculatedDistance / PRICING_CONFIG.hebergement.vitesseMoyenne;
+                        const montage = PRICING_CONFIG.tempsTravail.montageLocation;
+
+                        // Verifier si 2 aller-retours est meme possible
+                        // Retour livraison = heure livraison + trajet retour
+                        // Depart ramassage = heure ramassage - trajet aller
+                        const deliveryReturnHome = deliveryTime + travelTime;
+                        const pickupDepartHome = pickupTime - travelTime;
+                        const twoTripsIsPossible = pickupDepartHome >= deliveryReturnHome;
+
+                        if (!twoTripsIsPossible) {
+                            // Impossible de faire 2 aller-retours - forcer rester sur place
+                            stayOnSite = true;
+                            baseKm = state.calculatedDistance * 2;
+                            waitingCost = waitingHours * waitingRate;
+                            travelNote = 'meme jour (1 aller-retour)';
+                            quote.twoTripsImpossible = true;
+                        } else {
+                            // 2 aller-retours possible - comparer les couts
+                            const extraKmCost = state.calculatedDistance * 2 * rate; // Cout du 2e aller-retour
+                            const waitingCostTotal = waitingHours * waitingRate;
+
+                            if (waitingCostTotal <= extraKmCost) {
+                                // Rester sur place est moins cher
+                                stayOnSite = true;
+                                baseKm = state.calculatedDistance * 2;
+                                waitingCost = waitingCostTotal;
+                                travelNote = 'meme jour (1 aller-retour)';
+                            } else {
+                                // 2 aller-retours est moins cher
+                                stayOnSite = false;
+                                baseKm = state.calculatedDistance * 4;
+                                travelNote = 'meme jour (2 aller-retours)';
+                            }
+                        }
+
+                        quote.waitingHours = waitingHours;
+                        quote.waitingCost = waitingCost;
+                        quote.stayOnSite = stayOnSite;
+                    } else {
+                        // Jours differents = toujours 2 aller-retours
+                        baseKm = state.calculatedDistance * 4;
+                        travelNote = 'location (2 aller-retours)';
+                    }
+
+                    quote.travelKm = baseKm;
+                    quote.travel = baseKm * rate;
+                    quote.travelRate = rate;
+                    quote.travelNote = travelNote;
+                    quote.sameDayRental = sameDay;
+
+                    // Ajouter les frais d'attente si on reste sur place
+                    if (waitingCost > 0) {
+                        quote.items.push({
+                            type: 'surcharge',
+                            name: 'Attente sur place (' + Math.round(quote.waitingHours) + 'h x ' + waitingRate + '$)',
+                            amount: waitingCost
+                        });
+                        quote.subtotal += waitingCost;
+                    }
+
+                    // Analyser les trajets location
+                    const tripAnalysis = analyzeRentalTrips();
+                    state.rentalTripAnalysis = tripAnalysis;
+                    quote.rentalTripAnalysis = tripAnalysis;
+
+                    // Ajouter les frais supplementaires selon les choix (livraison ET ramassage)
+                    // Choix pour la livraison
+                    if (state.deliveryChoice && state.deliveryChoice.data) {
+                        const choice = state.deliveryChoice;
+                        if (choice.data.cost > 0) {
+                            quote.items.push({
+                                type: 'surcharge',
+                                name: choice.data.title + ' (livraison)',
+                                amount: choice.data.cost
+                            });
+                            quote.subtotal += choice.data.cost;
+                        }
+                        if (choice.data.extraKm > 0) {
+                            quote.travel += choice.data.extraKm * rate;
+                            quote.travelKm += choice.data.extraKm;
+                        }
+                    }
+
+                    // Choix pour le ramassage
+                    if (state.pickupChoice && state.pickupChoice.data) {
+                        const choice = state.pickupChoice;
+                        if (choice.data.cost > 0) {
+                            quote.items.push({
+                                type: 'surcharge',
+                                name: choice.data.title + ' (pickup)',
+                                amount: choice.data.cost
+                            });
+                            quote.subtotal += choice.data.cost;
+                        }
+                        if (choice.data.extraKm > 0) {
+                            quote.travel += choice.data.extraKm * rate;
+                            quote.travelKm += choice.data.extraKm;
+                        }
+                    }
+
+                    // Verifier s'il y a un probleme non resolu
+                    if (tripAnalysis) {
+                        if (sameDay && stayOnSite && tripAnalysis.stayOnSite) {
+                            // Meme jour, rester sur place = un seul probleme possible
+                            if (tripAnalysis.stayOnSite.problem && !state.deliveryChoice) {
+                                quote.needsAccommodationChoice = {
+                                    tripType: 'delivery', // On utilise deliveryChoice pour stocker
+                                    problem: tripAnalysis.stayOnSite.problem,
+                                    options: tripAnalysis.stayOnSite.options
+                                };
+                            }
+                        } else {
+                            // 2 trajets (same-day ou multi-day)
+                            if (tripAnalysis.delivery.problem && !state.deliveryChoice) {
+                                quote.needsAccommodationChoice = {
+                                    tripType: 'delivery',
+                                    problem: tripAnalysis.delivery.problem,
+                                    options: tripAnalysis.delivery.options
+                                };
+                            }
+                            else if (tripAnalysis.pickup.problem && !state.pickupChoice) {
+                                quote.needsAccommodationChoice = {
+                                    tripType: 'pickup',
+                                    problem: tripAnalysis.pickup.problem,
+                                    options: tripAnalysis.pickup.options
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 8. Calculer le total
+            const totalDiscounts = quote.discounts.reduce((sum, d) => sum + d.amount, 0);
+            quote.total = quote.subtotal - totalDiscounts + quote.travel + quote.accommodation;
+
+            return quote;
+        }
+
+        // ============================================================
+        // EVENEMENTS
+        // ============================================================
+        // Activite principale (radio buttons)
+        activitesItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const id = item.dataset.id;
+
+                // Deselectionner toutes les autres
+                activitesItems.forEach(other => {
+                    other.classList.remove('checked');
+                    other.querySelector('.custom-checkbox').textContent = '';
+                });
+
+                // Selectionner celle-ci
+                item.classList.add('checked');
+                item.querySelector('.custom-checkbox').textContent = '✓';
+                state.mainActivity = id;
+
+                // Reset mode si on change d'activite
+                state.mode = null;
+                modeBtns.forEach(btn => btn.classList.remove('active'));
+
+                // Mettre a jour l'interface
+                updateInterfaceAfterMainActivity();
+                hideResults();
+            });
+        });
+
+        // Mode selector (pour Arcade Geante)
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.mode = btn.dataset.mode;
+
+                updateDurationDaysSelector();
+                hideResults();
+            });
+        });
+
+        // Extras (activites supplementaires)
+        extrasItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.style.display === 'none') return;
+
+                const id = item.dataset.id;
+                state.extras[id] = !state.extras[id];
+                item.classList.toggle('checked', state.extras[id]);
+                item.querySelector('.custom-checkbox').textContent = state.extras[id] ? '✓' : '';
+
+                // Si mini-arcade est selectionnee, desactiver exterieur
+                if (id === 'mini-arcade') {
+                    updateEventButtons();
+                }
+
+                hideResults();
+            });
+        });
+
+        // Options
+        optionsItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.classList.contains('forced')) return;
+
+                const id = item.dataset.id;
+                state.options[id] = !state.options[id];
+                item.classList.toggle('checked', state.options[id]);
+                item.querySelector('.custom-checkbox').textContent = state.options[id] ? '✓' : '';
+
+                hideResults();
+            });
+        });
+
+        // Event type
+        eventBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('disabled')) return;
+
+                eventBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.eventType = btn.dataset.type;
+
+                hideResults();
+            });
+        });
+
+        // Duration (pour mode anime) - dropdown
+        durationSelect.addEventListener('change', () => {
+            state.duration = parseInt(durationSelect.value);
+            state.prolongation = 0; // Reset prolongation when duration changes
+            hideResults();
+        });
+
+        // Calcul automatique du nombre de jours (style U-Haul)
+        function calculateRentalDays() {
+            if (!state.deliveryDate || !state.pickupDate) {
+                state.days = 1;
+                rentalDaysInfo.textContent = '';
+                return;
+            }
+
+            const deliveryDateTime = new Date(state.deliveryDate + 'T' + state.deliveryTime);
+            const pickupDateTime = new Date(state.pickupDate + 'T' + state.pickupTime);
+            const diffMs = pickupDateTime - deliveryDateTime;
+            const diffHours = diffMs / (1000 * 60 * 60);
+
+            if (diffHours <= 0) {
+                rentalDaysInfo.textContent = '⚠️ La date de ramassage doit etre apres la livraison';
+                rentalDaysInfo.style.color = '#E30613';
+                state.days = 0;
+                return;
+            }
+
+            // Calcul des jours: <24h = 1 jour, 24-48h = 2 jours, etc.
+            state.days = Math.ceil(diffHours / 24);
+            const sameDay = state.deliveryDate === state.pickupDate;
+
+            if (sameDay) {
+                rentalDaysInfo.textContent = '📅 Location meme jour (' + Math.round(diffHours) + 'h) = 1 jour';
+            } else {
+                rentalDaysInfo.textContent = '📅 Location ' + state.days + ' jour' + (state.days > 1 ? 's' : '') + ' (' + Math.round(diffHours) + 'h)';
+            }
+            rentalDaysInfo.style.color = '#4CAF50';
+        }
+
+        // Delivery date (pour mode location)
+        deliveryDateInput.addEventListener('change', () => {
+            state.deliveryDate = deliveryDateInput.value;
+            // Mettre a jour le min de pickup date
+            pickupDateInput.setAttribute('min', state.deliveryDate);
+            if (state.pickupDate && state.pickupDate < state.deliveryDate) {
+                state.pickupDate = state.deliveryDate;
+                pickupDateInput.value = state.deliveryDate;
+            }
+            state.deliveryChoice = null;
+            calculateRentalDays();
+            hideResults();
+        });
+
+        // Delivery time (pour mode location)
+        deliveryTimeInput.addEventListener('change', () => {
+            state.deliveryTime = deliveryTimeInput.value;
+            state.deliveryChoice = null;
+            calculateRentalDays();
+            hideResults();
+        });
+
+        // Pickup date (pour mode location)
+        pickupDateInput.addEventListener('change', () => {
+            state.pickupDate = pickupDateInput.value;
+            state.pickupChoice = null;
+            calculateRentalDays();
+            hideResults();
+        });
+
+        // Pickup time (pour mode location)
+        pickupTimeInput.addEventListener('change', () => {
+            state.pickupTime = pickupTimeInput.value;
+            state.pickupChoice = null;
+            calculateRentalDays();
+            hideResults();
+        });
+
+        // Postal code with debounce
+        postalCodeInput.addEventListener('input', (e) => {
+            e.target.value = formatPostalCode(e.target.value);
+            state.postalCode = e.target.value.replace(/\s/g, '');
+            hideResults();
+
+            clearTimeout(distanceTimeout);
+            distanceTimeout = setTimeout(() => {
+                calculateDistance(state.postalCode);
+            }, 500);
+        });
+
+        // Date
+        eventDateInput.addEventListener('change', () => {
+            state.eventDate = eventDateInput.value;
+            hideResults();
+        });
+
+        // Start time
+        startTimeInput.addEventListener('change', () => {
+            state.startTime = startTimeInput.value;
+            hideResults();
+        });
+
+        // Prolongation button
+        document.getElementById('addHourBtn').addEventListener('click', () => {
+            state.prolongation++;
+            updateResult();
+        });
+
+        // Calculate button
+        document.getElementById('calculateBtn').addEventListener('click', () => {
+            const btn = document.getElementById('calculateBtn');
+            const validationErrors = validateForm();
+
+            if (validationErrors.length > 0) {
+                // Show validation errors
+                showValidationErrors(validationErrors);
+                return;
+            }
+
+            btn.classList.add('calculating');
+            btn.textContent = 'CALCUL EN COURS...';
+            hideValidationErrors();
+
+            // Force recalculation of distance if postal code exists
+            if (state.postalCode && state.postalCode.length >= 6) {
+                calculateDistance(state.postalCode).then(() => {
+                    updateResult();
+                    btn.classList.remove('calculating');
+                    btn.textContent = 'RECALCULER';
+
+                    // Scroll to result
+                    document.getElementById('resultContainer').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            } else {
+                updateResult();
+                btn.classList.remove('calculating');
+                btn.textContent = 'RECALCULER';
+
+                // Scroll to result
+                document.getElementById('resultContainer').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+
+        // Form validation
+        function validateForm() {
+            const errors = [];
+
+            if (!state.mainActivity) {
+                errors.push('Selectionnez une activite principale');
+            }
+            if (state.mainActivity === 'arcade-geante' && !state.mode) {
+                errors.push('Selectionnez le mode de service (anime ou location)');
+            }
+            if (!state.eventType) {
+                errors.push('Selectionnez le type d\'evenement (interieur ou exterieur)');
+            }
+            if (!state.postalCode || state.postalCode.length < 6) {
+                errors.push('Entrez un code postal valide (ex: G1A 1A1)');
+            }
+
+            return errors;
+        }
+
+        function showValidationErrors(errors) {
+            let errorDiv = document.getElementById('validationErrors');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.id = 'validationErrors';
+                errorDiv.className = 'validation-errors';
+                document.getElementById('calculateSection').appendChild(errorDiv);
+            }
+            errorDiv.innerHTML = errors.map(e => '> ' + e).join('<br>');
+            errorDiv.style.display = 'block';
+        }
+
+        function hideValidationErrors() {
+            const errorDiv = document.getElementById('validationErrors');
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        // Cacher les resultats apres chaque modification
+        function hideResults() {
+            resultContainer.classList.remove('visible');
+            placeholder.style.display = 'block';
+            placeholder.textContent = 'Cliquez sur "CALCULER MA SOUMISSION" pour voir votre devis.';
+            // Reset le bouton
+            const btn = document.getElementById('calculateBtn');
+            btn.textContent = 'CALCULER MA SOUMISSION';
+        }
+
+        // ============================================================
+        // MISE A JOUR DE L'AFFICHAGE
+        // ============================================================
+        function updateEventButtons() {
+            const extBtn = document.querySelector('#eventSection .event-btn[data-type="exterieur"]');
+
+            // Mini-Arcade ne peut pas etre en exterieur (projecteurs)
+            const hasMiniArcade = state.mainActivity === 'mini-arcade' || state.extras['mini-arcade'];
+
+            if (hasMiniArcade) {
+                extBtn.classList.add('disabled');
+                exterieurWarning.classList.add('visible');
+
+                if (state.eventType === 'exterieur') {
+                    state.eventType = 'interieur';
+                    eventBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelector('#eventSection .event-btn[data-type="interieur"]').classList.add('active');
+                }
+            } else {
+                extBtn.classList.remove('disabled');
+                exterieurWarning.classList.remove('visible');
+            }
+        }
+
+        function updateResult() {
+            if (!state.mainActivity || !state.eventType) {
+                resultContainer.classList.remove('visible');
+                placeholder.style.display = 'block';
+                if (!state.mainActivity) {
+                    placeholder.textContent = 'Selectionnez une activite pour voir les details du forfait.';
+                } else if (!state.eventType) {
+                    placeholder.textContent = 'Selectionnez le type d\'evenement (interieur ou exterieur) pour voir les details du forfait.';
+                }
+                return;
+            }
+
+            placeholder.style.display = 'none';
+            resultContainer.classList.add('visible');
+
+            // Calculate quote
+            const quote = calculateQuote();
+            state.currentQuote = quote;
+
+            // Verifier si on a besoin d'un choix d'hebergement pour location
+            if (quote.needsAccommodationChoice && quote.needsAccommodationChoice.options.length > 0) {
+                showAccommodationModal(
+                    quote.needsAccommodationChoice.tripType,
+                    quote.needsAccommodationChoice.problem,
+                    quote.needsAccommodationChoice.options
+                );
+                // On continue quand meme l'affichage, mais avec un avertissement
+            }
+
+            // Calculate stats
+            let totalJoueurs = 0;
+            let totalStations = 0;
+            let espaces = [];
+            let materielList = [];
+            let activitesList = [];
+            let notes = [];
+
+            // Activite principale
+            const mainData = activitesData[state.mainActivity];
+            totalJoueurs += mainData.joueurs;
+            totalStations += mainData.stations;
+            activitesList.push(mainData.nom);
+            materielList = materielList.concat(mainData.materiel);
+
+            if (state.eventType === 'exterieur' && mainData.materielExt.length > 0) {
+                materielList = materielList.concat(mainData.materielExt);
+            }
+
+            const mainEspace = state.eventType === 'exterieur' ? mainData.espace.ext : mainData.espace.int;
+            if (mainEspace) espaces.push(mainEspace);
+
+            // Extras (activites supplementaires)
+            if (state.extras['arcade-geante']) {
+                const extraData = activitesData['arcade-geante'];
+                totalJoueurs += extraData.joueurs;
+                totalStations += extraData.stations;
+                activitesList.push(extraData.nom + ' (extra)');
+                materielList = materielList.concat(extraData.materiel);
+            }
+
+            if (state.extras['mini-arcade']) {
+                const extraData = activitesData['mini-arcade'];
+                totalJoueurs += extraData.joueurs;
+                totalStations += extraData.stations;
+                activitesList.push(extraData.nom + ' (extra)');
+                materielList = materielList.concat(extraData.materiel);
+            }
+
+            // Options
+            Object.keys(state.options).forEach(id => {
+                if (state.options[id] && optionsData[id]) {
+                    materielList = materielList.concat(optionsData[id].materiel);
+                }
+            });
+
+            materielList = [...new Set(materielList)];
+
+            // Notes
+            const hasMiniArcade = state.mainActivity === 'mini-arcade' || state.extras['mini-arcade'];
+            const hasArcadeGeante = state.mainActivity === 'arcade-geante' || state.extras['arcade-geante'];
+
+            if (hasMiniArcade || hasArcadeGeante) {
+                notes.push('Supervision adulte demandee pour les jeunes.');
+            }
+            if (state.eventType === 'exterieur') {
+                notes.push('Les tentes protegent contre les intemperies legeres et bloquent le soleil. Emplacement a l\'ombre recommande.');
+            }
+            if (isAnimatedEvent()) {
+                notes.push('Animation encadree par un diplome en Techniques de Loisir.');
+            }
+            if (!isAnimatedEvent()) {
+                notes.push('Location: livraison et recuperation incluses dans les frais de deplacement.');
+            }
+
+            // Update display
+            let durationText = '';
+            if (isAnimatedEvent()) {
+                const totalDuration = state.duration + state.prolongation;
+                durationText = totalDuration + 'h';
+            } else {
+                durationText = state.days + ' jour' + (state.days > 1 ? 's' : '');
+            }
+
+            document.getElementById('resultSubtitle').textContent = activitesList.join(' + ') +
+                ' - ' + (state.eventType === 'exterieur' ? 'Exterieur' : 'Interieur') +
+                ' - ' + durationText;
+            document.getElementById('statJoueurs').textContent = totalJoueurs;
+            document.getElementById('statStations').textContent = totalStations;
+            document.getElementById('statEspace').textContent = espaces.length > 0 ? espaces[espaces.length - 1] : 'Variable';
+
+            // Update schedule (seulement pour anime)
+            updateScheduleDisplay(quote);
+
+            // Update quote display
+            updateQuoteDisplay(quote);
+
+            // Update prolongation section (seulement pour anime)
+            const prolongationSection = document.querySelector('.prolongation-section');
+            if (isAnimatedEvent()) {
+                prolongationSection.style.display = 'block';
+                document.getElementById('addHourBtn').textContent = '+ 1 HEURE (' + formatCurrency(PRICING_CONFIG.prolongation.prixParHeure) + ')';
+            } else {
+                prolongationSection.style.display = 'none';
+            }
+
+            // Liste activites
+            const actList = document.getElementById('activitesList');
+            actList.innerHTML = '';
+            activitesList.forEach(act => {
+                const li = document.createElement('li');
+                li.textContent = act;
+                actList.appendChild(li);
+            });
+
+            // Liste materiel
+            const matList = document.getElementById('materielList');
+            matList.innerHTML = '';
+            materielList.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                matList.appendChild(li);
+            });
+
+            // Requis
+            const reqList = document.getElementById('requisList');
+            reqList.innerHTML = '';
+            const requis = ['Prise 15A a moins de 15\''];
+            if (totalStations > 10) requis[0] = '2x Prise 15A a moins de 15\'';
+            requis.push('Espace : ' + (espaces.length > 0 ? espaces[espaces.length - 1] : 'A determiner'));
+            requis.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                reqList.appendChild(li);
+            });
+
+            // Notes
+            const notesBox = document.getElementById('notesBox');
+            notesBox.innerHTML = '<strong>Notes :</strong><br>' + notes.join('<br>');
+
+            // Update mailto link
+            updateContactLink(quote, activitesList);
+        }
+
+        function updateScheduleDisplay(quote) {
+            const scheduleSection = document.getElementById('scheduleSection');
+            const scheduleContent = document.getElementById('scheduleContent');
+            const accommodationAlert = document.getElementById('accommodationAlert');
+            const accommodationMessage = document.getElementById('accommodationMessage');
+
+            // Affichage pour les locations
+            if (!isAnimatedEvent()) {
+                scheduleSection.style.display = 'block';
+
+                if (!state.calculatedDistance) {
+                    scheduleContent.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">' +
+                        'Entrez un code postal pour voir les details de livraison/ramassage.' +
+                        '</div>';
+                    accommodationAlert.style.display = 'none';
+                    return;
+                }
+
+                const tripAnalysis = quote.rentalTripAnalysis || analyzeRentalTrips();
+                let html = '';
+
+                // Formatter les dates
+                const deliveryDateStr = state.deliveryDate ? formatDateFr(state.deliveryDate) : 'Date a definir';
+                const pickupDateStr = state.pickupDate ? formatDateFr(state.pickupDate) : 'Date a definir';
+                const sameDay = quote.sameDayRental;
+                const stayOnSite = quote.stayOnSite;
+
+                if (sameDay && stayOnSite) {
+                    // MEME JOUR - RESTER SUR PLACE
+                    const stay = tripAnalysis.stayOnSite;
+
+                    html += '<div style="margin-bottom: 20px;">';
+                    html += '<h4 style="color: #E30613; margin: 0 0 10px 0;">JOURNEE - ' + deliveryDateStr + '</h4>';
+                    if (quote.twoTripsImpossible) {
+                        html += '<p style="color: #FFC107; margin: 0 0 10px 0; font-size: 14px;">⚠️ Pas assez de temps pour 2 aller-retours - on reste sur place</p>';
+                    } else {
+                        html += '<p style="color: #4CAF50; margin: 0 0 10px 0; font-size: 14px;">💡 Rester sur place est plus economique que 2 aller-retours</p>';
+                    }
+
+                    const hasProblem = stay.problem && !state.deliveryChoice;
+                    const depClass = hasProblem ? 'error' : '';
+
+                    html += '<div class="schedule-line ' + depClass + '">';
+                    html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+                    html += '<span>' + formatTime(stay.departureFromHome) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Arrivee + montage (2h):</span>';
+                    html += '<span>' + formatTime(stay.arrivalRequired) + ' - ' + formatTime(parseTime(state.deliveryTime)) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line" style="color: #FFC107;">';
+                    html += '<span>Attente sur place (' + Math.round(quote.waitingHours) + 'h x 50$):</span>';
+                    html += '<span>' + formatCurrency(quote.waitingCost) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Demontage (2h):</span>';
+                    html += '<span>' + formatTime(parseTime(state.pickupTime)) + ' - ' + formatTime(stay.departureFromSite) + '</span>';
+                    html += '</div>';
+
+                    const returnClass = (stay.arrivalHome > 22 && !state.deliveryChoice) ? 'warning' : '';
+                    html += '<div class="schedule-line ' + returnClass + '">';
+                    html += '<span>Retour:</span>';
+                    html += '<span>' + formatTime(stay.arrivalHome) + '</span>';
+                    html += '</div>';
+
+                    if (stay.problem) {
+                        const solved = state.deliveryChoice && state.deliveryChoice.option !== 'change-time';
+                        if (solved) {
+                            html += '<div style="color: #4CAF50; font-size: 16px; margin-top: 5px;">✓ ' + state.deliveryChoice.data.title + '</div>';
+                        } else if (!state.deliveryChoice) {
+                            html += '<div style="color: #FFC107; font-size: 16px; margin-top: 5px;">⚠️ ' + stay.problem.message + '</div>';
+                        }
+                    }
+                    html += '</div>';
+
+                } else if (sameDay && !stayOnSite) {
+                    // MEME JOUR - 2 ALLER-RETOURS (moins cher que rester sur place)
+                    html += '<div style="margin-bottom: 20px;">';
+                    html += '<h4 style="color: #E30613; margin: 0 0 10px 0;">LIVRAISON - ' + deliveryDateStr + '</h4>';
+                    html += '<p style="color: #4CAF50; margin: 0 0 10px 0; font-size: 14px;">💡 2 aller-retours est plus economique que rester sur place (' + Math.round(quote.waitingHours) + 'h d\'attente)</p>';
+
+                    // Afficher comme 2 trajets separes
+                    const deliveryHasProblem = tripAnalysis.delivery.problem && !state.deliveryChoice;
+                    const delClass = deliveryHasProblem ? 'error' : '';
+                    html += '<div class="schedule-line ' + delClass + '">';
+                    html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.departureFromHome) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Arrivee + montage (2h):</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.arrivalRequired) + ' - ' + formatTime(parseTime(state.deliveryTime)) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Retour maison:</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.arrivalHome) + '</span>';
+                    html += '</div>';
+
+                    if (tripAnalysis.delivery.problem && !state.deliveryChoice) {
+                        html += '<div style="color: #FFC107; font-size: 16px; margin-top: 5px;">⚠️ ' + tripAnalysis.delivery.problem.message + '</div>';
+                    }
+                    html += '</div>';
+
+                    // Section RAMASSAGE (meme jour)
+                    html += '<div>';
+                    html += '<h4 style="color: #E30613; margin: 0 0 10px 0;">RAMASSAGE - ' + deliveryDateStr + ' (meme jour)</h4>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+                    html += '<span>' + formatTime(tripAnalysis.pickup.departureFromHome) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Demontage (2h):</span>';
+                    html += '<span>' + formatTime(parseTime(state.pickupTime)) + ' - ' + formatTime(tripAnalysis.pickup.departureFromSite) + '</span>';
+                    html += '</div>';
+
+                    const pickReturnClass = (tripAnalysis.pickup.arrivalHome > 22 && !state.pickupChoice) ? 'warning' : '';
+                    html += '<div class="schedule-line ' + pickReturnClass + '">';
+                    html += '<span>Retour:</span>';
+                    html += '<span>' + formatTime(tripAnalysis.pickup.arrivalHome) + '</span>';
+                    html += '</div>';
+
+                    if (tripAnalysis.pickup.problem && !state.pickupChoice) {
+                        html += '<div style="color: #FFC107; font-size: 16px; margin-top: 5px;">⚠️ ' + tripAnalysis.pickup.problem.message + '</div>';
+                    }
+                    html += '</div>';
+
+                } else {
+                    // LOCATION JOURS DIFFERENTS - Deux trajets separes
+
+                    // Section LIVRAISON
+                    html += '<div style="margin-bottom: 20px;">';
+                    html += '<h4 style="color: #E30613; margin: 0 0 10px 0;">LIVRAISON - ' + deliveryDateStr + '</h4>';
+
+                    const deliveryHasProblem = tripAnalysis.delivery.problem && !state.deliveryChoice;
+                    const delClass = deliveryHasProblem ? 'error' : '';
+                    html += '<div class="schedule-line ' + delClass + '">';
+                    html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.departureFromHome) + '</span>';
+                    html += '</div>';
+
+                    html += '<div class="schedule-line">';
+                    html += '<span>Arrivee + montage (2h):</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.arrivalRequired) + ' - ' + formatTime(parseTime(state.deliveryTime)) + '</span>';
+                    html += '</div>';
+
+                    const deliveryReturnClass = (tripAnalysis.delivery.arrivalHome > 22 && !state.deliveryChoice) ? 'warning' : '';
+                    html += '<div class="schedule-line ' + deliveryReturnClass + '">';
+                    html += '<span>Retour:</span>';
+                    html += '<span>' + formatTime(tripAnalysis.delivery.arrivalHome) + '</span>';
+                    html += '</div>';
+
+                    if (tripAnalysis.delivery.problem) {
+                        const deliverySolved = state.deliveryChoice && state.deliveryChoice.option !== 'change-time';
+                        if (deliverySolved) {
+                            html += '<div style="color: #4CAF50; font-size: 16px; margin-top: 5px;">✓ ' + state.deliveryChoice.data.title + '</div>';
+                        } else if (!state.deliveryChoice) {
+                            html += '<div style="color: #FFC107; font-size: 16px; margin-top: 5px;">⚠️ ' + tripAnalysis.delivery.problem.message + '</div>';
+                        }
+                    }
+                    html += '</div>';
+
+                    // Section RAMASSAGE
+                    html += '<div>';
+                    html += '<h4 style="color: #E30613; margin: 0 0 10px 0;">RAMASSAGE - ' + pickupDateStr + '</h4>';
+
+                    const pickupSolved = state.pickupChoice && state.pickupChoice.option !== 'change-time';
+                    const pickClass = (tripAnalysis.pickup.problem && !state.pickupChoice) ? 'error' : '';
+                    html += '<div class="schedule-line ' + pickClass + '">';
+                    html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+                    html += '<span>' + formatTime(tripAnalysis.pickup.departureFromHome) + '</span>';
+                    html += '</div>';
+
+                html += '<div class="schedule-line">';
+                html += '<span>Demontage (2h):</span>';
+                html += '<span>' + formatTime(parseTime(state.pickupTime)) + ' - ' + formatTime(tripAnalysis.pickup.departureFromSite) + '</span>';
+                html += '</div>';
+
+                const returnClass = (tripAnalysis.pickup.arrivalHome > 22 && !state.pickupChoice) ? 'warning' : '';
+                html += '<div class="schedule-line ' + returnClass + '">';
+                html += '<span>Retour:</span>';
+                html += '<span>' + formatTime(tripAnalysis.pickup.arrivalHome) + '</span>';
+                html += '</div>';
+
+                if (tripAnalysis.pickup.problem) {
+                    if (pickupSolved) {
+                        html += '<div style="color: #4CAF50; font-size: 16px; margin-top: 5px;">✓ ' + state.pickupChoice.data.title + '</div>';
+                    } else if (!state.pickupChoice) {
+                        html += '<div style="color: #FFC107; font-size: 16px; margin-top: 5px;">⚠️ ' + tripAnalysis.pickup.problem.message + '</div>';
+                    }
+                }
+                html += '</div>';
+                } // Fin du else (jours differents)
+
+                scheduleContent.innerHTML = html;
+
+                // Alerte si probleme non resolu ou solutions choisies
+                const hasDeliveryProblem = tripAnalysis.delivery.problem && !state.deliveryChoice;
+                const hasPickupProblem = tripAnalysis.pickup.problem && !state.pickupChoice;
+                const hasDeliverySolution = state.deliveryChoice && state.deliveryChoice.data;
+                const hasPickupSolution = state.pickupChoice && state.pickupChoice.data;
+
+                if (hasDeliveryProblem || hasPickupProblem) {
+                    accommodationAlert.style.display = 'block';
+                    accommodationMessage.innerHTML = '<strong>ATTENTION:</strong> Horaire difficile detecte. Cliquez sur "RECALCULER" pour voir les options.';
+                } else if (hasDeliverySolution || hasPickupSolution) {
+                    let solutions = [];
+                    // Ne pas afficher "Changer l'heure" car le changement est visible dans l'horaire
+                    if (hasDeliverySolution && state.deliveryChoice.option !== 'change-time') {
+                        const cost = state.deliveryChoice.data.cost > 0 ? ' (+' + formatCurrency(state.deliveryChoice.data.cost) + ')' : '';
+                        solutions.push('Livraison: ' + state.deliveryChoice.data.title + cost);
+                    }
+                    if (hasPickupSolution && state.pickupChoice.option !== 'change-time') {
+                        const cost = state.pickupChoice.data.cost > 0 ? ' (+' + formatCurrency(state.pickupChoice.data.cost) + ')' : '';
+                        solutions.push('Ramassage: ' + state.pickupChoice.data.title + cost);
+                    }
+                    if (solutions.length > 0) {
+                        accommodationAlert.style.display = 'block';
+                        accommodationMessage.innerHTML = '<strong>Solutions choisies:</strong><br>' + solutions.join('<br>');
+                    } else {
+                        accommodationAlert.style.display = 'none';
+                    }
+                } else {
+                    accommodationAlert.style.display = 'none';
+                }
+                return;
+            }
+
+            if (!state.calculatedDistance || !state.startTime) {
+                scheduleSection.style.display = 'none';
+                accommodationAlert.style.display = 'none';
+                return;
+            }
+
+            scheduleSection.style.display = 'block';
+
+            const accommodationInfo = quote.accommodationInfo || calculateAccommodation();
+            const totalDuration = state.duration + state.prolongation;
+            const startTimeDecimal = parseTime(state.startTime);
+
+            let html = '';
+
+            // Departure from home
+            const departClass = accommodationInfo.departureFromHome < PRICING_CONFIG.hebergement.heureDepartMinimum ? 'error' : '';
+            html += '<div class="schedule-line ' + departClass + '">';
+            html += '<span>Depart ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+            if (accommodationInfo.needsNightBefore) {
+                html += '<span>Veille au soir</span>';
+            } else {
+                html += '<span>' + formatTime(accommodationInfo.departureFromHome) + '</span>';
+            }
+            html += '</div>';
+
+            // Arrival on site
+            html += '<div class="schedule-line">';
+            html += '<span>Arrivee sur place:</span>';
+            html += '<span>' + formatTime(accommodationInfo.arrivalRequired) + '</span>';
+            html += '</div>';
+
+            // Setup
+            html += '<div class="schedule-line">';
+            html += '<span>Montage:</span>';
+            html += '<span>' + formatTime(accommodationInfo.arrivalRequired) + ' - ' + formatTime(startTimeDecimal) + '</span>';
+            html += '</div>';
+
+            // Animation
+            html += '<div class="schedule-line">';
+            html += '<span>Animation:</span>';
+            html += '<span>' + formatTime(startTimeDecimal) + ' - ' + formatTime(accommodationInfo.endTime) + '</span>';
+            html += '</div>';
+
+            // Teardown
+            html += '<div class="schedule-line">';
+            html += '<span>Demontage:</span>';
+            html += '<span>' + formatTime(accommodationInfo.endTime) + ' - ' + formatTime(accommodationInfo.departureFromSite) + '</span>';
+            html += '</div>';
+
+            // Return home
+            const returnClass = (accommodationInfo.arrivalHome > PRICING_CONFIG.hebergement.heureRetourMaximum || accommodationInfo.arrivalHome >= 24) ? 'error' : '';
+            html += '<div class="schedule-line ' + returnClass + '">';
+            html += '<span>Retour ' + PRICING_CONFIG.deplacement.pointDepart.nom + ':</span>';
+            if (accommodationInfo.needsNightAfter) {
+                html += '<span>Lendemain matin</span>';
+            } else {
+                html += '<span>' + formatTime(accommodationInfo.arrivalHome) + '</span>';
+            }
+            html += '</div>';
+
+            // Total day (effectif apres nuitees)
+            html += '<div class="schedule-line" style="border-top: 1px solid #333; padding-top: 10px; margin-top: 10px;">';
+            html += '<span>Duree journee:</span>';
+            html += '<span>' + (accommodationInfo.effectiveDayHours || 0).toFixed(1) + 'h</span>';
+            html += '</div>';
+
+            scheduleContent.innerHTML = html;
+
+            // Accommodation alert
+            if (accommodationInfo.nights > 0) {
+                accommodationAlert.style.display = 'block';
+                let alertHtml = '<strong>' + accommodationInfo.nights + ' NUIT' + (accommodationInfo.nights > 1 ? 'S' : '') + ' D\'HEBERGEMENT REQUISE' + (accommodationInfo.nights > 1 ? 'S' : '') + '</strong><br>';
+                alertHtml += accommodationInfo.reasons.join('<br>');
+                accommodationMessage.innerHTML = alertHtml;
+            } else {
+                accommodationAlert.style.display = 'none';
+            }
+        }
+
+        function updateQuoteDisplay(quote) {
+            const quoteContent = document.getElementById('quoteContent');
+            let html = '';
+
+            // Items
+            quote.items.forEach(item => {
+                const isIncluded = item.type === 'included' || item.amount === 0;
+                html += '<div class="quote-line' + (isIncluded ? ' discount' : '') + '">';
+                html += '<span>' + item.name + '</span>';
+                html += '<span>' + (isIncluded ? 'Inclus' : formatCurrency(item.amount)) + '</span>';
+                html += '</div>';
+            });
+
+            // Discounts
+            quote.discounts.forEach(discount => {
+                html += '<div class="quote-line discount">';
+                html += '<span>' + discount.name + '</span>';
+                html += '<span>-' + formatCurrency(discount.amount) + '</span>';
+                html += '</div>';
+            });
+
+            // Travel
+            if (quote.travel > 0) {
+                const rateDisplay = quote.travelRate.toFixed(2);
+                const kmDisplay = quote.travelKm || state.calculatedDistance;
+                html += '<div class="quote-line subtotal">';
+                html += '<span>Deplacement (' + kmDisplay + ' km x ' + rateDisplay + '$/km)</span>';
+                html += '<span>' + formatCurrency(quote.travel) + '</span>';
+                html += '</div>';
+                if (quote.travelNote) {
+                    html += '<div style="text-align: right; color: #999; font-size: 16px; margin-top: -5px;">' + quote.travelNote + '</div>';
+                }
+            }
+
+            // Accommodation
+            if (quote.accommodation > 0) {
+                html += '<div class="quote-line surcharge">';
+                html += '<span>Hebergement (' + quote.accommodationInfo.nights + ' nuit' + (quote.accommodationInfo.nights > 1 ? 's' : '') + ')</span>';
+                html += '<span>' + formatCurrency(quote.accommodation) + '</span>';
+                html += '</div>';
+            }
+
+            quoteContent.innerHTML = html;
+
+            // Total
+            const totalEl = document.getElementById('quoteTotal');
+            totalEl.innerHTML = formatCurrency(quote.total) +
+                               (quote.isEstimate ? ' <span class="quote-estimate">ESTIME</span>' : '');
+        }
+
+        function updateContactLink(quote, activitesList) {
+            const eventTypeText = state.eventType === 'exterieur' ? 'Exterieur' : 'Interieur';
+            const modeText = isAnimatedEvent() ? 'Anime' : 'Location';
+            const subject = encodeURIComponent('Demande de soumission - ' + activitesList[0]);
+
+            let bodyText = 'Bonjour,\n\n';
+            bodyText += 'Je souhaite obtenir une soumission pour le forfait suivant :\n\n';
+            bodyText += 'ACTIVITES :\n- ' + activitesList.join('\n- ') + '\n\n';
+            bodyText += 'MODE : ' + modeText + '\n';
+            bodyText += 'TYPE D\'EVENEMENT : ' + eventTypeText + '\n';
+
+            if (isAnimatedEvent()) {
+                const totalDuration = state.duration + state.prolongation;
+                bodyText += 'DUREE : ' + totalDuration + ' heures\n';
+            } else {
+                bodyText += 'DUREE : ' + state.days + ' jour' + (state.days > 1 ? 's' : '') + '\n';
+            }
+
+            if (state.postalCode) {
+                bodyText += 'CODE POSTAL : ' + state.postalCode + '\n';
+                if (state.calculatedDistance) {
+                    bodyText += 'DISTANCE : ' + state.calculatedDistance + ' km\n';
+                }
+            }
+
+            if (state.eventDate) {
+                bodyText += 'DATE : ' + state.eventDate + '\n';
+            }
+
+            if (isAnimatedEvent() && state.startTime) {
+                bodyText += 'HEURE DE DEBUT : ' + state.startTime + '\n';
+            }
+
+            bodyText += '\n--- ESTIMATION ---\n';
+            quote.items.forEach(item => {
+                if (item.amount > 0) {
+                    bodyText += item.name + ': ' + formatCurrency(item.amount) + '\n';
+                } else if (item.type === 'included') {
+                    bodyText += item.name + '\n';
+                }
+            });
+            if (quote.travel > 0) {
+                bodyText += 'Deplacement (' + quote.travelNote + '): ' + formatCurrency(quote.travel) + '\n';
+            }
+            if (quote.accommodation > 0) {
+                bodyText += 'Hebergement: ' + formatCurrency(quote.accommodation) + '\n';
+            }
+            quote.discounts.forEach(d => {
+                bodyText += d.name + ': -' + formatCurrency(d.amount) + '\n';
+            });
+            bodyText += '\nTOTAL ESTIME: ' + formatCurrency(quote.total) + '\n';
+            bodyText += '---\n\n';
+            bodyText += 'Merci!';
+
+            const body = encodeURIComponent(bodyText);
+            document.getElementById('contactLink').href = 'mailto:Carl@manettesGEANTES.ca?subject=' + subject + '&body=' + body;
+        }
+
+        // ============================================================
+        // DEMARRAGE
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
