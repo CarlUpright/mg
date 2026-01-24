@@ -747,6 +747,7 @@
 </head>
 <body>
     <div class="visitor-counter">
+        <div class="counter-box" id="debug-width" style="margin-right: 10px; background: #E30613;"></div>
         <div class="counter-box">
             <span>VISITEURS: </span>
             <span class="digit">0</span>
@@ -995,6 +996,14 @@
     <script>
         // Script principal
         window.onload = function() {
+            // Debug: afficher la largeur de l'écran
+            const debugWidth = document.getElementById('debug-width');
+            function updateWidth() {
+                debugWidth.textContent = 'W:' + window.innerWidth + 'px';
+            }
+            updateWidth();
+            window.addEventListener('resize', updateWidth);
+
             // Compteur de visiteurs
             let lastDigit = document.getElementById('last-digit');
             let count = 0;
