@@ -187,7 +187,8 @@
             box-shadow: 0 0 20px rgba(227, 6, 19, 0.5);
         }
 
-        .gallery-item img {
+        .gallery-item img,
+        .gallery-item video {
             width: 100%;
             height: 220px;
             object-fit: cover;
@@ -202,6 +203,28 @@
             background-color: #1a1a1a;
             border-top: 2px dashed #333;
             word-break: break-all;
+        }
+
+        .gallery-item .video-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(227, 6, 19, 0.8);
+            color: #F8F8F8;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            pointer-events: none;
+        }
+
+        .gallery-item.no-promo {
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .loading {
@@ -254,10 +277,16 @@
             background-color: #000;
         }
 
-        .modal-img {
+        .modal-img,
+        .modal-video {
             display: block;
             margin: 0 auto;
             max-width: 100%;
+            max-height: 70vh;
+        }
+
+        .modal-video {
+            width: 100%;
             max-height: 70vh;
         }
 
@@ -274,11 +303,13 @@
             color: #999;
             font-size: 16px;
             margin-top: 5px;
+            text-align: center;
         }
 
         .modal-nav {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 15px;
         }
 
@@ -295,6 +326,17 @@
         .modal-nav button:hover {
             background-color: #F8F8F8;
             color: #E30613;
+        }
+
+        .download-btn {
+            background-color: #4CAF50 !important;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049 !important;
+            color: #F8F8F8 !important;
         }
 
         .close-btn {
@@ -314,6 +356,28 @@
         .close-btn:hover {
             background-color: #F8F8F8;
             color: #E30613;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #E30613;
+            color: #F8F8F8;
+            padding: 15px 30px;
+            border: 3px solid #F8F8F8;
+            font-size: 24px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .toast.show {
+            opacity: 1;
         }
 
         .footer {
@@ -369,8 +433,20 @@
                 gap: 15px;
             }
 
-            .gallery-item img {
+            .gallery-item img,
+            .gallery-item video {
                 height: 180px;
+            }
+
+            .modal-nav {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+
+            .modal-nav button {
+                font-size: 18px;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -425,15 +501,20 @@
         </div>
     </div>
 
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
     <!-- Modal pour l'agrandissement des images -->
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeBtn">X</span>
-            <img class="modal-img" id="expandedImg">
+            <img class="modal-img" id="expandedImg" style="display: none;">
+            <video class="modal-video" id="expandedVideo" controls style="display: none;"></video>
             <div class="modal-description" id="imageDescription"></div>
             <div class="modal-category" id="imageCategory"></div>
             <div class="modal-nav">
                 <button id="prevButton">◀ PRÉCÉDENT</button>
+                <a id="downloadBtn" class="download-btn" style="display: none;" download>TÉLÉCHARGER</a>
                 <button id="nextButton">SUIVANT ▶</button>
             </div>
         </div>
@@ -467,18 +548,30 @@
 
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('expandedImg');
+        const modalVideo = document.getElementById('expandedVideo');
         const modalDescription = document.getElementById('imageDescription');
         const modalCategory = document.getElementById('imageCategory');
         const closeBtn = document.getElementById('closeBtn');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const toast = document.getElementById('toast');
 
-        let allImages = []; // Toutes les images de toutes les catégories
+        let allMedia = []; // Toutes les images/vidéos de toutes les catégories
         let currentIndex = 0;
 
-        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'];
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg'];
+        const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
 
-        async function loadCategoryImages(category) {
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        async function loadCategoryMedia(category) {
             const gallery = document.getElementById(category.id);
 
             try {
@@ -492,42 +585,81 @@
 
                 const files = await response.json();
 
-                const images = files.filter(file => {
+                const media = files.filter(file => {
                     const ext = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
-                    return imageExtensions.includes(ext);
+                    return imageExtensions.includes(ext) || videoExtensions.includes(ext);
                 });
 
-                if (images.length === 0) {
-                    gallery.innerHTML = '<div class="error">AUCUNE IMAGE</div>';
+                if (media.length === 0) {
+                    gallery.innerHTML = '<div class="error">AUCUN MÉDIA</div>';
                     return;
                 }
 
                 gallery.innerHTML = '';
 
-                images.forEach((image) => {
-                    // Ajouter à la liste globale
-                    const globalIndex = allImages.length;
-                    allImages.push({
-                        name: image.name,
+                media.forEach((file) => {
+                    const ext = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+                    const isVideo = videoExtensions.includes(ext);
+                    const globalIndex = allMedia.length;
+
+                    allMedia.push({
+                        name: file.name,
                         folder: category.folder,
                         category: category.name,
-                        promo: category.promo
+                        promo: category.promo,
+                        isVideo: isVideo
                     });
 
                     const item = document.createElement('div');
-                    item.className = 'gallery-item';
+                    item.className = 'gallery-item' + (category.promo ? '' : ' no-promo');
 
-                    const img = document.createElement('img');
-                    img.src = `${category.folder}/${encodeURIComponent(image.name)}`;
-                    img.alt = image.name;
-                    img.loading = 'lazy';
+                    if (isVideo) {
+                        const video = document.createElement('video');
+                        video.src = `${category.folder}/${encodeURIComponent(file.name)}`;
+                        video.muted = true;
+                        video.loop = true;
+                        video.playsInline = true;
+                        // Preview on hover
+                        item.addEventListener('mouseenter', () => video.play());
+                        item.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+
+                        const badge = document.createElement('div');
+                        badge.className = 'video-badge';
+                        badge.textContent = '▶';
+
+                        item.appendChild(video);
+                        item.appendChild(badge);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = `${category.folder}/${encodeURIComponent(file.name)}`;
+                        img.alt = file.name;
+                        img.loading = 'lazy';
+
+                        // Block right-click for non-promo images
+                        if (!category.promo) {
+                            img.addEventListener('contextmenu', (e) => {
+                                e.preventDefault();
+                                showToast('Ne pas utiliser cette photo pour de la promo!');
+                            });
+                        }
+
+                        item.appendChild(img);
+                    }
 
                     const filename = document.createElement('div');
                     filename.className = 'filename';
-                    filename.textContent = image.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ').replace(/-/g, ' ');
+                    filename.textContent = file.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ').replace(/-/g, ' ');
 
-                    item.appendChild(img);
                     item.appendChild(filename);
+
+                    // Block right-click on the whole item for non-promo
+                    if (!category.promo) {
+                        item.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            showToast('Ne pas utiliser cette photo pour de la promo!');
+                        });
+                    }
+
                     item.addEventListener('click', () => openModal(globalIndex));
                     gallery.appendChild(item);
                 });
@@ -540,24 +672,63 @@
 
         function openModal(index) {
             currentIndex = index;
-            const image = allImages[currentIndex];
-            modalImg.src = `${image.folder}/${encodeURIComponent(image.name)}`;
-            modalDescription.textContent = image.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ').replace(/-/g, ' ');
-            modalCategory.textContent = image.category + (image.promo ? ' - Libre pour promo' : ' - Usage interne');
+            const media = allMedia[currentIndex];
+            const src = `${media.folder}/${encodeURIComponent(media.name)}`;
+
+            if (media.isVideo) {
+                modalImg.style.display = 'none';
+                modalVideo.style.display = 'block';
+                modalVideo.src = src;
+            } else {
+                modalVideo.style.display = 'none';
+                modalVideo.src = '';
+                modalImg.style.display = 'block';
+                modalImg.src = src;
+            }
+
+            modalDescription.textContent = media.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ').replace(/-/g, ' ');
+            modalCategory.textContent = media.category + (media.promo ? ' - Libre pour promo' : ' - Usage interne');
+
+            // Show/hide download button based on promo status
+            if (media.promo) {
+                downloadBtn.style.display = 'inline-block';
+                downloadBtn.href = src;
+                downloadBtn.download = media.name;
+            } else {
+                downloadBtn.style.display = 'none';
+            }
+
+            // Block right-click in modal for non-promo
+            if (!media.promo) {
+                modalImg.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    showToast('Ne pas utiliser cette photo pour de la promo!');
+                };
+                modalVideo.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    showToast('Ne pas utiliser cette photo pour de la promo!');
+                };
+            } else {
+                modalImg.oncontextmenu = null;
+                modalVideo.oncontextmenu = null;
+            }
+
             modal.style.display = 'block';
         }
 
         function closeModal() {
             modal.style.display = 'none';
+            modalVideo.pause();
+            modalVideo.src = '';
         }
 
         function showPrev() {
-            currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+            currentIndex = (currentIndex - 1 + allMedia.length) % allMedia.length;
             openModal(currentIndex);
         }
 
         function showNext() {
-            currentIndex = (currentIndex + 1) % allImages.length;
+            currentIndex = (currentIndex + 1) % allMedia.length;
             openModal(currentIndex);
         }
 
@@ -598,7 +769,7 @@
         });
 
         // Charger toutes les catégories
-        categories.forEach(category => loadCategoryImages(category));
+        categories.forEach(category => loadCategoryMedia(category));
     </script>
 </body>
 </html>
