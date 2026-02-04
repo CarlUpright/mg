@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RC League - Tableau des scores</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0A0E17;
+            color: #FFFFFF;
+            font-family: 'Orbitron', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .header-logo {
+            max-width: 400px;
+            height: auto;
+        }
+
+        .header-title {
+            font-size: 150px;
+            font-weight: 900;
+            letter-spacing: 24px;
+            background: linear-gradient(90deg, #39FF14, #FF6B1A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #FFFFFF;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Score sections */
+        .team-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border: 3px dashed yellow;
+        }
+
+        .team-label {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .team-green .team-label {
+            color: #39FF14;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .team-orange .team-label {
+            color: #FF6B1A;
+            text-shadow: 0 0 20px rgba(255, 107, 26, 0.5);
+        }
+
+        .score-display {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            font-size: 250px;
+            line-height: 1;
+            width: 320px;
+            height: 280px;
+            text-align: center;
+            border: 3px solid magenta;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-green .score-display {
+            color: #39FF14;
+            text-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+        }
+
+        .team-orange .score-display {
+            color: #FF6B1A;
+            text-shadow: 0 0 30px rgba(255, 107, 26, 0.6);
+        }
+
+        .score-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .score-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 40px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .team-green .score-btn {
+            background-color: #39FF14;
+            color: #0A0E17;
+        }
+
+        .team-green .score-btn:hover {
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
+            transform: scale(1.1);
+        }
+
+        .team-orange .score-btn {
+            background-color: #FF6B1A;
+            color: #0A0E17;
+        }
+
+        .team-orange .score-btn:hover {
+            box-shadow: 0 0 25px rgba(255, 107, 26, 0.8);
+            transform: scale(1.1);
+        }
+
+        .score-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Timer section */
+        .timer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            padding: 0 40px;
+            border: 3px dashed cyan;
+        }
+
+        .timer-display {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            width: 420px;
+            height: 280px;
+            text-align: center;
+            border: 3px solid white;
+            font-size: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-display.warning {
+            color: #FF4444;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+            animation: pulse-warning 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .timer-display.finished {
+            color: #FF0000;
+            animation: flash 0.3s ease-in-out infinite;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .timer-btn {
+            width: 80px;
+            height: 60px;
+            font-size: 28px;
+            border: 3px solid #FFFFFF;
+            background-color: transparent;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .timer-btn:hover {
+            background-color: #FFFFFF;
+            color: #0A0E17;
+        }
+
+        .timer-btn.start {
+            border-color: #39FF14;
+            color: #39FF14;
+        }
+
+        .timer-btn.start:hover {
+            background-color: #39FF14;
+            color: #0A0E17;
+        }
+
+        .timer-btn.pause {
+            border-color: #FF6B1A;
+            color: #FF6B1A;
+        }
+
+        .timer-btn.pause:hover {
+            background-color: #FF6B1A;
+            color: #0A0E17;
+        }
+
+        /* Duration controls */
+        .duration-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .duration-label {
+            font-size: 16px;
+            color: #888;
+            letter-spacing: 2px;
+        }
+
+        .duration-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .duration-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            border: 2px solid #888;
+            background-color: transparent;
+            color: #888;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .duration-btn:hover {
+            border-color: #FFFFFF;
+            color: #FFFFFF;
+        }
+
+        /* Reset button */
+        .reset-section {
+            margin-top: 40px;
+        }
+
+        .reset-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            border: 3px solid #444;
+            background-color: transparent;
+            color: #444;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            border-color: #FF4444;
+            color: #FF4444;
+        }
+
+        /* Responsive */
+        @media (max-width: 1600px) {
+            .score-display {
+                font-size: 300px;
+                width: 380px;
+            }
+
+            .timer-display {
+                font-size: 240px;
+                width: 320px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .score-display {
+                font-size: 200px;
+                width: 280px;
+            }
+
+            .timer-display {
+                font-size: 180px;
+                width: 260px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .scoreboard {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .timer-section {
+                order: -1;
+                padding: 0;
+            }
+
+            .timer-display {
+                font-size: 150px;
+                width: 220px;
+            }
+
+            .score-display {
+                font-size: 150px;
+                width: 220px;
+            }
+
+            .team-label {
+                font-size: 24px;
+            }
+
+            .header-title {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .timer-display {
+                font-size: 100px;
+                width: 160px;
+            }
+
+            .score-display {
+                font-size: 100px;
+                width: 160px;
+            }
+
+            .header-title {
+                font-size: 24px;
+                letter-spacing: 3px;
+            }
+
+            .header-logo {
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <!-- Option 1: Image PNG du logo (recommandé) -->
+        <!-- <img src="RC_League/RC_League_titre.png" alt="RC LEAGUE" class="header-logo"> -->
+
+        <!-- Option 2: Texte avec fallback (placeholder) -->
+        <div class="header-title">RC LEAGUE</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+    <div class="scoreboard">
+        <!-- Équipe Verte -->
+        <div class="team-score team-green">
+            <div class="team-label">Vert</div>
+            <div class="score-display" id="scoreGreen">0</div>
+            <div class="score-buttons">
+                <button class="score-btn" onclick="changeScore('green', -1)">-</button>
+                <button class="score-btn" onclick="changeScore('green', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-section">
+            <div class="timer-display" id="timerDisplay">10:00</div>
+            <div class="timer-controls">
+                <button class="timer-btn start" id="startBtn" onclick="startTimer()">▶</button>
+                <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()">❚❚</button>
+                <button class="timer-btn" onclick="resetTimer()">↺</button>
+            </div>
+            <div class="duration-section">
+                <span class="duration-label">DURÉE</span>
+                <button class="duration-btn" onclick="changeDuration(-1)">-</button>
+                <div class="duration-display" id="durationDisplay">10 min</div>
+                <button class="duration-btn" onclick="changeDuration(1)">+</button>
+            </div>
+        </div>
+
+        <!-- Équipe Orange -->
+        <div class="team-score team-orange">
+            <div class="team-label">Orange</div>
+            <div class="score-display" id="scoreOrange">0</div>
+            <div class="score-buttons">
+                <button class="score-btn" onclick="changeScore('orange', -1)">-</button>
+                <button class="score-btn" onclick="changeScore('orange', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reset-section">
+        <button class="reset-btn" onclick="resetAll()">NOUVELLE PARTIE</button>
+    </div>
+    </div><!-- /main-content -->
+
+    <!-- Footer -->
+    <div class="footer">
+        Une animation de <a href="index.html">ManettesGÉANTES.ca</a>
+    </div>
+
+    <script>
+        // State
+        let scoreGreen = 0;
+        let scoreOrange = 0;
+        let matchDuration = parseInt(localStorage.getItem('rcLeagueDuration')) || 10; // minutes
+        let timeRemaining = matchDuration * 60 * 1000; // milliseconds
+        let timerInterval = null;
+        let isRunning = false;
+        let lastUpdateTime = null;
+
+        // Audio context for buzz
+        let audioContext = null;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBuzz() {
+            initAudio();
+
+            const duration = 1.5; // seconds
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Timer functions
+        function formatTime(ms) {
+            const totalSeconds = Math.max(0, ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            if (totalSeconds < 60 && totalSeconds > 0) {
+                // Show only seconds with decimals under 60 seconds
+                return seconds.toFixed(1);
+            } else if (totalSeconds <= 0) {
+                return "0.0";
+            } else {
+                const secs = Math.floor(seconds);
+                return `${minutes}:${secs.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const display = document.getElementById('timerDisplay');
+            display.textContent = formatTime(timeRemaining);
+
+            // Auto-resize to fit box
+            fitTextToBox(display, 300);
+
+            // Warning state under 60 seconds
+            if (timeRemaining <= 60000 && timeRemaining > 0) {
+                display.classList.add('warning');
+                display.classList.remove('finished');
+            } else if (timeRemaining <= 0) {
+                display.classList.remove('warning');
+                display.classList.add('finished');
+            } else {
+                display.classList.remove('warning', 'finished');
+            }
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            if (timeRemaining <= 0) return;
+
+            initAudio(); // Init audio on user interaction
+            isRunning = true;
+            lastUpdateTime = Date.now();
+
+            timerInterval = setInterval(() => {
+                const now = Date.now();
+                const delta = now - lastUpdateTime;
+                lastUpdateTime = now;
+
+                timeRemaining -= delta;
+
+                if (timeRemaining <= 0) {
+                    timeRemaining = 0;
+                    pauseTimer();
+                    playBuzz();
+                }
+
+                updateTimerDisplay();
+            }, 100); // Update every 100ms for smooth decimals
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeRemaining = matchDuration * 60 * 1000;
+            updateTimerDisplay();
+        }
+
+        // Score functions
+        function changeScore(team, delta) {
+            if (team === 'green') {
+                scoreGreen = Math.max(0, scoreGreen + delta);
+                document.getElementById('scoreGreen').textContent = scoreGreen;
+                fitTextToBox(document.getElementById('scoreGreen'), 400);
+            } else {
+                scoreOrange = Math.max(0, scoreOrange + delta);
+                document.getElementById('scoreOrange').textContent = scoreOrange;
+                fitTextToBox(document.getElementById('scoreOrange'), 400);
+            }
+        }
+
+        // Duration functions
+        function changeDuration(delta) {
+            if (isRunning) return; // Don't change while running
+
+            matchDuration = Math.max(1, Math.min(30, matchDuration + delta));
+            localStorage.setItem('rcLeagueDuration', matchDuration);
+            document.getElementById('durationDisplay').textContent = matchDuration + ' min';
+
+            // Reset timer to new duration
+            timeRemaining = matchDuration * 60 * 1000;
+            updateTimerDisplay();
+        }
+
+        // Reset all
+        function resetAll() {
+            pauseTimer();
+            scoreGreen = 0;
+            scoreOrange = 0;
+            document.getElementById('scoreGreen').textContent = '0';
+            document.getElementById('scoreOrange').textContent = '0';
+            fitTextToBox(document.getElementById('scoreGreen'), 400);
+            fitTextToBox(document.getElementById('scoreOrange'), 400);
+            timeRemaining = matchDuration * 60 * 1000;
+            updateTimerDisplay();
+        }
+
+        // Auto-fit text to box
+        function fitTextToBox(element, maxFontSize) {
+            const box = element;
+            const boxWidth = box.clientWidth - 20;
+            const boxHeight = box.clientHeight - 20;
+
+            // Create temp span to measure text
+            const temp = document.createElement('span');
+            temp.style.fontFamily = "'Roboto Mono', monospace";
+            temp.style.fontWeight = '700';
+            temp.style.visibility = 'hidden';
+            temp.style.position = 'absolute';
+            temp.style.whiteSpace = 'nowrap';
+            temp.textContent = box.textContent;
+            document.body.appendChild(temp);
+
+            let fontSize = maxFontSize;
+            temp.style.fontSize = fontSize + 'px';
+
+            // Reduce font size until it fits
+            while ((temp.offsetWidth > boxWidth || temp.offsetHeight > boxHeight) && fontSize > 10) {
+                fontSize -= 5;
+                temp.style.fontSize = fontSize + 'px';
+            }
+
+            document.body.removeChild(temp);
+            box.style.fontSize = fontSize + 'px';
+        }
+
+        // Initialize
+        document.getElementById('durationDisplay').textContent = matchDuration + ' min';
+        updateTimerDisplay();
+        fitTextToBox(document.getElementById('scoreGreen'), 400);
+        fitTextToBox(document.getElementById('scoreOrange'), 400);
+        fitTextToBox(document.getElementById('timerDisplay'), 300);
+
+        // Prevent zoom on double tap (mobile)
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
