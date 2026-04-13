@@ -1320,6 +1320,11 @@
                         panel.style.maxHeight = null;
                     } else {
                         panel.style.maxHeight = panel.scrollHeight + "px";
+                        // Once open, remove the cap so dynamic content (photos) can expand freely
+                        panel.addEventListener('transitionend', function handler() {
+                            if (panel.style.maxHeight) panel.style.maxHeight = 'none';
+                            panel.removeEventListener('transitionend', handler);
+                        });
                     }
                 });
             }
@@ -1650,12 +1655,6 @@
                         img.addEventListener('click', function() { openActivityModal(id, index); });
                         carouselEl.appendChild(img);
                     });
-
-                    // Recalculer la hauteur de l'accordéon parent
-                    const panel = carouselEl.closest('.panel');
-                    if (panel && panel.style.maxHeight) {
-                        panel.style.maxHeight = panel.scrollHeight + 'px';
-                    }
                 } catch (e) {
                     carouselEl.innerHTML = '<span class="carousel-empty">Aucune photo pour l\'instant.</span>';
                 }
