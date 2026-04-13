@@ -853,6 +853,32 @@
             border-top: none;
         }
 
+        /* Carousel photos par activité */
+        .activity-carousel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            min-height: 30px;
+        }
+        .carousel-thumb {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #444;
+            transition: border-color 0.15s, transform 0.15s;
+        }
+        .carousel-thumb:hover {
+            border-color: #E30613;
+            transform: scale(1.06);
+        }
+        .carousel-empty {
+            color: #666;
+            font-size: 18px;
+            font-style: italic;
+        }
+
         .subsection-title {
             color: #E30613;
             font-size: 32px;
@@ -998,6 +1024,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Photos -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Photos</h4>
+                        <div class="activity-carousel" id="carousel-team-mario" data-folder="img/activities/team-mario"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1058,6 +1090,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Photos -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Photos</h4>
+                        <div class="activity-carousel" id="carousel-arcade-geante" data-folder="img/activities/arcade-geante"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1116,6 +1154,12 @@
                                 <div class="constraint-value">Libre-service</div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Photos</h4>
+                        <div class="activity-carousel" id="carousel-mini-arcade" data-folder="img/activities/mini-arcade"></div>
                     </div>
                 </div>
             </div>
@@ -1180,6 +1224,12 @@
                         <p style="margin-top: 15px;"><strong>Surface :</strong> Béton, asphalte, dalle ou gymnase. Gazon, sable, gravier ou surface irrégulière sont interdits.</p>
                         <p><strong>Si à l'extérieur :</strong> être à l'abri du vent et de la pluie.</p>
                         <p><strong>Batteries :</strong> Voitures fonctionnant sur batteries. Premier ensemble fourni, vous fournissez les batteries de rechange.</p>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="activity-subsection">
+                        <h4 class="subsection-title">Photos</h4>
+                        <div class="activity-carousel" id="carousel-rc-league" data-folder="img/activities/rc-league"></div>
                     </div>
 
                     <!-- Lien vers page détaillée -->
@@ -1558,6 +1608,118 @@
 
             // Charger les images du carrousel
             loadCarouselImages();
+
+            // ---- Carrousels photos par activité ----
+            const activityImgExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'];
+            const activityCarouselData = {};
+            let activeActivityCarousel = null;
+            let activeActivityIndex = 0;
+
+            async function loadActivityCarousel(carouselEl) {
+                const folder = carouselEl.dataset.folder;
+                const id = carouselEl.id;
+
+                try {
+                    const res = await fetch(`https://api.github.com/repos/CarlUpright/mg/contents/${folder}`);
+                    if (!res.ok) throw new Error('vide');
+                    const files = await res.json();
+                    const images = files.filter(function(f) {
+                        const ext = f.name.toLowerCase().substring(f.name.lastIndexOf('.'));
+                        return activityImgExts.includes(ext);
+                    });
+
+                    if (images.length === 0) {
+                        carouselEl.innerHTML = '<span class="carousel-empty">Aucune photo pour l\'instant.</span>';
+                        return;
+                    }
+
+                    activityCarouselData[id] = images.map(function(f) {
+                        return {
+                            src: folder + '/' + encodeURIComponent(f.name),
+                            label: f.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ')
+                        };
+                    });
+
+                    carouselEl.innerHTML = '';
+                    images.forEach(function(file, index) {
+                        const img = document.createElement('img');
+                        img.className = 'carousel-thumb';
+                        img.src = folder + '/' + encodeURIComponent(file.name);
+                        img.alt = file.name;
+                        img.loading = 'lazy';
+                        img.addEventListener('click', function() { openActivityModal(id, index); });
+                        carouselEl.appendChild(img);
+                    });
+
+                    // Recalculer la hauteur de l'accordéon parent
+                    const panel = carouselEl.closest('.panel');
+                    if (panel && panel.style.maxHeight) {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                    }
+                } catch (e) {
+                    carouselEl.innerHTML = '<span class="carousel-empty">Aucune photo pour l\'instant.</span>';
+                }
+            }
+
+            function openActivityModal(carouselId, index) {
+                activeActivityCarousel = carouselId;
+                activeActivityIndex = index;
+                const item = activityCarouselData[carouselId][index];
+                modalImg.src = item.src;
+                modalImg.style.display = 'block';
+                videoFrame.style.display = 'none';
+                modalDescription.textContent = item.label;
+                modal.style.display = 'block';
+            }
+
+            // Remplacer la navigation du modal pour supporter les carousels d'activité
+            prevButton.onclick = function() {
+                if (activeActivityCarousel) {
+                    const imgs = activityCarouselData[activeActivityCarousel];
+                    activeActivityIndex = (activeActivityIndex - 1 + imgs.length) % imgs.length;
+                    openActivityModal(activeActivityCarousel, activeActivityIndex);
+                } else {
+                    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+                    openModal(galleryItems[currentIndex]);
+                }
+            };
+
+            nextButton.onclick = function() {
+                if (activeActivityCarousel) {
+                    const imgs = activityCarouselData[activeActivityCarousel];
+                    activeActivityIndex = (activeActivityIndex + 1) % imgs.length;
+                    openActivityModal(activeActivityCarousel, activeActivityIndex);
+                } else {
+                    currentIndex = (currentIndex + 1) % galleryItems.length;
+                    openModal(galleryItems[currentIndex]);
+                }
+            };
+
+            closeBtn.onclick = function() {
+                activeActivityCarousel = null;
+                modal.style.display = 'none';
+                videoFrame.src = '';
+            };
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    activeActivityCarousel = null;
+                    modal.style.display = 'none';
+                    videoFrame.src = '';
+                }
+            };
+
+            // Charger le carousel au premier clic sur chaque accordéon
+            document.querySelectorAll('.accordion').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const panel = this.nextElementSibling;
+                    const carousel = panel.querySelector('.activity-carousel');
+                    if (carousel && !carousel.dataset.loaded) {
+                        carousel.dataset.loaded = 'true';
+                        loadActivityCarousel(carousel);
+                    }
+                });
+            });
         }
     </script>
 </body>
