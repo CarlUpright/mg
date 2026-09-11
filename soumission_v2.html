@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJMz/AAIvoQAAAO0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIAACIiAAACIgAAIiAAAAAzMAMzAAAAETMzMzMRAAAREzMzMREAABEjEzEyEQAAIiIzMyIiAAACIjIjIiAAAAAiMiIAAAAAAAEREREAAAACIRESIiAAAAISIREhEQAAAhIREhEQAAAAIiESEAAAAAAzMzMzMAAAAAMzMwAAAAAPDwAAjx8AAMY/AAAADwAAAA8AAAAPAAAADwAAgB8AAMD/AADgPwAAgB8AAIAPAACAHwAAwH8AAMAfAADg/wAA" rel="icon" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soumission V2 — ManettesGÉANTES</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --red: #E30613; --bg: #111; --card: #171717; --border: #252525;
+            --text: #e8e8e8; --dim: #e8e8e8; --green: #00e676; --ink: #0d0d0d;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'VT323', monospace; font-size: 20px; }
+
+        header {
+            background: #000; border-bottom: 3px solid var(--red);
+            padding: 8px 18px; display: flex; align-items: center; gap: 12px;
+            position: sticky; top: 0; z-index: 100;
+        }
+        header .title { color: var(--red); font-size: 26px; letter-spacing: 3px; }
+        header .badge { background: var(--red); color: #fff; font-size: 12px; padding: 2px 8px; letter-spacing: 2px; }
+
+        .layout { display: grid; grid-template-columns: 1fr 380px; height: calc(100vh - 44px); overflow: hidden; }
+        .left  { overflow-y: auto; overflow-x: hidden; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+        .right { background: #000; border-left: 2px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+
+        /* ── Option block ── */
+        .opt-block { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--red); padding: 12px; }
+        .opt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .opt-num  { color: var(--red); font-size: 14px; letter-spacing: 1px; flex-shrink: 0; }
+        .opt-title-input {
+            flex: 1; width: 0;
+            background: #0d0d0d; border: none; border-bottom: 1px solid #333;
+            padding: 2px 6px; font-size: 21px; font-family: 'VT323', monospace;
+            color: #e8e8e8; outline: none;
+        }
+        .opt-title-input::placeholder { color: #666; }
+        .opt-title-input:focus { border-bottom-color: var(--red); }
+        .btn-del-opt { background: none; border: 1px solid #888; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 15px; padding: 1px 7px; cursor: pointer; flex-shrink: 0; }
+        .btn-del-opt:hover { border-color: var(--red); color: var(--red); }
+
+        .opt-ctx { width: 100%; background: #0d0d0d; border: 1px solid #222; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 17px; padding: 5px 8px; outline: none; resize: vertical; min-height: 38px; margin-bottom: 10px; }
+        .opt-ctx:focus { border-color: var(--red); }
+        .opt-ctx::placeholder { color: #666; }
+
+        /* ── Table ── */
+        .table-wrap { overflow-x: auto; }
+        .lines-table { border-collapse: collapse; table-layout: fixed; font-size: 17px; min-width: 988px; width: 100%; }
+
+        .lines-table col.col-qty    { width: 54px; }
+        .lines-table col.col-item   { width: 150px; }
+        .lines-table col.col-price  { width: 68px; }
+        .lines-table col.col-sub    { width: 70px; }
+        .lines-table col.col-disc   { width: 108px; }
+        .lines-table col.col-total  { width: 70px; }
+        .lines-table col.col-aller  { width: 76px; }
+        .lines-table col.col-mont   { width: 80px; }
+        .lines-table col.col-debut  { width: 80px; }
+        .lines-table col.col-fin    { width: 80px; }
+        .lines-table col.col-demont { width: 70px; }
+        .lines-table col.col-retour { width: 76px; }
+        .lines-table col.col-del    { width: 22px; }
+
+        .lines-table th {
+            color: var(--dim); font-size: 12px; letter-spacing: 1px;
+            text-align: right; padding: 3px 4px;
+            border-bottom: 1px solid #222; background: #0a0a0a;
+            font-weight: normal; white-space: nowrap;
+        }
+        .lines-table th.th-item { text-align: left; }
+        .lines-table th.th-time { color: #e8e8e8; }
+        .lines-table td { padding: 2px 2px; vertical-align: middle; }
+
+        .lines-table input, .lines-table select {
+            width: 100%; background: #0d0d0d; border: 1px solid #222;
+            color: #e8e8e8; font-family: 'VT323', monospace; font-size: 17px;
+            padding: 3px 4px; outline: none; text-align: right;
+        }
+        .lines-table input:focus, .lines-table select:focus { border-color: var(--red); }
+        .lines-table input.c-item { text-align: left; }
+        .lines-table input[type="time"] { text-align: center; font-size: 15px; padding: 2px 2px; color-scheme: dark; }
+        .lines-table input[type="text"].dur-input { text-align: center; font-size: 15px; }
+        .lines-table input:disabled, .lines-table select:disabled {
+            color: #252525; border-color: #1a1a1a; background: #0a0a0a;
+        }
+
+        /* Discount cell */
+        .disc-cell { display: flex; gap: 1px; }
+        .disc-cell select { width: 42px; flex-shrink: 0; padding: 3px 2px; text-align: center; cursor: pointer; }
+        .disc-cell input  { flex: 1; min-width: 0; }
+
+        /* Separator between price cols and time cols */
+        .lines-table th.th-sep, .lines-table td.td-sep { border-left: 1px solid #2a2a2a; }
+
+        .c-sub, .c-total { display: block; text-align: right; padding: 3px 4px; color: var(--dim); white-space: nowrap; }
+        .c-total { color: #e8e8e8; }
+
+        tr.fixed-row td { background: #111; }
+        tr.fixed-row td:first-child { border-left: 2px solid #2e2e2e; }
+
+        .btn-del-line { display: block; width: 100%; background: none; border: none; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 16px; cursor: pointer; text-align: center; padding: 2px 0; }
+        .btn-del-line:hover { color: var(--red); }
+        .btn-del-line:disabled { color: #1a1a1a; cursor: default; }
+
+        /* ── Option footer ── */
+        .btn-add-line { width: 100%; margin-top: 5px; background: none; border: 1px dashed #888; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 17px; padding: 5px; cursor: pointer; }
+        .btn-add-line:hover { border-color: var(--red); color: var(--red); }
+
+        .opt-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); gap: 10px; flex-wrap: wrap; }
+        .disc-wrap { display: flex; align-items: center; gap: 6px; color: var(--dim); font-size: 17px; }
+        .disc-wrap input { width: 52px; background: #0d0d0d; border: 1px solid #222; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 17px; padding: 2px 5px; text-align: right; outline: none; }
+        .disc-wrap input:focus { border-color: var(--red); }
+        .opt-total-wrap { font-size: 19px; text-align: right; }
+        .opt-total-val  { color: var(--green); font-size: 22px; }
+
+        /* ── Timeline ── */
+        .timeline-wrap { margin-top: 10px; border-top: 1px solid #1e1e1e; padding-top: 6px; }
+        .tl-row { display: flex; align-items: center; padding: 4px 10px; gap: 10px; }
+        .tl-lbl { color: #e8e8e8; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; flex: 1; }
+        .tl-t   { font-size: 21px; color: #e8e8e8; width: 110px; text-align: right; flex-shrink: 0; }
+        .tl-row.tl-hi   { background: #0a0a0a; }
+        .tl-row.tl-hi .tl-t { color: var(--green); font-size: 23px; }
+        .tl-row.tl-event .tl-t { color: var(--red); font-size: 23px; }
+        .tl-row.tl-seg  { padding: 1px 10px; }
+        .tl-seglbl { color: #e8e8e8; font-size: 13px; letter-spacing: 1px; flex: 1; }
+        .tl-segdur { color: #e8e8e8; font-size: 15px; width: 110px; text-align: right; flex-shrink: 0; }
+
+        /* Insert button */
+        .tl-insert-wrap { display: flex; align-items: center; padding: 1px 10px; }
+        .tl-insert-btn { background: none; border: 1px dashed #888; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 13px; padding: 0 7px; cursor: pointer; line-height: 1.4; }
+        .tl-insert-btn:hover { border-color: #fff; color: #fff; }
+        .tl-insert-menu { display: flex; gap: 4px; padding: 2px 10px; align-items: center; }
+        .tl-insert-menu button { background: none; border: 1px solid #888; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 14px; padding: 1px 8px; cursor: pointer; }
+        .tl-insert-menu button:hover { border-color: var(--red); color: var(--red); }
+        .tl-insert-cancel { color: #e8e8e8 !important; font-size: 12px !important; }
+
+        /* Nuit block */
+        .tl-nuit-block { border-left: 2px solid #252525; margin-left: 14px; }
+        .tl-nuit-block .tl-row { padding-left: 8px; }
+        .tl-nuit-inp { display: flex; align-items: center; gap: 4px; width: 110px; flex-shrink: 0; justify-content: flex-end; }
+        .tl-nuit-inp input[type="time"] { background: #0d0d0d; border: 1px solid #222; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 18px; padding: 2px 6px; outline: none; width: 88px; color-scheme: dark; text-align: center; }
+        .tl-nuit-inp input[type="time"]:focus { border-color: var(--red); }
+        .tl-rm-item { background: none; border: none; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 14px; cursor: pointer; padding: 0 3px; }
+        .tl-rm-item:hover { color: var(--red); }
+
+        /* Pause block */
+        .tl-pause-block { border-left: 2px dashed #222; margin-left: 14px; }
+        .tl-pause-block .tl-row { padding-left: 8px; }
+        .tl-pause-inp { display: flex; align-items: center; gap: 4px; width: 110px; flex-shrink: 0; justify-content: flex-end; }
+        .tl-pause-inp input { background: #0d0d0d; border: 1px solid #222; color: #888; font-family: 'VT323', monospace; font-size: 16px; padding: 2px 6px; outline: none; width: 64px; text-align: center; }
+        .tl-pause-inp input:focus { border-color: var(--red); }
+
+        /* ── New option ── */
+        .btn-new-opt { background: transparent; border: 1px dashed #888; color: #e8e8e8; font-family: 'VT323', monospace; font-size: 18px; padding: 9px; cursor: pointer; width: 100%; }
+        .btn-new-opt:hover { border-color: var(--red); color: var(--red); }
+
+        /* ── Output panel ── */
+        .out-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 13px; border-bottom: 1px solid var(--border); background: #0a0a0a; flex-shrink: 0; }
+        .out-head span { color: var(--red); font-size: 15px; letter-spacing: 2px; }
+        .btn-copy { background: var(--red); border: none; color: #fff; font-family: 'VT323', monospace; font-size: 16px; padding: 3px 13px; cursor: pointer; letter-spacing: 1px; }
+        .btn-copy:hover { background: #ff1f2c; }
+        .btn-copy.ok { background: #006633; }
+        #output { flex: 1; background: #000; border: none; color: #e8e8e8; font-family: 'Courier New', Courier, monospace; font-size: 13.5px; line-height: 1.65; padding: 14px; resize: none; outline: none; overflow-y: auto; }
+
+        /* ── Option tabs ── */
+        .opt-tabs { display: flex; flex-wrap: wrap; gap: 2px; min-height: 28px; margin-bottom: 4px; }
+        .opt-tab { background: #0a0a0a; border: 1px solid #252525; color: #555; font-family:'VT323',monospace; font-size:15px; padding:4px 6px 4px 12px; cursor:pointer; display:flex; align-items:center; gap:6px; max-width:220px; }
+        .opt-tab:hover { color:#aaa; border-color:#444; }
+        .opt-tab.active { background:var(--card); color:var(--red); border-color:var(--red); }
+        .opt-tab-lbl { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+        .opt-tab-rm { color:#444; font-size:13px; flex-shrink:0; line-height:1; }
+        .opt-tab-rm:hover { color:var(--red); }
+
+        /* ── Auto rows ── */
+        tr.auto-row td { background: #0d0d12; }
+        tr.auto-row td:first-child { border-left: 2px solid #3a3520; }
+
+        /* ── Auto info box ── */
+        .auto-info {
+            background: #0a0a0a; border: 1px solid #1e1e1e;
+            border-left: 3px solid #4a4520; padding: 6px 10px;
+            margin-top: 6px; font-size: 15px; min-height: 28px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+        }
+        .auto-label { color: #666; font-size: 12px; letter-spacing: 2px; flex-shrink: 0; }
+        .auto-chip  { color: #c8c490; white-space: nowrap; }
+        .auto-chip::before { content: '· '; color: #444; }
+        .auto-chip:first-of-type::before { content: ''; }
+        .auto-empty { color: #383830; font-size: 14px; }
+        .auto-chip-off { color: #555; }
+        .auto-chip-toggle { background: none; border: 1px solid #444; color: #888; font-family: 'VT323', monospace; font-size: 12px; padding: 0 5px; margin-left: 6px; cursor: pointer; }
+        .auto-chip-toggle:hover { border-color: var(--red); color: var(--red); }
+
+        /* ── Tabs ── */
+        .tabs { display: flex; border-bottom: 2px solid var(--red); flex-shrink: 0; }
+        .tab-btn { background: #000; border: 1px solid var(--border); border-bottom: none; color: #666; font-family: 'VT323', monospace; font-size: 17px; padding: 5px 18px; cursor: pointer; letter-spacing: 2px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.active { background: var(--card); color: var(--red); border-color: var(--red); }
+        .tab-content { display: flex; flex-direction: column; gap: 12px; padding: 14px; overflow-y: auto; flex: 1; }
+
+        /* ── Quick form ── */
+        .quick-form { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--red); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .q-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .q-lbl { color: #888; font-size: 15px; letter-spacing: 1px; min-width: 110px; }
+        .q-inp { background: #0d0d0d; border: 1px solid #222; color: var(--text); font-family: 'VT323', monospace; font-size: 18px; padding: 3px 6px; outline: none; width: 74px; text-align: right; }
+        .q-inp[type="time"] { width: 108px; text-align: center; color-scheme: dark; }
+        .q-inp:focus { border-color: var(--red); }
+        .q-unit { color: #555; font-size: 15px; }
+        .q-sep { color: #333; font-size: 15px; margin: 0 4px; }
+
+        /* ── Quick packages ── */
+        .q-pkgs-label { color: #555; font-size: 13px; letter-spacing: 2px; }
+        .q-pkg { background: var(--card); border: 1px solid var(--border); padding: 7px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .q-pkg:hover { border-color: #444; }
+        .q-pkg.selected { border-color: var(--red); background: #150505; }
+        .q-pkg-check { width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; accent-color: var(--red); }
+        .q-pkg-name { flex: 1; font-size: 16px; }
+        .q-pkg-tags { display: flex; gap: 3px; }
+        .q-tag { font-size: 12px; padding: 0 5px; background: #1e1e28; color: #8888cc; }
+        button.q-tag { font-family: 'VT323', monospace; border: 1px solid transparent; }
+        .q-tag-nuit { cursor: pointer; }
+        .q-tag-nuit:hover { border-color: #fff; }
+        .q-tag-nuit.off { background: #1a1a1a; color: #555; text-decoration: line-through; }
+        .q-tag.warn { background: #281e00; color: #c8a000; }
+        .q-pkg-total { color: var(--green); font-size: 17px; min-width: 72px; text-align: right; flex-shrink: 0; }
+
+        /* ── Quick generate ── */
+        .btn-quick-gen { background: var(--red); border: none; color: #fff; font-family: 'VT323', monospace; font-size: 18px; padding: 8px; cursor: pointer; letter-spacing: 2px; }
+        .btn-quick-gen:hover { background: #ff1f2c; }
+        .btn-quick-gen:disabled { background: #2a2a2a; color: #555; cursor: default; }
+
+        /* ── Quick history ── */
+        .q-hist-label { color: #555; font-size: 13px; letter-spacing: 2px; }
+        .q-hist-item { background: #0a0a0a; border: 1px solid #1a1a1a; border-left: 3px solid #2a2a2a; padding: 7px 10px; cursor: pointer; position: relative; }
+        .q-hist-item:hover { border-left-color: #555; }
+        .q-hist-item.editing { border-left-color: var(--red); }
+        .q-hist-title { font-size: 15px; color: #c8c8c8; padding-right: 20px; }
+        .q-hist-meta  { font-size: 13px; color: #555; margin-top: 2px; }
+        .q-hist-rm { position: absolute; top: 5px; right: 7px; background: none; border: none; color: #333; font-family: 'VT323', monospace; font-size: 16px; cursor: pointer; padding: 0; }
+        .q-hist-rm:hover { color: var(--red); }
+
+        @media (max-width: 860px) {
+            .layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
+            .right  { border-top: 2px solid var(--red); height: 420px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <span class="title">SOUMISSION V2</span>
+    <span class="badge">OUTIL INTERNE</span>
+</header>
+
+<div class="layout">
+    <div class="left" style="padding:0; gap:0; overflow-y:hidden;">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="detail">DÉTAILLÉ</button>
+            <button class="tab-btn" data-tab="rapide">RAPIDE</button>
+        </div>
+
+        <div id="tab-detail" class="tab-content">
+            <div id="opt-tabs" class="opt-tabs"></div>
+            <div id="opts"></div>
+            <button class="btn-new-opt" id="btn-new">+ NOUVELLE OPTION</button>
+        </div>
+
+        <div id="tab-rapide" class="tab-content" style="display:none">
+            <div class="quick-form">
+                <div class="q-row">
+                    <span class="q-lbl">Distance aller</span>
+                    <input type="number" class="q-inp" id="q-km-aller" placeholder="0" min="0" step="1">
+                    <span class="q-unit">km</span>
+                    <span class="q-sep">·</span>
+                    <span class="q-lbl" style="min-width:50px">Retour</span>
+                    <input type="number" class="q-inp" id="q-km-retour" placeholder="auto" min="0" step="1">
+                    <span class="q-unit">km</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-lbl">Animation</span>
+                    <input type="time" class="q-inp" id="q-debut" step="900">
+                    <span class="q-unit">→</span>
+                    <input type="time" class="q-inp" id="q-fin" step="900">
+                </div>
+                <div class="q-row">
+                    <span class="q-lbl">Lieu</span>
+                    <label style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:18px;color:#e8e8e8">
+                        <input type="checkbox" id="q-int" style="width:15px;height:15px;accent-color:var(--red);cursor:pointer">
+                        Intérieur
+                    </label>
+                </div>
+            </div>
+
+            <div class="q-pkgs-label">PACKAGES</div>
+            <div id="q-packages"></div>
+
+            <button class="btn-quick-gen" id="q-gen" disabled>CRÉER LES OPTIONS →</button>
+
+            <div id="q-history"></div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="out-head">
+            <span>TEXTE SOUMISSION</span>
+            <button class="btn-copy" id="btn-copy">COPIER</button>
+        </div>
+        <textarea id="output" readonly spellcheck="false"></textarea>
+    </div>
+</div>
+
+<datalist id="item-list">
+    <option value="Team Mario Bros (3h inclus)">
+    <option value="Arcade Géante (journée)">
+    <option value="Ajout de Mini-Arcade">
+    <option value="Heure d'animation supplémentaire">
+    <option value="Heures d'animation supplémentaires">
+    <option value="Extra pour rentrer Arcade Géante à l'intérieur">
+    <option value="Frais de déplacement">
+    <option value="Frais d'hébergement (1 nuit)">
+    <option value="Frais d'hébergement (2 nuits)">
+    <option value="Animation costumée">
+    <option value="Prolongation (1h)">
+    <option value="Repas">
+</datalist>
+
+<script src="prices.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+// ITEM_PRICES est défini dans prices.js (chargé avant ce script)
+
+const ITEM_TIMES = {
+    "Team Mario Bros (3h inclus)":  { mont: 3,   demont: 2   },
+    "Arcade Géante (journée)":      { mont: 1,   demont: 0.5 },
+    "Ajout de Mini-Arcade":         { mont: 0.5, demont: 0.5 },
+};
+
+let optCount = 0;
+let tlItemIdCounter = 0;
+const opts = [];
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function fmt(n) {
+    n = parseFloat(n) || 0;
+    return n.toFixed(2) + '$';
+}
+function round15(mins) { return Math.ceil(mins / 15) * 15; }
+function minsToDur(mins) {
+    if (!mins || mins <= 0) return '';
+    const h = Math.floor(mins / 60), m = mins % 60;
+    return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+}
+function parseDur(str) {
+    if (!str) return 0;
+    str = str.trim().toLowerCase();
+    const colonFmt = str.match(/^(\d+):(\d{2})$/);
+    if (colonFmt) return parseInt(colonFmt[1]) * 60 + parseInt(colonFmt[2]);
+    const hm = str.match(/^(\d+)h(\d*)/);
+    if (hm) return parseInt(hm[1]) * 60 + (parseInt(hm[2]) || 0);
+    const dec = str.match(/^(\d+\.?\d*)/);
+    if (dec) return Math.round(parseFloat(dec[1]) * 60);
+    return 0;
+}
+function timeToMins(str) {
+    if (!str) return null;
+    const [h, m] = str.split(':').map(Number);
+    return h * 60 + (m || 0);
+}
+function minsToTime(m) {
+    m = ((m % 1440) + 1440) % 1440;
+    return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+}
+function timeLabel(m) {
+    const suffix = m < 0 ? ' (veille)' : m >= 1440 ? ' (lendemain)' : '';
+    return minsToTime(m) + suffix;
+}
+
+// ── Option tabs ────────────────────────────────────────────────────────────────
+let activeOptId = null;
+
+function getOptLabel(opt) {
+    return opt.el.querySelector('.opt-title-input').value.trim() || `Option ${opt.id}`;
+}
+
+function renderOptTabs() {
+    const bar = $('opt-tabs');
+    if (!bar) return;
+    bar.innerHTML = '';
+    opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-tab' + (opt.id === activeOptId ? ' active' : '');
+        btn.innerHTML = `<span class="opt-tab-lbl">${getOptLabel(opt)}</span><span class="opt-tab-rm">×</span>`;
+        btn.addEventListener('click', () => setActiveOpt(opt.id));
+        btn.querySelector('.opt-tab-rm').addEventListener('click', e => {
+            e.stopPropagation();
+            deleteOpt(opt.id);
+        });
+        bar.appendChild(btn);
+    });
+}
+
+function setActiveOpt(id) {
+    activeOptId = id;
+    opts.forEach(opt => { opt.el.style.display = opt.id === id ? '' : 'none'; });
+    renderOptTabs();
+}
+
+function deleteOpt(id) {
+    const idx = opts.findIndex(o => o.id === id);
+    if (idx === -1) return;
+    opts[idx].el.remove();
+    opts.splice(idx, 1);
+    document.querySelectorAll('.opt-num').forEach((el, i) => el.textContent = `OPTION ${i+1}`);
+    if (activeOptId === id) {
+        const next = opts[Math.min(idx, opts.length - 1)];
+        activeOptId = next ? next.id : null;
+        if (next) next.el.style.display = '';
+    }
+    renderOptTabs();
+    regenerate();
+}
+
+// ── Row calculation ────────────────────────────────────────────────────────────
+function calcRow(tr) {
+    const qty      = parseFloat(tr.querySelector('.c-qty').value)      || 0;
+    const price    = parseFloat(tr.querySelector('.c-price').value)    || 0;
+    const discType = tr.querySelector('.c-disc-type').value;
+    const discVal  = parseFloat(tr.querySelector('.c-disc').value)     || 0;
+    const sub = qty * price;
+    let total;
+    if (discType === '%')      total = sub * (1 - discVal / 100);
+    else if (discType === '$') total = Math.max(0, sub - discVal);
+    else                       total = Math.max(0, qty - discVal) * price;
+    tr.querySelector('.c-sub').textContent   = qty && price ? fmt(sub)   : '—';
+    tr.querySelector('.c-total').textContent = qty && price ? fmt(total) : '—';
+    return total;
+}
+
+function calcOpt(opt) {
+    let sub = 0;
+    opt.el.querySelectorAll('tbody tr').forEach(tr => { sub += calcRow(tr); });
+    const discPct = parseFloat(opt.el.querySelector('.opt-disc').value) || 0;
+    const discAmt = sub * discPct / 100;
+    const total   = sub - discAmt;
+    opt.el.querySelector('.opt-disc-line').textContent = discPct > 0 ? `= −${fmt(discAmt)}` : '';
+    opt.el.querySelector('.opt-sub-val').textContent   = fmt(sub);
+    opt.el.querySelector('.opt-total-val').textContent = fmt(total);
+    regenerate();
+}
+
+// ── Update depl row ────────────────────────────────────────────────────────────
+function updateDeplRow(opt) {
+    let hasArcade = false;
+    opt.el.querySelectorAll('tbody tr:not([data-fixed]) .c-item').forEach(inp => {
+        if (inp.value.toLowerCase().includes('arcade géante') ||
+            inp.value.toLowerCase().includes('arcade geante')) hasArcade = true;
+    });
+    const rate = hasArcade ? TRAVEL_RATE.avecArcade : TRAVEL_RATE.normal;
+    [['depl-aller', '.c-aller'], ['depl-retour', '.c-retour']].forEach(([key, durSel]) => {
+        const row = opt.el.querySelector(`tr[data-fixed="${key}"]`);
+        if (!row) return;
+        row.querySelector('.c-price').value = rate;
+        const km = parseFloat(row.querySelector('.c-qty').value) || 0;
+        if (km > 0) row.querySelector(durSel).value = minsToDur(round15(km / 75 * 60));
+        calcRow(row);
+    });
+    calcOpt(opt);
+    calcTimes(opt);
+}
+
+// ── Time calculations ──────────────────────────────────────────────────────────
+function calcTimes(opt) {
+    const el = opt.el;
+    let totMont = 0, totDemont = 0, minDebut = null, maxFin = null;
+    el.querySelectorAll('tbody tr:not([data-fixed])').forEach(tr => {
+        totMont   += timeToMins(tr.querySelector('.c-mont')?.value)   || 0;
+        totDemont += timeToMins(tr.querySelector('.c-demont')?.value) || 0;
+        const d = timeToMins(tr.querySelector('.c-debut')?.value);
+        const f = timeToMins(tr.querySelector('.c-fin')?.value);
+        if (d !== null && (minDebut === null || d < minDebut)) minDebut = d;
+        if (f !== null && (maxFin   === null || f > maxFin))   maxFin   = f;
+    });
+    const allerRow  = el.querySelector('tr[data-fixed="depl-aller"]');
+    const retourRow = el.querySelector('tr[data-fixed="depl-retour"]');
+    const allerMins  = allerRow  ? parseDur(allerRow.querySelector('.c-aller').value)   : 0;
+    const retourMins = retourRow ? parseDur(retourRow.querySelector('.c-retour').value) : 0;
+    const montMins   = totMont;
+    const demontMins = totDemont;
+    const animMins   = minDebut !== null && maxFin !== null ? maxFin - minDebut : null;
+
+    const R = opt.regions;
+
+    // Duration of an inserted item
+    function itemDur(item) {
+        if (item.kind === 'pause') return parseDur(item.dur) || 0;
+        if (item.kind === 'nuit') {
+            const cin  = timeToMins(item.checkin);
+            const cout = timeToMins(item.checkout);
+            if (cin !== null && cout !== null) {
+                let d = cout - cin; if (d <= 0) d += 1440; return d;
+            }
+        }
+        return 0;
+    }
+
+    // Sum durations for preAnim and postAnim regions (pure duration-based)
+    const preAnimExtra  = R.preAnim.reduce((s, i)  => s + itemDur(i), 0);
+    const postAnimExtra = R.postAnim.reduce((s, i) => s + itemDur(i), 0);
+    const animExtra     = R.anim.reduce((s, i)     => s + itemDur(i), 0);
+
+    // Anchor times
+    const debutAnim = minDebut;
+    const finAnim   = maxFin;
+    const arrivee   = debutAnim !== null ? debutAnim - montMins - preAnimExtra : null;
+    const qLieu     = finAnim   !== null ? finAnim   + demontMins + postAnimExtra : null;
+
+    // Backward walk through aller region (from arrivee toward depart-maison)
+    // If a nuit has checkin set, it anchors the cursor position
+    let tAller = arrivee;
+    if (tAller !== null) {
+        [...R.aller].reverse().forEach(item => {
+            if (tAller === null) return;
+            if (item.kind === 'nuit' && item.checkin) {
+                const cin = timeToMins(item.checkin);
+                const w   = ((tAller % 1440) + 1440) % 1440;
+                tAller = cin > w ? cin - 1440 : cin;
+            } else {
+                tAller -= itemDur(item);
+            }
+        });
+    }
+    const depart = tAller !== null && allerMins > 0 ? tAller - allerMins : null;
+
+    // Forward walk through retour region (from qLieu toward retour-maison)
+    // If a nuit has checkout set, it anchors the cursor position
+    let tRetour = qLieu;
+    if (tRetour !== null) {
+        R.retour.forEach(item => {
+            if (tRetour === null) return;
+            if (item.kind === 'nuit' && item.checkout) {
+                const cout = timeToMins(item.checkout);
+                const w    = ((tRetour % 1440) + 1440) % 1440;
+                tRetour = cout < w ? cout + 1440 : cout;
+            } else {
+                tRetour += itemDur(item);
+            }
+        });
+    }
+    const retour = tRetour !== null && retourMins > 0 ? tRetour + retourMins : null;
+
+    // Update fixed display elements
+    const setT = (sel, val) => { const e = el.querySelector(sel); if (e) e.textContent = val !== null ? timeLabel(val) : '—'; };
+    const setD = (sel, mins) => { const e = el.querySelector(sel); if (e) e.textContent = mins ? minsToDur(mins) : '—'; };
+
+    setT('.tc-depart-maison', depart);
+    setD('.tc-seg-aller',     allerMins);
+    setT('.tc-arrivee',       arrivee);
+    setD('.tc-seg-montage',   montMins);
+    setT('.tc-debut-anim',    debutAnim);
+    setD('.tc-seg-anim',      animMins);
+    setT('.tc-fin-anim',      finAnim);
+    setD('.tc-seg-demontage', demontMins);
+    setT('.tc-depart-lieu',   qLieu);
+    setD('.tc-seg-retour',    retourMins);
+    setT('.tc-retour-maison', retour);
+
+    // Update nuit durations in inserted blocks
+    ['aller','preAnim','anim','postAnim','retour'].forEach(key => {
+        R[key].forEach(item => {
+            if (item.kind !== 'nuit' || !item._el) return;
+            const durEl = item._el.querySelector('.tc-nuit-dur');
+            if (durEl) {
+                const d = itemDur(item);
+                durEl.textContent = d > 0 ? minsToDur(d) : '—';
+            }
+        });
+    });
+
+    opt.times = { arrivee, debutAnim, finAnim, montMins, demontMins, qLieu, depart, retour, animMins, allerMins, retourMins };
+    updateAutoItems(opt);
+    regenerate();
+}
+
+// ── Auto items ─────────────────────────────────────────────────────────────────
+function updateTotals(opt) {
+    let sub = 0;
+    opt.el.querySelectorAll('tbody tr').forEach(tr => { sub += calcRow(tr); });
+    const discPct = parseFloat(opt.el.querySelector('.opt-disc').value) || 0;
+    const discAmt = sub * discPct / 100;
+    const total   = sub - discAmt;
+    opt.el.querySelector('.opt-disc-line').textContent = discPct > 0 ? `= −${fmt(discAmt)}` : '';
+    opt.el.querySelector('.opt-sub-val').textContent   = fmt(sub);
+    opt.el.querySelector('.opt-total-val').textContent = fmt(total);
+}
+
+function addAutoRow(opt, key, item, price, qty = 1) {
+    const tbody = opt.el.querySelector('.lines-table tbody');
+    const tr = document.createElement('tr');
+    tr.classList.add('auto-row');
+    tr.dataset.autoKey = key;
+    tr.innerHTML = `
+        <td><input type="number" class="c-qty" value="${qty}" min="0" step="0.25"></td>
+        <td><input type="text" class="c-item" value="${item}" disabled></td>
+        <td><input type="number" class="c-price" value="${price}" min="0" step="0.01"></td>
+        <td><span class="c-sub">—</span></td>
+        <td>
+            <div class="disc-cell">
+                <select class="c-disc-type">
+                    <option value="%">%</option>
+                    <option value="$">$</option>
+                    <option value="q">Qté</option>
+                </select>
+                <input type="number" class="c-disc" value="0" min="0" step="1">
+            </div>
+        </td>
+        <td><span class="c-total">—</span></td>
+        <td class="td-sep"><input type="text" disabled placeholder="—"></td>
+        <td><input type="time" step="900" disabled></td>
+        <td><input type="time" step="3600" disabled></td>
+        <td><input type="time" step="3600" disabled></td>
+        <td><input type="time" step="900" disabled></td>
+        <td><input type="text" class="dur-input" disabled placeholder="—"></td>
+        <td><button class="btn-del-line" disabled>×</button></td>
+    `;
+    tr.querySelectorAll('.c-qty, .c-price').forEach(i => {
+        i.addEventListener('input', () => { calcRow(tr); updateTotals(opt); regenerate(); });
+    });
+    tr.querySelectorAll('.c-disc, .c-disc-type').forEach(i => {
+        i.addEventListener('input',  () => { calcRow(tr); updateTotals(opt); regenerate(); });
+        i.addEventListener('change', () => { calcRow(tr); updateTotals(opt); regenerate(); });
+    });
+    calcRow(tr);
+    const firstFixed = tbody.querySelector('.fixed-row');
+    if (firstFixed) tbody.insertBefore(tr, firstFixed);
+    else tbody.appendChild(tr);
+    return tr;
+}
+
+function renderAutoInfo(opt, conds) {
+    const el = opt.el.querySelector('.auto-info');
+    if (!el) return;
+    const { nuitVeille, nuitSoir, rawNuitVeille, rawNuitSoir, nuitSoirLate, nuitSoirLong, dejeuner, diner, souper,
+            totalRoadWork, animMins, depart, retour, qLieu, retourMins, montageAvant7h } = conds;
+    const T = opt.times;
+    el.innerHTML = '';
+    const chipEls = [];
+
+    function textChip(text) {
+        const s = document.createElement('span');
+        s.className = 'auto-chip';
+        s.textContent = text;
+        return s;
+    }
+    function toggleBtn(label, title, onClick) {
+        const b = document.createElement('button');
+        b.className = 'auto-chip-toggle';
+        b.textContent = label;
+        b.title = title;
+        b.addEventListener('click', onClick);
+        return b;
+    }
+
+    if (rawNuitVeille && depart !== null) {
+        if (nuitVeille) {
+            const checkout = T.arrivee;
+            const checkin  = checkout !== null ? checkout - 9 * 60 : null;
+            let s = `Nuité veille · départ ${timeLabel(depart)} avant 8h`;
+            if (checkin !== null && checkout !== null)
+                s += ` · dodo ${timeLabel(checkin)} → ${timeLabel(checkout)}`;
+            const chip = textChip(s);
+            chip.appendChild(toggleBtn('✕ retirer', 'Retirer cette nuité (conduire plutôt)', () => {
+                opt.nuitDisabled.veille = true; calcTimes(opt);
+            }));
+            chipEls.push(chip);
+        } else {
+            const chip = textChip('Nuité veille retirée (conduite)');
+            chip.classList.add('auto-chip-off');
+            chip.appendChild(toggleBtn('↺ réactiver', 'Réactiver la nuité auto', () => {
+                opt.nuitDisabled.veille = false; calcTimes(opt);
+            }));
+            chipEls.push(chip);
+        }
+    }
+    if (rawNuitSoir) {
+        if (nuitSoir) {
+            let reason = '';
+            if (nuitSoirLate && retour !== null) reason = `retour prévu ${timeLabel(retour)} après 2h`;
+            else if (nuitSoirLong) { const h = Math.floor(totalRoadWork/60), m = totalRoadWork%60; reason = `${h}h${m?String(m).padStart(2,'0'):''} route+travail >14h`; }
+            const checkin  = qLieu !== null ? qLieu : null;
+            const checkout = checkin !== null ? checkin + 9 * 60 : null;
+            const retourM  = retourMins || 0;
+            let s = `Nuité soir · ${reason}`;
+            if (checkin !== null && checkout !== null)
+                s += ` · dodo ${timeLabel(checkin)} → ${timeLabel(checkout)}, retour ${timeLabel(checkout + retourM)}`;
+            const chip = textChip(s);
+            chip.appendChild(toggleBtn('✕ retirer', 'Retirer cette nuité (conduire plutôt)', () => {
+                opt.nuitDisabled.soir = true; calcTimes(opt);
+            }));
+            chipEls.push(chip);
+        } else {
+            const chip = textChip('Nuité soir retirée (conduite)');
+            chip.classList.add('auto-chip-off');
+            chip.appendChild(toggleBtn('↺ réactiver', 'Réactiver la nuité auto', () => {
+                opt.nuitDisabled.soir = false; calcTimes(opt);
+            }));
+            chipEls.push(chip);
+        }
+    }
+    if (dejeuner) chipEls.push(textChip('Déjeuner · nuité veille'));
+    if (diner && animMins !== null) {
+        const h = Math.floor(animMins/60), m = animMins%60;
+        chipEls.push(textChip(`Dîner · ${h}h${m?String(m).padStart(2,'0'):''}min d'anim >4h`));
+    }
+    if (souper) {
+        if (animMins !== null && animMins > 8 * 60) {
+            const h = Math.floor(animMins/60), m = animMins%60;
+            chipEls.push(textChip(`Souper · ${h}h${m?String(m).padStart(2,'0'):''}min d'anim >8h`));
+        } else {
+            chipEls.push(textChip('Souper · nuité soir'));
+        }
+    }
+
+    if (montageAvant7h && T && T.arrivee !== null) {
+        chipEls.push(textChip(`⚠ Montage à ${timeLabel(T.arrivee)} (avant 7h) — montage la veille au soir ou tôt matin ?`));
+    }
+
+    if (chipEls.length === 0) {
+        el.innerHTML = '<span class="auto-empty">Aucun ajout auto · remplir les temps de déplacement et d\'animation</span>';
+        return;
+    }
+    const label = document.createElement('span');
+    label.className = 'auto-label';
+    label.textContent = 'AUTO';
+    el.appendChild(label);
+    chipEls.forEach(c => el.appendChild(c));
+}
+
+function updateAutoItems(opt) {
+    const T = opt.times;
+    const allerMins  = T.allerMins  || 0;
+    const retourMins = T.retourMins || 0;
+    const montMins   = T.montMins   || 0;
+    const demontMins = T.demontMins || 0;
+    const animMins   = T.animMins;
+    const depart     = T.depart;
+    const retour     = T.retour;
+    const qLieu      = T.qLieu;
+
+    const totalRoadWork = allerMins + montMins + (animMins !== null ? animMins : 0) + demontMins + retourMins;
+    const hasData = allerMins > 0 || retourMins > 0 || animMins !== null;
+
+    const rawNuitVeille = depart !== null && depart < 8 * 60;
+    const nuitSoirLate  = retour !== null && retour > 26 * 60;
+    const nuitSoirLong  = hasData && totalRoadWork > 14 * 60;
+    const rawNuitSoir   = nuitSoirLate || nuitSoirLong;
+
+    const nuitVeille = rawNuitVeille && !opt.nuitDisabled.veille;
+    const nuitSoir   = rawNuitSoir   && !opt.nuitDisabled.soir;
+
+    const dejeuner = nuitVeille;
+    const diner    = animMins !== null && animMins > 4 * 60;
+    const souper   = (animMins !== null && animMins > 8 * 60) || nuitSoir;
+
+    // Team Mario Bros et Arcade Géante (animée) : 3h incluses, heures supplémentaires au-delà
+    const hasExtraHoursItem = Array.from(opt.el.querySelectorAll('tbody tr:not([data-auto-key]) .c-item'))
+        .some(inp => {
+            const v = inp.value.toLowerCase();
+            return v.includes('team mario bros') || v.includes('arcade géante') || v.includes('arcade geante');
+        });
+    const extraHoursQty = hasExtraHoursItem && animMins !== null && animMins > 180
+        ? Math.ceil((animMins - 180) / 15) * 0.25
+        : 0;
+
+    const hebergementPrice = ITEM_PRICES["Frais d'hébergement (1 nuit)"] || 230;
+    const repasPrice       = ITEM_PRICES["Repas"] || 20;
+    const heureSuppPrice   = ITEM_PRICES["Heures d'animation supplémentaires"] || 50;
+
+    const AUTO_DEFS = [
+        { key: 'nuitVeille',  needed: nuitVeille,    qty: 1,            item: "Hébergement (nuité veille)",           price: hebergementPrice },
+        { key: 'nuitSoir',    needed: nuitSoir,       qty: 1,            item: "Hébergement (nuité soir)",             price: hebergementPrice },
+        { key: 'dejeuner',    needed: dejeuner,       qty: 1,            item: "Repas (Déjeuner)",                     price: repasPrice },
+        { key: 'diner',       needed: diner,          qty: 1,            item: "Repas (Dîner)",                        price: repasPrice },
+        { key: 'souper',      needed: souper,         qty: 1,            item: "Repas (Souper)",                       price: repasPrice },
+        { key: 'marioExtra',  needed: extraHoursQty > 0, qty: extraHoursQty, item: "Heures d'animation supplémentaires", price: heureSuppPrice },
+    ];
+
+    let changed = false;
+    AUTO_DEFS.forEach(({ key, needed, item, price, qty }) => {
+        const existing = opt.el.querySelector(`tr[data-auto-key="${key}"]`);
+        if (needed && !existing) {
+            addAutoRow(opt, key, item, price, qty);
+            changed = true;
+        } else if (needed && existing) {
+            const qtyInput = existing.querySelector('.c-qty');
+            if (parseFloat(qtyInput.value) !== qty) {
+                qtyInput.value = qty;
+                calcRow(existing);
+                changed = true;
+            }
+        } else if (!needed && existing) {
+            existing.remove();
+            changed = true;
+        }
+    });
+
+    const montageAvant7h = T.arrivee !== null && T.arrivee < 7 * 60;
+    opt.autoState = { nuitVeille, nuitSoir, montageAvant7h };
+
+    if (changed) updateTotals(opt);
+    renderAutoInfo(opt, { nuitVeille, nuitSoir, rawNuitVeille, rawNuitSoir, nuitSoirLate, nuitSoirLong,
+                          dejeuner, diner, souper, totalRoadWork, animMins,
+                          depart, retour, qLieu, retourMins, montageAvant7h });
+}
+
+// ── Timeline insert / remove ───────────────────────────────────────────────────
+function insertTlItem(opt, regionKey, afterIdx, kind) {
+    const region = opt.regions[regionKey];
+    const id   = ++tlItemIdCounter;
+    const item = { kind, id, checkin: '', checkout: '', dur: '', _el: null, priceRow: null };
+    region.splice(afterIdx + 1, 0, item);
+
+    if (kind === 'nuit') {
+        item.priceRow = addLine(opt, "Frais d'hébergement (1 nuit)", 230, 1, 0, null);
+        calcOpt(opt);
+    }
+    renderTimeline(opt);
+}
+
+function removeTlItem(opt, regionKey, itemId) {
+    const region = opt.regions[regionKey];
+    const idx = region.findIndex(i => i.id === itemId);
+    if (idx === -1) return;
+    const item = region[idx];
+    if (item.priceRow && item.priceRow.parentNode) {
+        item.priceRow.remove();
+        calcOpt(opt);
+    }
+    region.splice(idx, 1);
+    renderTimeline(opt);
+}
+
+// ── Timeline renderer ──────────────────────────────────────────────────────────
+function renderTimeline(opt) {
+    const wrap = opt.el.querySelector('.timeline-wrap');
+    wrap.innerHTML = '';
+    const R = opt.regions;
+
+    function makePoint(label, cls, tcClass) {
+        const d = document.createElement('div');
+        d.className = 'tl-row' + (cls ? ' ' + cls : '');
+        d.innerHTML = `<span class="tl-t ${tcClass}">—</span><span class="tl-lbl">${label}</span>`;
+        return d;
+    }
+    function makeSeg(label, tcClass) {
+        const d = document.createElement('div');
+        d.className = 'tl-row tl-seg';
+        d.innerHTML = `<span class="tl-segdur ${tcClass}">—</span><span class="tl-seglbl">↓ ${label}</span>`;
+        return d;
+    }
+
+    function makeInsertWrap(regionKey, afterIdx) {
+        const wrap = document.createElement('div');
+        wrap.className = 'tl-insert-wrap';
+        const btn = document.createElement('button');
+        btn.className = 'tl-insert-btn';
+        btn.textContent = '+ insérer';
+        btn.addEventListener('click', () => {
+            const menu = document.createElement('div');
+            menu.className = 'tl-insert-menu';
+            menu.innerHTML = `<button data-k="nuit">+ Nuité</button><button data-k="pause">+ Pause</button><button class="tl-insert-cancel">×</button>`;
+            menu.querySelector('[data-k="nuit"]').addEventListener('click', () => insertTlItem(opt, regionKey, afterIdx, 'nuit'));
+            menu.querySelector('[data-k="pause"]').addEventListener('click', () => insertTlItem(opt, regionKey, afterIdx, 'pause'));
+            menu.querySelector('.tl-insert-cancel').addEventListener('click', () => renderTimeline(opt));
+            wrap.replaceWith(menu);
+        });
+        wrap.appendChild(btn);
+        return wrap;
+    }
+
+    function makeNuitBlock(item, regionKey) {
+        const d = document.createElement('div');
+        d.className = 'tl-nuit-block';
+        d.innerHTML = `
+            <div class="tl-row">
+                <div class="tl-nuit-inp">
+                    <input type="time" class="tc-nuit-checkin" step="900">
+                    <button class="tl-rm-item">✕</button>
+                </div>
+                <span class="tl-lbl">Check-in nuité</span>
+            </div>
+            <div class="tl-row tl-seg">
+                <span class="tl-segdur tc-nuit-dur">—</span>
+                <span class="tl-seglbl">↓ Nuité</span>
+            </div>
+            <div class="tl-row">
+                <div class="tl-nuit-inp">
+                    <input type="time" class="tc-nuit-checkout" step="900">
+                </div>
+                <span class="tl-lbl">Check-out nuité</span>
+            </div>
+        `;
+        const cinInp  = d.querySelector('.tc-nuit-checkin');
+        const coutInp = d.querySelector('.tc-nuit-checkout');
+        if (item.checkin)  cinInp.value  = item.checkin;
+        if (item.checkout) coutInp.value = item.checkout;
+        cinInp.addEventListener('input',  e => { item.checkin  = e.target.value; calcTimes(opt); });
+        coutInp.addEventListener('input', e => { item.checkout = e.target.value; calcTimes(opt); });
+        d.querySelector('.tl-rm-item').addEventListener('click', () => removeTlItem(opt, regionKey, item.id));
+        item._el = d;
+        return d;
+    }
+
+    function makePauseBlock(item, regionKey) {
+        const d = document.createElement('div');
+        d.className = 'tl-pause-block';
+        d.innerHTML = `
+            <div class="tl-row tl-seg">
+                <div class="tl-pause-inp">
+                    <input type="text" class="tc-pause-dur dur-input" placeholder="2h">
+                    <button class="tl-rm-item">✕</button>
+                </div>
+                <span class="tl-seglbl">↓ Pause</span>
+            </div>
+        `;
+        const inp = d.querySelector('.tc-pause-dur');
+        if (item.dur) inp.value = item.dur;
+        inp.addEventListener('input', e => { item.dur = e.target.value; calcTimes(opt); });
+        inp.addEventListener('blur', e => {
+            const mins = parseDur(e.target.value);
+            e.target.value = mins > 0 ? minsToDur(mins) : '';
+            item.dur = e.target.value;
+            calcTimes(opt);
+        });
+        d.querySelector('.tl-rm-item').addEventListener('click', () => removeTlItem(opt, regionKey, item.id));
+        return d;
+    }
+
+    function appendRegion(regionKey) {
+        const items = R[regionKey];
+        // Insert button before first item
+        wrap.appendChild(makeInsertWrap(regionKey, -1));
+        items.forEach((item, idx) => {
+            if (item.kind === 'nuit')  wrap.appendChild(makeNuitBlock(item, regionKey));
+            else                       wrap.appendChild(makePauseBlock(item, regionKey));
+            wrap.appendChild(makeInsertWrap(regionKey, idx));
+        });
+    }
+
+    wrap.appendChild(makePoint('Départ maison',     'tl-hi',    'tc-depart-maison'));
+    wrap.appendChild(makeSeg('Déplacement aller',               'tc-seg-aller'));
+    appendRegion('aller');
+    wrap.appendChild(makePoint('Arrivée au lieu',   '',         'tc-arrivee'));
+    wrap.appendChild(makeSeg('Montage',                         'tc-seg-montage'));
+    appendRegion('preAnim');
+    wrap.appendChild(makePoint('Début animation',   'tl-event', 'tc-debut-anim'));
+    wrap.appendChild(makeSeg('Animation',                       'tc-seg-anim'));
+    appendRegion('anim');
+    wrap.appendChild(makePoint('Fin animation',     'tl-event', 'tc-fin-anim'));
+    wrap.appendChild(makeSeg('Démontage',                       'tc-seg-demontage'));
+    appendRegion('postAnim');
+    wrap.appendChild(makePoint('Départ du lieu',    '',         'tc-depart-lieu'));
+    wrap.appendChild(makeSeg('Déplacement retour',              'tc-seg-retour'));
+    appendRegion('retour');
+    wrap.appendChild(makePoint('Retour maison',     'tl-hi',    'tc-retour-maison'));
+
+    calcTimes(opt);
+}
+
+// ── Add line ───────────────────────────────────────────────────────────────────
+function addLine(opt, item = '', price = '', qty = 1, disc = 0, fixedKey = null) {
+    const tbody   = opt.el.querySelector('.lines-table tbody');
+    const tr      = document.createElement('tr');
+    const isDeplAller  = fixedKey === 'depl-aller';
+    const isDeplRetour = fixedKey === 'depl-retour';
+    const isDepl  = isDeplAller || isDeplRetour;
+    const isFixed = !!fixedKey;
+
+    if (fixedKey) { tr.classList.add('fixed-row'); tr.dataset.fixed = fixedKey; }
+
+    const disTime   = isFixed       ? 'disabled' : '';
+    const disAller  = !isDeplAller  ? 'disabled' : '';
+    const disRetour = !isDeplRetour ? 'disabled' : '';
+
+    tr.innerHTML = `
+        <td><input type="number" class="c-qty"   value="${qty}"   min="0" step="1"></td>
+        <td><input type="text"   class="c-item"  value="${item}"  list="item-list" placeholder="Item..."></td>
+        <td><input type="number" class="c-price" value="${price}" min="0" step="0.01"></td>
+        <td><span class="c-sub">—</span></td>
+        <td>
+            <div class="disc-cell">
+                <select class="c-disc-type">
+                    <option value="%">%</option>
+                    <option value="$">$</option>
+                    <option value="q">Qté</option>
+                </select>
+                <input type="number" class="c-disc" value="${disc}" min="0" step="1">
+            </div>
+        </td>
+        <td><span class="c-total">—</span></td>
+        <td class="td-sep"><input type="text" class="c-aller  dur-input" ${disAller}  placeholder="—"></td>
+        <td><input type="time" class="c-mont"   step="900" ${disTime}></td>
+        <td><input type="time" class="c-debut"  step="3600" ${disTime}></td>
+        <td><input type="time" class="c-fin"    step="3600" ${disTime}></td>
+        <td><input type="time" class="c-demont" step="900" ${disTime}></td>
+        <td><input type="text" class="c-retour dur-input" ${disRetour} placeholder="—"></td>
+        <td><button class="btn-del-line" ${isFixed ? 'disabled' : ''}>×</button></td>
+    `;
+
+    tr.querySelector('.c-item').addEventListener('input', function () {
+        const val = this.value;
+        const knownPrice = ITEM_PRICES[val];
+        if (knownPrice !== undefined) {
+            tr.querySelector('.c-price').value = knownPrice;
+            calcRow(tr); calcOpt(opt);
+        }
+        const knownTimes = ITEM_TIMES[val];
+        if (knownTimes && !isFixed) {
+            const toHHMM = h => { const m = Math.round(h * 60); return String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'); };
+            tr.querySelector('.c-mont').value   = toHHMM(knownTimes.mont);
+            tr.querySelector('.c-demont').value = toHHMM(knownTimes.demont);
+        }
+        updateDeplRow(opt);
+    });
+
+    tr.querySelectorAll('.c-qty, .c-price').forEach(i => {
+        i.addEventListener('input', () => { calcRow(tr); calcOpt(opt); });
+    });
+    tr.querySelectorAll('.c-disc, .c-disc-type').forEach(i => {
+        i.addEventListener('input',  () => { calcRow(tr); calcOpt(opt); });
+        i.addEventListener('change', () => { calcRow(tr); calcOpt(opt); });
+    });
+
+    if (isDepl) {
+        tr.querySelector('.c-qty').addEventListener('input', () => updateDeplRow(opt));
+    }
+
+    if (!isFixed) {
+        tr.querySelectorAll('.c-debut, .c-fin, .c-mont, .c-demont').forEach(i => {
+            i.addEventListener('input',  () => calcTimes(opt));
+            i.addEventListener('change', () => calcTimes(opt));
+        });
+        tr.querySelector('.btn-del-line').addEventListener('click', () => {
+            tr.remove(); calcOpt(opt); updateDeplRow(opt); calcTimes(opt);
+        });
+    }
+    if (isDeplAller || isDeplRetour) {
+        const durInput = tr.querySelector(isDeplAller ? '.c-aller' : '.c-retour');
+        durInput.addEventListener('input', () => calcTimes(opt));
+        durInput.addEventListener('blur',  () => {
+            const mins = round15(parseDur(durInput.value));
+            durInput.value = mins > 0 ? minsToDur(mins) : '';
+            calcTimes(opt);
+        });
+    }
+
+    const firstAutoOrFixed = tbody.querySelector('.auto-row, .fixed-row');
+    if (!isFixed && firstAutoOrFixed) tbody.insertBefore(tr, firstAutoOrFixed);
+    else if (isFixed) tbody.appendChild(tr);
+    else tbody.appendChild(tr);
+
+    if (price) calcRow(tr);
+    if (!isFixed) tr.querySelector('.c-item').focus();
+
+    return tr;
+}
+
+// ── Create option ──────────────────────────────────────────────────────────────
+function createOpt() {
+    const id  = ++optCount;
+    const opt = { id, el: null, regions: null };
+    opts.push(opt);
+
+    const div = document.createElement('div');
+    div.className = 'opt-block';
+    div.innerHTML = `
+        <div class="opt-head">
+            <span class="opt-num">OPTION ${opts.length}</span>
+            <input type="text" class="opt-title-input" placeholder="Titre (ex: Team Mario Bros)">
+            <button class="btn-del-opt">✕</button>
+        </div>
+        <textarea class="opt-ctx" placeholder="Horaires / contexte"></textarea>
+
+        <div class="table-wrap">
+        <table class="lines-table">
+            <colgroup>
+                <col class="col-qty"><col class="col-item"><col class="col-price">
+                <col class="col-sub"><col class="col-disc"><col class="col-total">
+                <col class="col-aller"><col class="col-mont"><col class="col-debut">
+                <col class="col-fin"><col class="col-demont"><col class="col-retour">
+                <col class="col-del">
+            </colgroup>
+            <thead><tr>
+                <th>Qté</th>
+                <th class="th-item">Item</th>
+                <th>Prix/u</th>
+                <th>S-total</th>
+                <th style="text-align:left">Rabais</th>
+                <th>Total</th>
+                <th class="th-sep th-time">Aller</th>
+                <th class="th-time">Mont(h)</th>
+                <th class="th-time">Début</th>
+                <th class="th-time">Fin</th>
+                <th class="th-time">Démont(h)</th>
+                <th class="th-time">Retour</th>
+                <th></th>
+            </tr></thead>
+            <tbody></tbody>
+        </table>
+        </div>
+
+        <button class="btn-add-line">+ Ajouter une ligne</button>
+
+        <div class="timeline-wrap"></div>
+
+        <div class="auto-info"><span class="auto-empty">Remplir les temps de déplacement et d'animation pour le calcul auto</span></div>
+
+        <div class="opt-footer">
+            <div class="disc-wrap">
+                Rabais global :
+                <input type="number" class="opt-disc" value="0" min="0" max="100" step="1"> %
+                <span class="opt-disc-line" style="color:var(--red)"></span>
+            </div>
+            <div class="opt-total-wrap">
+                Sous-total : <span class="opt-sub-val">0$</span>
+                &nbsp;|&nbsp; TOTAL : <span class="opt-total-val">0$</span>
+            </div>
+        </div>
+    `;
+
+    div.querySelector('.opt-title-input').addEventListener('input', () => { regenerate(); renderOptTabs(); });
+    div.querySelector('.opt-ctx').addEventListener('input', regenerate);
+    div.querySelector('.opt-disc').addEventListener('input', () => calcOpt(opt));
+    div.querySelector('.btn-add-line').addEventListener('click', () => addLine(opt));
+    div.querySelector('.btn-del-opt').addEventListener('click', () => deleteOpt(id));
+
+    opt.el = div;
+    opt.regions = { aller: [], preAnim: [], anim: [], postAnim: [], retour: [] };
+    opt.times = null;
+    opt.nuitDisabled = { veille: false, soir: false };
+
+    $('opts').appendChild(div);
+
+    addLine(opt, 'Frais de déplacement (aller)',  1.00, 0, 0, 'depl-aller');
+    addLine(opt, 'Frais de déplacement (retour)', 1.00, 0, 0, 'depl-retour');
+
+    renderTimeline(opt);
+    setActiveOpt(opt.id);
+    renderOptTabs();
+    regenerate();
+}
+
+// ── Text output ────────────────────────────────────────────────────────────────
+function regenerate() {
+    const sections = [];
+    opts.forEach(opt => {
+        const title = opt.el.querySelector('.opt-title-input').value.trim();
+        const ctx   = opt.el.querySelector('.opt-ctx').value.trim();
+        let block = '';
+        if (title) block += title + '\n';
+        if (ctx)   block += ctx + '\n';
+        if (title || ctx) block += '\n';
+
+        const cats = { activite: [], supp: [], depl: [], heberg: [], repas: [] };
+        let sub = 0;
+
+        opt.el.querySelectorAll('tbody tr').forEach(tr => {
+            const qty      = parseFloat(tr.querySelector('.c-qty').value)   || 0;
+            const item     = tr.querySelector('.c-item').value.trim();
+            const price    = parseFloat(tr.querySelector('.c-price').value) || 0;
+            const discType = tr.querySelector('.c-disc-type').value;
+            const discVal  = parseFloat(tr.querySelector('.c-disc').value)  || 0;
+            if (qty === 0) return;
+            const rowSub = qty * price;
+            let total;
+            if (discType === '%')      total = rowSub * (1 - discVal / 100);
+            else if (discType === '$') total = Math.max(0, rowSub - discVal);
+            else                       total = Math.max(0, qty - discVal) * price;
+            sub += total;
+            if (!item) return;
+            let line = `${item} = ${qty} x ${price}$`;
+            if (discVal > 0) {
+                if (discType === '%')      line += ` - ${discVal}%`;
+                else if (discType === '$') line += ` - ${discVal}$`;
+                else                       line += ` - ${discVal} qté`;
+            }
+            line += ` = ${fmt(total)}`;
+            const ilow = item.toLowerCase();
+            let catKey;
+            if      (ilow.includes('déplacement') || ilow.includes('deplacement'))                                        catKey = 'depl';
+            else if (ilow.includes('hébergement')  || ilow.includes('hebergement'))                                       catKey = 'heberg';
+            else if (ilow.includes('repas'))                                                                               catKey = 'repas';
+            else if (ilow.includes('supplémentaire') || ilow.includes('supplementaire') || ilow.includes('prolongation')) catKey = 'supp';
+            else                                                                                                           catKey = 'activite';
+            cats[catKey].push(line);
+        });
+
+        ['activite', 'supp', 'depl', 'heberg', 'repas'].forEach(catKey => {
+            cats[catKey].forEach(line => { block += line + '\n'; });
+        });
+
+        const discPct = parseFloat(opt.el.querySelector('.opt-disc').value) || 0;
+        if (discPct > 0) {
+            const discAmt = sub * discPct / 100;
+            block += `Rabais (${discPct}%) : −${fmt(discAmt)}\n`;
+            sub -= discAmt;
+        }
+        block += `Total : ${fmt(sub)}`;
+
+        // Schedule
+        const T = opt.times;
+        if (T) {
+            const fmtH = m => {
+                const mm = ((m % 1440) + 1440) % 1440;
+                const h = Math.floor(mm / 60), mn = mm % 60;
+                const sfx = m < 0 ? ' (veille)' : m >= 1440 ? ' (lendemain)' : '';
+                return `${h}h${String(mn).padStart(2, '0')}${sfx}`;
+            };
+            const fmtDur = mins => {
+                if (!mins || mins <= 0) return '';
+                const h = Math.floor(mins / 60), m = mins % 60;
+                return ` (${h}h${m ? String(m).padStart(2, '0') : ''})`;
+            };
+            const sched = [];
+            const auto = opt.autoState || {};
+
+            // ── Nuité veille ──
+            if (auto.nuitVeille && T.arrivee !== null && T.allerMins > 0) {
+                const arriveeVeille = T.arrivee - 9 * 60;
+                const departVeille  = arriveeVeille - T.allerMins;
+                sched.push(`${fmtH(departVeille)} - Départ maison`);
+                sched.push(`${fmtH(arriveeVeille)} - Arrivée au lieu`);
+                sched.push(`${fmtH(arriveeVeille)} → ${fmtH(T.arrivee)} — Nuité (9h)`);
+            } else if (T.depart !== null) {
+                sched.push(`${fmtH(T.depart)} - Départ maison`);
+            }
+
+            // ── Jour de l'événement ──
+            if (T.arrivee !== null) {
+                if (!auto.nuitVeille) sched.push(`${fmtH(T.arrivee)} - Arrivée au lieu`);
+                if (T.montMins > 0) sched.push(`${fmtH(T.arrivee)} - Montage${fmtDur(T.montMins)}`);
+                let cur = T.arrivee + T.montMins;
+                opt.regions.preAnim.forEach(item => {
+                    if (item.kind === 'pause') {
+                        const d = parseDur(item.dur) || 0;
+                        if (d > 0) { sched.push(`${fmtH(cur)} - PAUSE${fmtDur(d)}`); cur += d; }
+                    }
+                });
+            }
+            if (T.debutAnim !== null) sched.push(`${fmtH(T.debutAnim)} - Début activité`);
+            if (T.finAnim   !== null) sched.push(`${fmtH(T.finAnim)} - Fin de l'activité`);
+            if (T.finAnim !== null && T.demontMins > 0) sched.push(`${fmtH(T.finAnim)} - Démontage${fmtDur(T.demontMins)}`);
+            if (T.qLieu !== null) sched.push(`${fmtH(T.qLieu)} - Quitter le lieu`);
+
+            // ── Nuité soir ──
+            if (auto.nuitSoir && T.qLieu !== null) {
+                const checkout = T.qLieu + 9 * 60;
+                sched.push(`${fmtH(T.qLieu)} → ${fmtH(checkout)} — Nuité (9h)`);
+                if (T.retourMins > 0) sched.push(`${fmtH(checkout + T.retourMins)} - Retour maison`);
+            } else if (T.retour !== null) {
+                sched.push(`${fmtH(T.retour)} - Retour maison`);
+            }
+
+            if (sched.length > 0) block += '\n\n' + sched.join('\n');
+        }
+
+        sections.push(block);
+    });
+    $('output').value = sections.join('\n \n');
+}
+
+// ── Copy ───────────────────────────────────────────────────────────────────────
+$('btn-copy').addEventListener('click', function () {
+    const text = $('output').value;
+    if (!text.trim()) return;
+    navigator.clipboard.writeText(text).then(() => {
+        this.textContent = 'COPIÉ ✓'; this.classList.add('ok');
+        setTimeout(() => { this.textContent = 'COPIER'; this.classList.remove('ok'); }, 2000);
+    }).catch(() => { $('output').select(); document.execCommand('copy'); });
+});
+
+$('btn-new').addEventListener('click', createOpt);
+createOpt();
+
+// ── Tab switching ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        btn.classList.add('active');
+        $('tab-' + btn.dataset.tab).style.display = '';
+        if (btn.dataset.tab === 'rapide') renderQuickPackages();
+    });
+});
+
+// ── Quick Soumission ────────────────────────────────────────────────────────────
+const QUICK_PACKAGES = [
+    { id: 'mario', name: 'Team Mario Bros', items: [
+        { name: "Team Mario Bros (3h inclus)", qty: 1 }
+    ], marioBase: 180, hasArcade: false },
+
+    { id: 'arcade', name: 'Arcade Géante', items: [
+        { name: "Arcade Géante (journée)", qty: 1 }
+    ], marioBase: 180, hasArcade: true },
+
+    { id: 'arcade-mini', name: 'Arcade Géante + Mini-Arcade', items: [
+        { name: "Arcade Géante (journée)", qty: 1 },
+        { name: "Ajout de Mini-Arcade",   qty: 1 }
+    ], marioBase: 180, hasArcade: true },
+
+    { id: 'mario-mini', name: 'Team Mario + Mini-Arcade', items: [
+        { name: "Team Mario Bros (3h inclus)", qty: 1 },
+        { name: "Ajout de Mini-Arcade",        qty: 1 }
+    ], marioBase: 180, hasArcade: false },
+
+    { id: 'mario-arcade', name: 'Team Mario + Arcade Géante', items: [
+        { name: "Team Mario Bros (3h inclus)", qty: 1 },
+        { name: "Arcade Géante (journée)",     qty: 1 }
+    ], marioBase: 180, hasArcade: true },
+
+    { id: 'mario-arcade-mini', name: 'Team Mario + Arcade Géante + Mini-Arcade', items: [
+        { name: "Team Mario Bros (3h inclus)", qty: 1 },
+        { name: "Arcade Géante (journée)",     qty: 1 },
+        { name: "Ajout de Mini-Arcade",        qty: 1 }
+    ], marioBase: 180, hasArcade: true },
+];
+
+let quickSelectedPkgs    = new Set();
+let quickHistory         = [];
+let quickHistoryEditingId = null;
+
+function getQuickForm() {
+    const kmAller   = parseFloat($('q-km-aller').value)  || 0;
+    const kmRetour  = parseFloat($('q-km-retour').value) || kmAller;
+    const debutStr  = $('q-debut').value;
+    const finStr    = $('q-fin').value;
+    const interieur = $('q-int').checked;
+    return { kmAller, kmRetour, debutStr, finStr, interieur };
+}
+
+function calcQuickSub(form, pkg, override = { veille: false, soir: false }) {
+    const { kmAller, kmRetour, debutStr, finStr, interieur } = form;
+    const travelRate = pkg.hasArcade ? TRAVEL_RATE.avecArcade : TRAVEL_RATE.normal;
+    const allerMins  = kmAller  > 0 ? Math.ceil(kmAller  / 75 * 60 / 15) * 15 : 0;
+    const retourMins = kmRetour > 0 ? Math.ceil(kmRetour / 75 * 60 / 15) * 15 : 0;
+
+    const debutAnim = timeToMins(debutStr);
+    const finAnim   = timeToMins(finStr);
+    const animMins  = debutAnim !== null && finAnim !== null ? finAnim - debutAnim : null;
+
+    let montMins = 0, demontMins = 0;
+    pkg.items.forEach(item => {
+        const t = ITEM_TIMES[item.name];
+        if (t) { montMins += Math.round(t.mont * 60); demontMins += Math.round(t.demont * 60); }
+    });
+
+    const arrivee = debutAnim !== null ? debutAnim - montMins : null;
+    const qLieu   = finAnim   !== null ? finAnim   + demontMins : null;
+    const depart  = arrivee !== null && allerMins > 0 ? arrivee - allerMins : null;
+    const retour  = qLieu   !== null && retourMins > 0 ? qLieu + retourMins : null;
+
+    const totalRoadWork = allerMins + montMins + (animMins ?? 0) + demontMins + retourMins;
+    const hasData = allerMins > 0 || animMins !== null;
+    const rawNuitVeille = depart !== null && depart < 8 * 60;
+    const nuitSoirLate  = retour !== null && retour > 26 * 60;
+    const nuitSoirLong  = hasData && totalRoadWork > 14 * 60;
+    const rawNuitSoir   = nuitSoirLate || nuitSoirLong;
+
+    const nuitVeille = rawNuitVeille && !override.veille;
+    const nuitSoir   = rawNuitSoir   && !override.soir;
+
+    const dejeuner = nuitVeille;
+    const diner    = animMins !== null && animMins > 4 * 60;
+    const souper   = (animMins !== null && animMins > 8 * 60) || nuitSoir;
+
+    const marioExtraH = pkg.marioBase > 0 && animMins !== null && animMins > pkg.marioBase
+        ? Math.ceil((animMins - pkg.marioBase) / 15) * 0.25 : 0;
+
+    const pkgLabel = pkg.name + (interieur && pkg.hasArcade ? ' — intérieur' : '');
+
+    const lines = [];
+    pkg.items.forEach(it => {
+        const price = ITEM_PRICES[it.name] || 0;
+        lines.push({ name: it.name, price, qty: it.qty || 1 });
+    });
+    if (interieur && pkg.hasArcade) {
+        const iname = "Extra pour rentrer Arcade Géante à l'intérieur";
+        lines.push({ name: iname, price: ITEM_PRICES[iname] || 200, qty: 1 });
+    }
+    if (marioExtraH > 0) lines.push({ name: "Heures d'animation supplémentaires", price: ITEM_PRICES["Heures d'animation supplémentaires"] || 50,  qty: marioExtraH });
+    if (kmAller  > 0)   lines.push({ name: "Frais de déplacement (aller)",  price: travelRate, qty: kmAller  });
+    if (kmRetour > 0)   lines.push({ name: "Frais de déplacement (retour)", price: travelRate, qty: kmRetour });
+    if (nuitVeille)     lines.push({ name: "Hébergement (nuité veille)", price: ITEM_PRICES["Frais d'hébergement (1 nuit)"] || 230, qty: 1 });
+    if (nuitSoir)       lines.push({ name: "Hébergement (nuité soir)",   price: ITEM_PRICES["Frais d'hébergement (1 nuit)"] || 230, qty: 1 });
+    if (dejeuner)       lines.push({ name: "Repas (Déjeuner)", price: ITEM_PRICES["Repas"] || 20, qty: 1 });
+    if (diner)          lines.push({ name: "Repas (Dîner)",    price: ITEM_PRICES["Repas"] || 20, qty: 1 });
+    if (souper)         lines.push({ name: "Repas (Souper)",   price: ITEM_PRICES["Repas"] || 20, qty: 1 });
+
+    const total = lines.reduce((s, l) => s + l.qty * l.price, 0);
+
+    const cats = { activite: [], supp: [], depl: [], heberg: [], repas: [] };
+    lines.forEach(l => {
+        const ilow = l.name.toLowerCase();
+        let k;
+        if      (ilow.includes('déplacement') || ilow.includes('deplacement'))      k = 'depl';
+        else if (ilow.includes('hébergement') || ilow.includes('hebergement'))      k = 'heberg';
+        else if (ilow.includes('repas'))                                             k = 'repas';
+        else if (ilow.includes('supplémentaire') || ilow.includes('supplementaire')) k = 'supp';
+        else                                                                          k = 'activite';
+        cats[k].push(`${l.name} = ${l.qty} x ${l.price}$ = ${fmt(l.qty * l.price)}`);
+    });
+
+    let text = pkgLabel + '\n';
+    ['activite','supp','depl','heberg','repas'].forEach(k => {
+        cats[k].forEach(line => { text += line + '\n'; });
+    });
+    text += `Total : ${fmt(total)}`;
+
+    const fmtH = m => {
+        const mm = ((m % 1440) + 1440) % 1440;
+        const h = Math.floor(mm / 60), mn = mm % 60;
+        const sfx = m < 0 ? ' (veille)' : m >= 1440 ? ' (lendemain)' : '';
+        return `${h}h${String(mn).padStart(2, '0')}${sfx}`;
+    };
+    const fmtD = mins => {
+        if (!mins || mins <= 0) return '';
+        return ` (${Math.floor(mins/60)}h${mins%60 ? String(mins%60).padStart(2,'0') : ''})`;
+    };
+
+    const sched = [];
+    if (nuitVeille && arrivee !== null && allerMins > 0) {
+        const av = arrivee - 9 * 60;
+        sched.push(`${fmtH(av - allerMins)} - Départ maison`);
+        sched.push(`${fmtH(av)} - Arrivée au lieu`);
+        sched.push(`${fmtH(av)} → ${fmtH(arrivee)} — Nuité (9h)`);
+    } else if (depart !== null) {
+        sched.push(`${fmtH(depart)} - Départ maison`);
+    }
+    if (arrivee !== null) {
+        if (!nuitVeille) sched.push(`${fmtH(arrivee)} - Arrivée au lieu`);
+        if (montMins > 0) sched.push(`${fmtH(arrivee)} - Montage${fmtD(montMins)}`);
+    }
+    if (debutAnim !== null) sched.push(`${fmtH(debutAnim)} - Début activité`);
+    if (finAnim   !== null) sched.push(`${fmtH(finAnim)} - Fin de l'activité`);
+    if (finAnim !== null && demontMins > 0) sched.push(`${fmtH(finAnim)} - Démontage${fmtD(demontMins)}`);
+    if (qLieu !== null) sched.push(`${fmtH(qLieu)} - Quitter le lieu`);
+    if (nuitSoir && qLieu !== null) {
+        const co = qLieu + 9 * 60;
+        sched.push(`${fmtH(qLieu)} → ${fmtH(co)} — Nuité (9h)`);
+        if (retourMins > 0) sched.push(`${fmtH(co + retourMins)} - Retour maison`);
+    } else if (retour !== null) {
+        sched.push(`${fmtH(retour)} - Retour maison`);
+    }
+
+    if (sched.length > 0) text += '\n\n' + sched.join('\n');
+
+    return { text, total, nuitVeille, nuitSoir, rawNuitVeille, rawNuitSoir };
+}
+
+let quickNuitOverride = {};
+function getPkgOverride(id) {
+    if (!quickNuitOverride[id]) quickNuitOverride[id] = { veille: false, soir: false };
+    return quickNuitOverride[id];
+}
+
+function renderQuickPackages() {
+    const form = getQuickForm();
+    const container = $('q-packages');
+    if (!container) return;
+    const hasInput = form.kmAller > 0 || form.debutStr || form.finStr;
+    container.innerHTML = '';
+
+    QUICK_PACKAGES.forEach(pkg => {
+        const override = getPkgOverride(pkg.id);
+        const result = hasInput
+            ? calcQuickSub(form, pkg, override)
+            : { total: pkg.items.reduce((s, i) => s + (ITEM_PRICES[i.name]||0) * (i.qty||1), 0), nuitVeille: false, nuitSoir: false, rawNuitVeille: false, rawNuitSoir: false };
+
+        const sel = quickSelectedPkgs.has(pkg.id);
+        const row = document.createElement('div');
+        row.className = 'q-pkg' + (sel ? ' selected' : '');
+        row.dataset.pkgId = pkg.id;
+
+        const tags = [];
+        if (result.rawNuitVeille) tags.push(`<button type="button" class="q-tag q-tag-nuit${result.nuitVeille ? '' : ' off'}" data-k="veille" title="Cliquer pour ${result.nuitVeille ? 'retirer (conduire plutôt)' : 'réactiver'}">Nuité veille${result.nuitVeille ? '' : ' ✕'}</button>`);
+        if (result.rawNuitSoir)   tags.push(`<button type="button" class="q-tag q-tag-nuit${result.nuitSoir ? '' : ' off'}" data-k="soir" title="Cliquer pour ${result.nuitSoir ? 'retirer (conduire plutôt)' : 'réactiver'}">Nuité soir${result.nuitSoir ? '' : ' ✕'}</button>`);
+
+        row.innerHTML = `
+            <input type="checkbox" class="q-pkg-check" ${sel ? 'checked' : ''}>
+            <span class="q-pkg-name">${pkg.name}</span>
+            <span class="q-pkg-tags">${tags.join('')}</span>
+            <span class="q-pkg-total">${fmt(result.total)}</span>
+        `;
+        row.addEventListener('click', e => {
+            if (e.target.type === 'checkbox' || e.target.closest('.q-tag-nuit')) return;
+            const cb = row.querySelector('.q-pkg-check');
+            cb.checked = !cb.checked;
+            togglePkg(pkg.id, cb.checked, row);
+        });
+        row.querySelector('.q-pkg-check').addEventListener('change', e => {
+            togglePkg(pkg.id, e.target.checked, row);
+        });
+        row.querySelectorAll('.q-tag-nuit').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const ov = getPkgOverride(pkg.id);
+                ov[btn.dataset.k] = !ov[btn.dataset.k];
+                renderQuickPackages();
+            });
+        });
+        container.appendChild(row);
+    });
+}
+
+function togglePkg(id, on, row) {
+    if (on) { quickSelectedPkgs.add(id); row.classList.add('selected'); }
+    else    { quickSelectedPkgs.delete(id); row.classList.remove('selected'); }
+    $('q-gen').disabled = quickSelectedPkgs.size === 0;
+}
+
+function createOptFromQuick(form, pkg, override = { veille: false, soir: false }) {
+    const { kmAller, kmRetour, debutStr, finStr, interieur } = form;
+    const label = pkg.name + (interieur && pkg.hasArcade ? ' — intérieur' : '');
+    const toHHMM = h => { const m = Math.round(h*60); return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
+
+    createOpt();
+    const opt = opts[opts.length - 1];
+    opt.nuitDisabled = { veille: !!override.veille, soir: !!override.soir };
+
+    opt.el.querySelector('.opt-title-input').value = label;
+    opt.el.querySelector('.opt-title-input').dispatchEvent(new Event('input'));
+
+    let firstRow = true;
+    pkg.items.forEach(it => {
+        const price = ITEM_PRICES[it.name] || 0;
+        const tr = addLine(opt, it.name, price, it.qty || 1, 0, null);
+        const times = ITEM_TIMES[it.name];
+        if (times) {
+            tr.querySelector('.c-mont').value   = toHHMM(times.mont);
+            tr.querySelector('.c-demont').value = toHHMM(times.demont);
+        }
+        if (firstRow) {
+            if (debutStr) tr.querySelector('.c-debut').value = debutStr;
+            if (finStr)   tr.querySelector('.c-fin').value   = finStr;
+            firstRow = false;
+        }
+    });
+
+    if (interieur && pkg.hasArcade) {
+        const iname = "Extra pour rentrer Arcade Géante à l'intérieur";
+        addLine(opt, iname, ITEM_PRICES[iname] || 200, 1, 0, null);
+    }
+
+    const allerRow  = opt.el.querySelector('tr[data-fixed="depl-aller"]');
+    const retourRow = opt.el.querySelector('tr[data-fixed="depl-retour"]');
+    if (allerRow)  allerRow.querySelector('.c-qty').value  = kmAller  || 0;
+    if (retourRow) retourRow.querySelector('.c-qty').value = kmRetour || kmAller || 0;
+
+    updateDeplRow(opt);
+    calcTimes(opt);
+    calcOpt(opt);
+}
+
+function generateQuick() {
+    if (quickSelectedPkgs.size === 0) return;
+    const form = getQuickForm();
+
+    let firstOptId = null;
+    QUICK_PACKAGES.filter(p => quickSelectedPkgs.has(p.id)).forEach(pkg => {
+        createOptFromQuick(form, pkg, getPkgOverride(pkg.id));
+        if (firstOptId === null) firstOptId = opts[opts.length - 1].id;
+    });
+    if (firstOptId !== null) setActiveOpt(firstOptId);
+
+    // Switch to DÉTAILLÉ tab
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    document.querySelector('.tab-btn[data-tab="detail"]').classList.add('active');
+    $('tab-detail').style.display = '';
+    $('tab-detail').scrollTop = 0;
+
+    const entry = {
+        id: Date.now(),
+        form: { ...form },
+        pkgIds: [...quickSelectedPkgs],
+        nuitOverride: Object.fromEntries([...quickSelectedPkgs].map(id => [id, { ...getPkgOverride(id) }])),
+        time: new Date().toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' })
+    };
+    quickHistory.unshift(entry);
+    renderQuickHistory();
+}
+
+function renderQuickHistory() {
+    const container = $('q-history');
+    if (!container) return;
+    container.innerHTML = '';
+    if (quickHistory.length === 0) return;
+
+    const lbl = document.createElement('div');
+    lbl.className = 'q-hist-label';
+    lbl.textContent = 'GÉNÉRÉES';
+    container.appendChild(lbl);
+
+    quickHistory.forEach(entry => {
+        const el = document.createElement('div');
+        el.className = 'q-hist-item' + (quickHistoryEditingId === entry.id ? ' editing' : '');
+        el.title = 'Double-clic pour recharger';
+
+        const names = entry.pkgIds
+            .map(id => QUICK_PACKAGES.find(p => p.id === id)?.name || id)
+            .join('\n');
+        const meta  = [
+            entry.form.kmAller  ? `${entry.form.kmAller}km` : null,
+            entry.form.debutStr && entry.form.finStr ? `${entry.form.debutStr}→${entry.form.finStr}` : null,
+            entry.time
+        ].filter(Boolean).join(' · ');
+
+        el.innerHTML = `
+            <button class="q-hist-rm">×</button>
+            <div class="q-hist-title">${names.replace(/\n/g, '<br>')}</div>
+            <div class="q-hist-meta">${meta}</div>
+        `;
+        el.addEventListener('dblclick', () => {
+            quickHistoryEditingId = entry.id;
+            $('q-km-aller').value  = entry.form.kmAller  || '';
+            $('q-km-retour').value = entry.form.kmRetour || '';
+            $('q-debut').value     = entry.form.debutStr || '';
+            $('q-fin').value       = entry.form.finStr   || '';
+            quickSelectedPkgs     = new Set(entry.pkgIds);
+            $('q-gen').disabled   = quickSelectedPkgs.size === 0;
+            if (entry.nuitOverride) {
+                Object.entries(entry.nuitOverride).forEach(([id, ov]) => { quickNuitOverride[id] = { ...ov }; });
+            }
+            renderQuickPackages();
+            renderQuickHistory();
+        });
+        el.querySelector('.q-hist-rm').addEventListener('click', e => {
+            e.stopPropagation();
+            quickHistory = quickHistory.filter(h => h.id !== entry.id);
+            if (quickHistoryEditingId === entry.id) quickHistoryEditingId = null;
+            renderQuickHistory();
+        });
+        container.appendChild(el);
+    });
+}
+
+// Init quick tab
+(function initQuickTab() {
+    const allerInp  = $('q-km-aller');
+    const retourInp = $('q-km-retour');
+    let retourManual = false;
+
+    allerInp.addEventListener('input', () => {
+        if (!retourManual) retourInp.value = allerInp.value;
+        renderQuickPackages();
+    });
+    retourInp.addEventListener('input', () => {
+        retourManual = true;
+        renderQuickPackages();
+    });
+    $('q-debut').addEventListener('input',  renderQuickPackages);
+    $('q-fin').addEventListener('input',    renderQuickPackages);
+    $('q-int').addEventListener('change',   renderQuickPackages);
+    $('q-gen').addEventListener('click',    generateQuick);
+    renderQuickPackages();
+})();
+</script>
+</body>
+</html>
